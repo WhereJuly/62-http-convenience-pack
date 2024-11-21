@@ -4,12 +4,23 @@
 
 The small TypeScript HTTP convenience package to validate, normalize and apply uniform HTTP methods, statuses and MIME types across your application HTTP requests and responses.
 
+![npm version](https://img.shields.io/npm/v/your-package-name.svg)
+![Build Status](https://img.shields.io/github/workflow/status/your-username/your-repo/CI)
+![Coverage](https://img.shields.io/codecov/c/github/your-username/your-repo)
+![Coverage](https://img.shields.io/coveralls/your-username/your-repo.svg)
+![npm downloads](https://img.shields.io/npm/dm/your-package-name.svg)
+![License](https://img.shields.io/npm/l/your-package-name.svg)
+![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/your-username/your-repo.svg)
+![Maintainability](https://img.shields.io/codeclimate/maintainability/your-username/your-repo.svg)
+![Last Commit](https://img.shields.io/github/last-commit/your-username/your-repo.svg)
+
 # HTTP Convenience Pack
 
 - [Overview](#overview)
   - [HTTP Methods](#http-methods)
   - [HTTP Statuses](#http-statuses)
   - [MIME Types](#mime-types)
+- [Installation](#installation)
 - [Usage](#usage)
   - [Basic](#basic)
   - [Add Custom methods](#add-custom-methods)
@@ -35,6 +46,14 @@ The small TypeScript HTTP convenience package to validate, normalize and apply u
 WRITE:
 
 The MIME types values list, RFC 9110, uniform across your application. Get the type (via `mime/lite` package).
+
+## Installation
+
+To install this package:
+
+```bash
+npm install http-convenience-pack
+```
 
 ## Usage
 
