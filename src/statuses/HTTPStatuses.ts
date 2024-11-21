@@ -1,9 +1,9 @@
 'use strict';
 
-import { EHTTPCodeTypes, THTTPStatuses } from '@src/utils/http-statuses/statuses.types.js';
+import { EHTTPCodeTypes, THTTPStatuses } from '@src/statuses/statuses.types';
 
 export class HTTPStatuses {
-    
+
     public static type(code: keyof typeof THTTPStatuses): EHTTPCodeTypes {
         if (code >= 100 && code < 200) return EHTTPCodeTypes.INFO;
         if (code >= 200 && code < 300) return EHTTPCodeTypes.SUCCESS;
@@ -17,5 +17,5 @@ export class HTTPStatuses {
     public static message(code: keyof typeof THTTPStatuses): string | undefined {
         return THTTPStatuses[code]?.message;
     }
-    
+
 }

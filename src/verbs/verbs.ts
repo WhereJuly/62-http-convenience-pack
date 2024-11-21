@@ -14,7 +14,7 @@ export enum EHTTPVerbs {
     TRACE = 'TRACE',
 }
 
-export class HTTPVerbsConvenience<GECustomVerbs extends { [key: string]: string; } = {}> {
+export default class HTTPVerbsConvenience<GECustomVerbs extends { [key: string]: string; } = {}> {
 
     private valid: EHTTPVerbs | GECustomVerbs;
 
@@ -29,6 +29,7 @@ export class HTTPVerbsConvenience<GECustomVerbs extends { [key: string]: string;
         // normalize to UpperCase
     }
 
+    // WRITE: polymorphic method to check if verb or array of verbs is allowed.
     public isAllowed(verbs: EHTTPVerbs, allowed: [EHTTPVerbs | GECustomVerbs]): boolean { }
 
     public static normalize(maybeVerb: string): EHTTPVerbs {
