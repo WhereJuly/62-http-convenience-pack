@@ -2,7 +2,15 @@
   <img src="./.docs/banner.jpg" width="100%"/>
 </div>
 
-# HTTP Convenience
+# HTTP Convenience Pack
+
+- [Overview](#overview)
+  - [HTTP Methods](#http-methods)
+  - [HTTP Statuses](#http-statuses)
+  - [MIME Types](#mime-types)
+- [Usage](#usage)
+  - [Basic](#basic)
+  - [Add Custom methods](#add-custom-methods)
 
 ## Overview
 
@@ -12,7 +20,7 @@ The small TypeScript HTTP convenience package to validate, normalize and apply u
 
 ### HTTP Methods
 
-- Ensure the valid ([RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#section-9)) uniform methods values are used across your application; 
+- Ensure the valid ([RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#section-9)) uniform methods values are used across your application;
 - Check if the given method(s) valid;
 - Normalize given method(s) to uniform value (throwing and non-throwing)
 - Check given methods are allowed for your specific use cases;
