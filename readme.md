@@ -2,6 +2,8 @@
   <img src="./.docs/banner.jpg" width="100%"/>
 </div>
 
+The small TypeScript HTTP convenience package to validate, normalize and apply uniform HTTP methods, statuses and MIME types across your application HTTP requests and responses.
+
 # HTTP Convenience Pack
 
 - [Overview](#overview)
@@ -13,10 +15,6 @@
   - [Add Custom methods](#add-custom-methods)
 
 ## Overview
-
-The small TypeScript HTTP convenience package to validate, normalize and apply uniform HTTP methods, statuses and MIME types across your application HTTP requests and responses.
-
-**Namely:**
 
 ### HTTP Methods
 
