@@ -18,17 +18,17 @@ The small TypeScript HTTP convenience package to validate, normalize and apply u
 
 ### HTTP Methods
 
-- Ensure the valid ([RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#section-9)) uniform methods values are used across your application;
+- Ensure the valid ([RFC 9110 Methods](https://www.rfc-editor.org/rfc/rfc9110.html#section-9)) uniform methods values are used across your application;
 - Check if the given method(s) valid;
 - Normalize given method(s) to uniform value (throwing and non-throwing)
-- Check given methods are allowed for your specific use cases;
+- Check given methods are allowed for your specific use cases ("is in the list");
 
 ### HTTP Statuses
 
-- Ensure you use the latest valid status codes and messages from [RFC 9110] across your application;(d:\dev\oth\60-dcoupld-oas\packages\adapters\generic\tsconfig.json);
-- Comfortably take desired status values from a typed constant like this `THTTPStatuses[200] // {code: 200, message: 'Success'}`.
+- Ensure you use the latest valid status codes and messages from [RFC 9110 Status Codes](https://www.rfc-editor.org/rfc/rfc9110.html#section-15) across your application;
+- Comfortably autocomplete desired status values from a typed constant like this `console.log(THTTPStatuses[200]) // { code: 200, message: 'Success' }`.
 - Check the given status belongs to statuses groups ("1xx: Info", "2xx: Success" etc.)
-- Check the given status is allowed for your specific use cases;
+- Check the given status is allowed for your specific use cases ("is in the list");
 
 ### MIME Types
 
