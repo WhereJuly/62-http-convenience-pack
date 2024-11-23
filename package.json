@@ -7,7 +7,7 @@
         "check-types": "npx tsc --noEmit --project .",
         "test": "echo \"Error: no test specified\" && exit 1",
         "dummy": "echo \"Success: this is the test dummy for husky hooks\" && exit 0",
-        "commitlint": "commitlint --config ./.ci/.config/commitlint/commitlint.config.js --edit"
+        "commitlint": "commitlint --config ./.ci/.config/commitlint/commitlint.config.cjs --edit"
     },
     "repository": {
         "type": "git",
