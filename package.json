@@ -1,35 +1,45 @@
 {
-  "name": "62-http-convenience",
-  "version": "0.0.1",
-  "description": "later",
-  "main": "index.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git"
-  },
-  "keywords": [
-    "typescript",
-    "http",
-    "convenience",
-    "methods",
-    "statuses",
-    "codes",
-    "mime",
-    "types",
-    "enums",
-    "helpers",
-    "validate",
-    "allow",
-    "normalize",
-    "uniform",
-    "ensure"
-  ],
-  "author": "me",
-  "license": "UNLICENSED",
-  "devDependencies": {
-    "@tsconfig/node18": "^18.2.4"
-  }
+    "name": "62-http-convenience",
+    "version": "0.0.1",
+    "description": "later",
+    "main": "index.ts",
+    "scripts": {
+        "check-types": "npx tsc --noEmit --project .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git"
+    },
+    "keywords": [
+        "typescript",
+        "http",
+        "convenience",
+        "methods",
+        "statuses",
+        "codes",
+        "mime",
+        "types",
+        "enums",
+        "helpers",
+        "validate",
+        "allow",
+        "normalize",
+        "uniform",
+        "ensure"
+    ],
+    "author": "me",
+    "license": "UNLICENSED",
+    "devDependencies": {
+        "@commitlint/cli": "^19.6.0",
+        "@commitlint/config-conventional": "^19.6.0",
+        "@tsconfig/node18": "^18.2.4",
+        "@types/node": "^22.9.2",
+        "@typescript-eslint/eslint-plugin": "^8.15.0",
+        "@typescript-eslint/parser": "^8.15.0",
+        "eslint": "^9.15.0",
+        "husky": "^9.1.7",
+        "typescript": "^5.7.2",
+        "typescript-eslint": "^8.15.0"
+    }
 }

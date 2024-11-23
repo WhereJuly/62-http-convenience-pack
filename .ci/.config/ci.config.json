@@ -1,0 +1,4 @@
+{
+    "monorepo": ["src"],
+    "branches": ["develop", "master"]
+}
