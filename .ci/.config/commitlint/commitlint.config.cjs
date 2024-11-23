@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = { extends: ['./commitlint-config-wj.js'] };
+module.exports = { extends: ['./commitlint-config-wj.cjs'] };

@@ -8,6 +8,7 @@
         "test:foundation": "npm run check-types && cross-env NODE_ENV=test vitest run --config tests/foundation/.ancillary/config/vitest.config.ts",
         "check-types": "npx tsc --noEmit --project .",
         "commitlint": "commitlint --config ./.ci/.config/commitlint/commitlint.config.cjs --edit",
+        "pre-push": "npm run test:foundation",
         "dummy": "echo \"Success: this is the test dummy for husky hooks\" && exit 0"
     },
     "repository": {

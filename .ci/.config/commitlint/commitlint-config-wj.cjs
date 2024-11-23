@@ -2,8 +2,8 @@
 
 // const parserPresets = require('./parser-preset');
 
-const ignores = require('./custom-ignores');
-const MonorepoMessageFormat = require('./MonorepoMessageFormat');
+const ignores = require('./custom-ignores.cjs');
+const MonorepoMessageFormat = require('./MonorepoMessageFormat.cjs');
 const plugin = new MonorepoMessageFormat();
 
 const configuration = {
@@ -36,7 +36,7 @@ const configuration = {
     },
 
     // @see https://commitlint.js.org/reference/configuration.html#parser-presets
-    parserPreset: './parser-preset-monorepo.js',
+    parserPreset: './parser-preset-monorepo.cjs',
 
     /**
      * @see [commitlint-local-plugins] https://commitlint.js.org/reference/plugins.html#local-plugins
