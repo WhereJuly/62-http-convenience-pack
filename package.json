@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "description": "later",
     "main": "index.ts",
+    "type": "module",
     "scripts": {
         "test:foundation": "npm run check-types && cross-env NODE_ENV=test vitest run --config tests/foundation/.ancillary/config/vitest.config.ts",
         "check-types": "npx tsc --noEmit --project .",

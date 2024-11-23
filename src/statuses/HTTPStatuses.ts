@@ -1,6 +1,6 @@
 'use strict';
 
-import { EHTTPCodeTypes, THTTPStatuses } from '@src/statuses/statuses.types';
+import { EHTTPCodeTypes, THTTPStatuses } from '@src/statuses/statuses.types.js';
 
 export class HTTPStatuses {
 
