@@ -20,6 +20,7 @@ The small TypeScript HTTP convenience package to validate, normalize and apply u
   - [HTTP Methods](#http-methods)
   - [HTTP Statuses](#http-statuses)
   - [MIME Types](#mime-types)
+  - [Headers](#headers)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Basic](#basic)
@@ -46,6 +47,10 @@ The small TypeScript HTTP convenience package to validate, normalize and apply u
 WRITE:
 
 The MIME types values list, RFC 9110, uniform across your application. Get the type (via `mime/lite` package).
+
+### Headers
+
+See [readme](src/headers/implement.md)
 
 ## Installation
 
