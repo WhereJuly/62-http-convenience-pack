@@ -1,5 +1,5 @@
 {
     "monorepo": ["src"],
     "branches": ["develop", "master"],
-    "custom": ["statuses", "methods", "mime"]
+    "custom": ["statuses", "methods", "mime", "headers"]
 }
