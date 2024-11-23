@@ -18,15 +18,38 @@ export default class HTTPMethodsConvenience<GECustomMethods extends { [key: stri
 
     private valid: EHTTPMethods | GECustomMethods;
 
+    // NB: No use to create an instance without custom methods. The constructor should be used to initialize the class with custom methods.
     constructor(customMethods: GECustomMethods) {
         this.valid = { ...EHTTPMethods, ...customMethods };
     }
 
-    public isValid(maybeMethod: string): boolean {
-        // WRITE: implement this method calling the static isValid method.
+    public static isValid(maybeMethod: string | string[]): boolean {
+        const expected = Object.values(EHTTPMethods);
+        const given = Array.isArray(maybeMethod) ? maybeMethod : [maybeMethod];
+
+        return given.every((input: string) => { return expected.includes(input.toUpperCase() as EHTTPMethods); });
+    }
+
+    public static isAllowed(given: EHTTPMethods, allowed: [EHTTPMethods], shouldThrow: boolean = false): boolean {
+        // WRITE: implement this method
+        // throw if !isValid && shouldThrow
         return false;
     }
-    
+
+    public static normalize(maybeMethod: string): EHTTPMethods {
+        // WRITE: implement this method
+
+        // throw if !isValid
+        // normalize to UpperCase
+        return '' as any;
+    }
+
+    // WARNING: --- Here come instance methods.
+
+    public isValid(maybeMethod: string | string[]): boolean {
+        return HTTPMethodsConvenience.isValid(maybeMethod);
+    }
+
     public normalize(maybeMethod: string): EHTTPMethods | GECustomMethods {
         // WRITE: implement this method calling the static normalize method.
         // throw if not in enum
@@ -40,24 +63,6 @@ export default class HTTPMethodsConvenience<GECustomMethods extends { [key: stri
         return false;
     }
 
-    public static normalize(maybeMethod: string): EHTTPMethods {
-        // WRITE: implement this method
-        
-        // throw if !isValid
-        // normalize to UpperCase
-        return '' as any;
-    }
 
-    public static isValid(maybeMethod: string): boolean {
-        // Retrieve values from EHTTPMethods and validate maybeMethod against those.
-        // WRITE: implement this method
-        return false;
-    }
-
-    public static isAllowed(methods: EHTTPMethods, allowed: [EHTTPMethods], shouldThrow: boolean = false): boolean {
-        // WRITE: implement this method
-        // throw if !isValid && shouldThrow
-        return false;
-    }
 
 }
