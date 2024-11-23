@@ -14,12 +14,12 @@ export enum EHTTPMethods {
     TRACE = 'TRACE',
 }
 
-export default class HTTPMethodsConvenience<GECustomMethods extends { [key: string]: string; } = {}> {
+export default class HTTPMethodsConvenience<GCustomMethods extends { [key: string]: string; } = {}> {
 
-    private valid: EHTTPMethods | GECustomMethods;
+    private valid: EHTTPMethods | GCustomMethods;
 
     // NB: No use to create an instance without custom methods. The constructor should be used to initialize the class with custom methods.
-    constructor(customMethods: GECustomMethods) {
+    constructor(customMethods: GCustomMethods) {
         this.valid = { ...EHTTPMethods, ...customMethods };
     }
 
@@ -50,7 +50,7 @@ export default class HTTPMethodsConvenience<GECustomMethods extends { [key: stri
         return HTTPMethodsConvenience.isValid(maybeMethod);
     }
 
-    public normalize(maybeMethod: string): EHTTPMethods | GECustomMethods {
+    public normalize(maybeMethod: string): EHTTPMethods | GCustomMethods {
         // WRITE: implement this method calling the static normalize method.
         // throw if not in enum
         // normalize to UpperCase
@@ -58,7 +58,7 @@ export default class HTTPMethodsConvenience<GECustomMethods extends { [key: stri
     }
 
     // WRITE: polymorphic method to check if verb or array of methods is allowed.
-    public isAllowed(methods: EHTTPMethods, allowed: [EHTTPMethods | GECustomMethods]): boolean {
+    public isAllowed(methods: EHTTPMethods, allowed: [EHTTPMethods | GCustomMethods]): boolean {
         // WRITE: implement this method calling the static normalize method.
         return false;
     }
