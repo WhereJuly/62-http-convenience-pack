@@ -6,7 +6,8 @@
     "scripts": {
         "check-types": "npx tsc --noEmit --project .",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dummy": "echo \"Success: this is the test dummy for husky hooks\" && exit 0"
+        "dummy": "echo \"Success: this is the test dummy for husky hooks\" && exit 0",
+        "commitlint": "commitlint --config ./.ci/.config/commitlint/commitlint.config.js --edit"
     },
     "repository": {
         "type": "git",
@@ -39,7 +40,7 @@
         "@typescript-eslint/eslint-plugin": "^8.15.0",
         "@typescript-eslint/parser": "^8.15.0",
         "eslint": "^9.15.0",
-        "husky": "^9.1.6",
+        "husky": "^9.1.7",
         "typescript": "^5.7.2",
         "typescript-eslint": "^8.15.0"
     }

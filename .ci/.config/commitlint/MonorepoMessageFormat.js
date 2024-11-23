@@ -8,9 +8,14 @@ class MonorepoMessageFormat {
     constructor() {
         this.config = config;
         this.name = NAME;
-
+        
+        // NB: Set default values allowed for `packages` field from the parser in `./parser-preset-monorepo.js`
+        this.defaultPackageNamesNames = ['monorepo', 'package', 'root'];
+        this.customNames = config.custom || [];
+        this.defaultAllowedName = [...this.defaultPackageNamesNames, ...this.customNames];
+        
         // NB: Stringify packages array to easily check if required packages are present in this.includesRequiredPackages()
-        this.requiredPackages = [...this.config.monorepo, 'monorepo'].toString(); 
+        this.requiredPackages = [...this.config.monorepo, ...this.defaultAllowedName].toString();
 
         this.process = this.process.bind(this);
     }
@@ -38,7 +43,9 @@ class MonorepoMessageFormat {
      */
     process({ packages }) {
         const isValid = this.includesRequiredPackages(packages);
-        const message = isValid ? '' : `Only the required packages "${config.monorepo}" from ci.config.json[monorepo] or just 'monorepo' must be presented. "${packages}" given`;
+        const message = isValid
+            ? ''
+            : `Only the required packages "${config.monorepo}" from ci.config.json[monorepo] or one of the following values "${this.defaultAllowedName}" must be presented. "${packages}" given`;
 
         return [isValid, message];
     }
