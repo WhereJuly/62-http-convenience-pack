@@ -4,6 +4,8 @@
 
 The small TypeScript HTTP convenience package to validate, normalize and apply uniform HTTP methods, statuses and MIME types across your application HTTP requests and responses.
 
+Suggest the use cases you find missing from the package either in Discussions or as pull requests.
+
 ![npm version](https://img.shields.io/npm/v/your-package-name.svg)
 ![Build Status](https://img.shields.io/github/workflow/status/your-username/your-repo/CI)
 ![Coverage](https://img.shields.io/codecov/c/github/your-username/your-repo)
