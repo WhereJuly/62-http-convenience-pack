@@ -24,7 +24,7 @@ describe('HTTPMethodsConvenienceTest', () => {
         expect(actual.normalize).toBeInstanceOf(Function);
     });
 
-    describe.only('+isValid: Static and instance methods should polymorphically return the expected value for string and array arguments', () => {
+    describe('+isValid: Static and instance methods should polymorphically return the expected value for string and array arguments', () => {
 
         it.each(dataProvider_is_valid_method())('Case #%# $name', async (data) => {
             const instance = new HTTPMethodsConvenience({ LINK: 'LINK', UNLINK: 'UNLINK' });
@@ -42,8 +42,8 @@ describe('HTTPMethodsConvenienceTest', () => {
             return [
                 { name: 'Valid string', fixture: 'POST', expected: { static: true, instance: true } },
                 { name: 'Valid array', fixture: ['POST', 'OPTIONS'], expected: { static: true, instance: true } },
-                // { name: 'Valid custom, string', fixture: 'LINK', expected: { static: false, instance: true } },
-                // { name: 'Valid custom, array', fixture: ['LINK', 'UNLINK'], expected: { static: false, instance: true } },
+                { name: 'Valid custom, string', fixture: 'LINK', expected: { static: false, instance: true } },
+                { name: 'Valid custom, array', fixture: ['LINK', 'UNLINK'], expected: { static: false, instance: true } },
                 { name: 'Invalid string', fixture: 'invalid', expected: { static: false, instance: false } },
                 { name: 'Invalid array', fixture: ['invalid', 'invalid'], expected: { static: false, instance: false } },
             ];

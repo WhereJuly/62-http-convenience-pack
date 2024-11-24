@@ -65,7 +65,7 @@ export default class HTTPMethodsConvenience<GCustomMethods extends CustomMethods
     // WARNING: --- Here come instance methods.
 
     public isValid(maybeMethod: string | string[]): boolean {
-        return HTTPMethodsConvenience.isValid(maybeMethod);
+        return HTTPMethodsConvenience._isValid(maybeMethod, this.valid);
     }
 
     public normalize(maybeMethod: string): EHTTPMethods | GCustomMethods {
