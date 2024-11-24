@@ -64,6 +64,9 @@ npm install http-convenience-pack
 
 ## Usage
 
+> Write the basic usage docs. Describe different use cases in a separate section. Describe formal API.
+> Do this first from imagined use cases. Refine it as you use it yourself.
+
 ### Basic
 
 Ensure the uniform methods values are used across your application.
