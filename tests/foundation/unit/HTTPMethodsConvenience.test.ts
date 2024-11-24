@@ -3,6 +3,7 @@
 import { assert, describe, expect, it } from 'vitest';
 
 import HTTPMethodsConvenience, { EHTTPMethods } from '@src/methods/HTTPMethodsConvenience.js';
+import HTTPConveniencePackException from '@src/exceptions/HTTPConveniencePack.exception.js';
 
 const custom = { LINK: 'LINK', UNLINK: 'UNLINK' };
 
@@ -73,30 +74,41 @@ describe('HTTPMethodsConvenienceTest', () => {
                 { name: '[allowed is defined] `given` is not allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: Object.values(EHTTPMethods) }, expected: { static: false, instance: false } },
                 { name: '[allowed is undefined] Standard `given` is allowed', fixture: { given: EHTTPMethods.OPTIONS, allowed: undefined }, expected: { static: true, instance: true } },
                 { name: '[allowed is undefined] `given` is not allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: undefined }, expected: { static: false, instance: true } },
-                { name: '[allowed is defined] Custom `given` is allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: Object.values(custom) as EHTTPMethods[]}, expected: { static: true, instance: true } },
-                { name: '[allowed is defined] Custom `given` is not allowed', fixture: { given: 'not-allowed' as EHTTPMethods, allowed: Object.values(custom) as EHTTPMethods[]}, expected: { static: false, instance: false } },
-                { name: '[allowed is undefined] Custom `given` is allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: undefined}, expected: { static: false, instance: true } },
-                { name: '[allowed is undefined] Custom `given` is not allowed', fixture: { given: 'not-allowed' as EHTTPMethods, allowed: undefined}, expected: { static: false, instance: false } },
+                { name: '[allowed is defined] Custom `given` is allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: Object.values(custom) as EHTTPMethods[] }, expected: { static: true, instance: true } },
+                { name: '[allowed is defined] Custom `given` is not allowed', fixture: { given: 'not-allowed' as EHTTPMethods, allowed: Object.values(custom) as EHTTPMethods[] }, expected: { static: false, instance: false } },
+                { name: '[allowed is undefined] Custom `given` is allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: undefined }, expected: { static: false, instance: true } },
+                { name: '[allowed is undefined] Custom `given` is not allowed', fixture: { given: 'not-allowed' as EHTTPMethods, allowed: undefined }, expected: { static: false, instance: false } },
             ];
         }
     });
 
-    // WRITE: normalize: Static and instance methods should polymorphically return the expected value for given and allowed arguments.
+    describe('+normalize: Static and instance methods should return the expected value or throw', () => {
 
+        it.each(dataProvider_normalize_static())('Case #%# $name', async (data) => {
+            try {
+                const actual = data.actual.normalize(data.fixture);
+                expect(actual).toEqual(data.expected);
+            } catch (error) {
+                const actual = error as Error;
+                expect(actual).toBeInstanceOf(HTTPConveniencePackException);
+                expect(actual.message).toContain(data.expected);
+            }
+        });
 
-    // it('+constructor() #1: Should create the expected HTTPMethodsConvenience object', () => {
-    //     const actual = new HTTPMethodsConvenience();
+        function dataProvider_normalize_static() {
+            const _static = HTTPMethodsConvenience;
+            const instance = new HTTPMethodsConvenience(custom);
 
-    //     expect(actual).toBeInstanceOf(HTTPMethodsConvenience);
-    //     expect(actual.items).toEqual([]);
-    //     expect(actual.types).toEqual([]);
-    //     expect(actual.isEmpty).toEqual(true);
-    // });
+            return [
+                { name: 'Success (standard)', actual: _static, fixture: 'patch', expected: EHTTPMethods.PATCH },
+                { name: 'Throw on invalid (standard)', actual: _static, fixture: 'link', expected: '"maybeMethod" argument when transformed to upper case should be a valid HTTP standard or custom method' },
+                { name: 'Throw on non-string (standard)', actual: _static, fixture: {} as any, expected: 'should be a string, typeof "object" given' },
+                { name: 'Success (custom)', actual: instance, fixture: 'link', expected: 'LINK' },
+                { name: 'Throw on invalid (custom)', actual: instance, fixture: 'invalid', expected: '"maybeMethod" argument when transformed to upper case should be a valid HTTP standard or custom method' },
+                { name: 'Throw on non-string (custom)', actual: instance, fixture: 123 as any, expected: 'should be a string, typeof "number" given' },
+            ];
+        }
 
+    });
 
-
-    // Assert: behavior with extended custom methods.
-    // e.g. LINK / UNLINK
-
-    // Assert: toValues: Static and instance method with custom methods.
 });
