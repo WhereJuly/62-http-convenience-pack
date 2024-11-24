@@ -38,6 +38,15 @@ describe('HTTPMethodsConvenienceTest', () => {
             expect(actual.instance).toEqual(data.expected);
         });
 
+        function dataProvider_is_valid_method() {
+            return [
+                { name: 'Valid string', fixture: 'POST', expected: true },
+                { name: 'Valid array', fixture: ['POST', 'OPTIONS'], expected: true },
+                { name: 'Invalid string', fixture: 'invalid', expected: false },
+                { name: 'Invalid array', fixture: ['invalid', 'invalid'], expected: false },
+            ];
+        }
+        
     });
 
     // WRITE: isAllowed: Static and instance methods should polymorphically return the expected value for given and allowed arguments.
@@ -53,14 +62,7 @@ describe('HTTPMethodsConvenienceTest', () => {
     //     expect(actual.isEmpty).toEqual(true);
     // });
 
-    function dataProvider_is_valid_method() {
-        return [
-            { name: 'Valid string', fixture: 'POST', expected: true },
-            { name: 'Valid array', fixture: ['POST', 'OPTIONS'], expected: true },
-            { name: 'Invalid string', fixture: 'invalid', expected: false },
-            { name: 'Invalid array', fixture: ['invalid', 'invalid'], expected: false },
-        ];
-    }
+
 
     // Assert: behavior with extended custom methods.
     // e.g. LINK / UNLINK
