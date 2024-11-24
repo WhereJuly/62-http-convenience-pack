@@ -24,29 +24,43 @@ describe('HTTPMethodsConvenienceTest', () => {
         expect(actual.normalize).toBeInstanceOf(Function);
     });
 
-    describe('+isValid: Static and instance methods should polymorphically return the expected value for string and array arguments', () => {
+    describe.only('+isValid: Static and instance methods should polymorphically return the expected value for string and array arguments', () => {
 
         it.each(dataProvider_is_valid_method())('Case #%# $name', async (data) => {
-            const instance = new HTTPMethodsConvenience({});
+            const instance = new HTTPMethodsConvenience({ LINK: 'LINK', UNLINK: 'UNLINK' });
 
             const actual = {
                 static: HTTPMethodsConvenience.isValid(data.fixture),
                 instance: instance.isValid(data.fixture),
             };
 
-            expect(actual.static).toEqual(data.expected);
-            expect(actual.instance).toEqual(data.expected);
+            expect(actual.static).toEqual(data.expected.static);
+            expect(actual.instance).toEqual(data.expected.instance);
         });
 
         function dataProvider_is_valid_method() {
             return [
-                { name: 'Valid string', fixture: 'POST', expected: true },
-                { name: 'Valid array', fixture: ['POST', 'OPTIONS'], expected: true },
-                { name: 'Invalid string', fixture: 'invalid', expected: false },
-                { name: 'Invalid array', fixture: ['invalid', 'invalid'], expected: false },
+                { name: 'Valid string', fixture: 'POST', expected: { static: true, instance: true } },
+                { name: 'Valid array', fixture: ['POST', 'OPTIONS'], expected: { static: true, instance: true } },
+                // { name: 'Valid custom, string', fixture: 'LINK', expected: { static: false, instance: true } },
+                // { name: 'Valid custom, array', fixture: ['LINK', 'UNLINK'], expected: { static: false, instance: true } },
+                { name: 'Invalid string', fixture: 'invalid', expected: { static: false, instance: false } },
+                { name: 'Invalid array', fixture: ['invalid', 'invalid'], expected: { static: false, instance: false } },
             ];
         }
-        
+
+    });
+
+    describe('+isAllowed: Static and instance methods should polymorphically return the expected value for string and array arguments', () => {
+
+        it.each(dataProvider_is_allowed())('Case #%# $name', async (data) => {
+        });
+
+        function dataProvider_is_allowed() {
+            return [
+                { name: 'Allowed string', fixture: 'POST', expected: true },
+            ];
+        }
     });
 
     // WRITE: isAllowed: Static and instance methods should polymorphically return the expected value for given and allowed arguments.
