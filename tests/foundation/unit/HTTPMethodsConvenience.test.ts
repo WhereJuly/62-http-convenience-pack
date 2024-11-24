@@ -51,6 +51,7 @@ describe('HTTPMethodsConvenienceTest', () => {
 
     });
 
+    // WRITE: this
     describe('+isAllowed: Static and instance methods should polymorphically return the expected value for string and array arguments', () => {
 
         it.each(dataProvider_is_allowed())('Case #%# $name', async (data) => {
@@ -63,7 +64,6 @@ describe('HTTPMethodsConvenienceTest', () => {
         }
     });
 
-    // WRITE: isAllowed: Static and instance methods should polymorphically return the expected value for given and allowed arguments.
     // WRITE: normalize: Static and instance methods should polymorphically return the expected value for given and allowed arguments.
 
 
@@ -80,4 +80,6 @@ describe('HTTPMethodsConvenienceTest', () => {
 
     // Assert: behavior with extended custom methods.
     // e.g. LINK / UNLINK
+
+    // Assert: toValues: Static and instance method with custom methods.
 });
