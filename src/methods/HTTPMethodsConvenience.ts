@@ -20,7 +20,7 @@ export enum EHTTPMethods {
 
 export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMethodsConstraint = {}> {
 
-    private methods: EHTTPMethods | GCustomMethods;
+    protected methods: EHTTPMethods | GCustomMethods;
 
     /**
      * 
@@ -51,6 +51,7 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
     /**
      * Retrieves the values of the standard HTTP methods.
      * 
+     * @static
      * @description Delegates to {@link HTTPMethodsConvenience._toValues}
      * 
      * @returns {EHTTPMethods[]} The array of EHTTPMethods enum values.
@@ -62,7 +63,8 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
     /**
      * Check if the given standard HTTP method or array of methods is valid.
      * 
-     * Delegates to {@link HTTPMethodsConvenience._isValid}
+     * @static
+     * @description Delegates to {@link HTTPMethodsConvenience._isValid}
      */
     public static isValid(maybeMethod: string | string[]): boolean {
         return HTTPMethodsConvenience._isValid(maybeMethod, EHTTPMethods);
@@ -70,6 +72,10 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
 
     /**
      * Check if a given HTTP method is allowed based on a list of allowed methods.
+     * 
+     * @static
+     * 
+     * @description Delegates to {@link HTTPMethodsConvenience._isAllowed}
      * 
      * @param {EHTTPMethods} given - see {@link HTTPMethodsConvenience._isAllowed}.
      * @param {EHTTPMethods[]} [allowed] - An optional array of allowed HTTP methods. 
@@ -88,8 +94,18 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
         return HTTPMethodsConvenience._isAllowed([given], _allowed);
     }
 
-    // WRITE: implement this method
-    // normalize to EHTTPMethods values upper case convention
+    /**
+     * Normalizes a given string to an uppercase standard or custom HTTP method.
+     * 
+     * @static
+     * 
+     * @description Delegates to {@link HTTPMethodsConvenience._normalize}
+     * 
+     * @param {unknown} maybeMethod - See {@link HTTPMethodsConvenience._normalize}
+     * @returns {EHTTPMethods | GCustomMethods} See {@link HTTPMethodsConvenience._normalize}.
+     * 
+     * @throws {HTTPConveniencePackException} See {@link HTTPMethodsConvenience._normalize}
+     */    
     public static normalize(maybeMethod: string): EHTTPMethods {
         return HTTPMethodsConvenience._normalize(maybeMethod, EHTTPMethods) as EHTTPMethods;
     }
@@ -123,10 +139,10 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
     /**
      * Check if a given HTTP method is allowed based on a list of allowed methods.
      * 
+     * @description Delegates to {@link HTTPMethodsConvenience._isAllowed}
+     * 
      * @param {EHTTPMethods} given - see {@link HTTPMethodsConvenience._isAllowed}.
      * @param {EHTTPMethods[]} [allowed] - see {@link HTTPMethodsConvenience.isAllowed}. 
-     * 
-     * @description Delegates to {@link HTTPMethodsConvenience._isAllowed}
      */
     public isAllowed(given: EHTTPMethods, allowed?: EHTTPMethods[] | GCustomMethods[]): boolean {
         const _allowed = allowed ?? this.toValues();
@@ -134,6 +150,16 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
         return HTTPMethodsConvenience._isAllowed([given], _allowed);
     }
 
+    /**
+     * Normalizes a given string to an uppercase standard or custom HTTP method.
+     * 
+     * @description Delegates to {@link HTTPMethodsConvenience._normalize}
+     * 
+     * @param {unknown} maybeMethod - See {@link HTTPMethodsConvenience._normalize}
+     * @returns {EHTTPMethods | GCustomMethods} See {@link HTTPMethodsConvenience._normalize}.
+     * 
+     * @throws {HTTPConveniencePackException} See {@link HTTPMethodsConvenience._normalize}
+     */
     public normalize(maybeMethod: string): EHTTPMethods | GCustomMethods {
         return HTTPMethodsConvenience._normalize(maybeMethod, this.methods) as EHTTPMethods;
     }
@@ -190,6 +216,20 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
         return givens.every((given: string) => { return allowed.includes(given.toUpperCase() as EHTTPMethods & GCustomMethods); });
     }
 
+    /**
+     * Normalizes a given string to an uppercase standard or custom HTTP method.
+     * 
+     * For this validates it against standard or custom methods at first.
+     * 
+     * @template GCustomMethods - A generic type extending TCustomHTTPMethodsConstraint, representing custom HTTP methods.
+     * 
+     * @param {unknown} maybeMethod - The HTTP method to normalize and validate. It should be a string.
+     * @param {EHTTPMethods | GCustomMethods} valid - The set of valid HTTP methods, either standard or custom.
+     * 
+     * @returns {EHTTPMethods | GCustomMethods} The normalized HTTP method in uppercase if valid.
+     * 
+     * @throws {HTTPConveniencePackException} If the maybeMethod is not a string or is not a valid HTTP method.
+     */
     private static _normalize<GCustomMethods extends TCustomHTTPMethodsConstraint = {}>(maybeMethod: unknown, valid: EHTTPMethods | GCustomMethods): EHTTPMethods | GCustomMethods {
         if (typeof maybeMethod !== 'string') {
             // REFACTOR: To the domain exception class.
@@ -207,7 +247,7 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
     }
 
     /**
-     * Standardize given method(s) input to array.
+     * Standardize given method(s) input into an array.
      */
     private static _given(maybeMethod: string | string[]): string[] {
         return Array.isArray(maybeMethod) ? maybeMethod : [maybeMethod];
