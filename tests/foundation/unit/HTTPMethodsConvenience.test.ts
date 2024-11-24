@@ -2,7 +2,9 @@
 
 import { assert, describe, expect, it } from 'vitest';
 
-import HTTPMethodsConvenience from '@src/methods/HTTPMethodsConvenience.js';
+import HTTPMethodsConvenience, { EHTTPMethods } from '@src/methods/HTTPMethodsConvenience.js';
+
+const custom = { LINK: 'LINK', UNLINK: 'UNLINK' };
 
 describe('HTTPMethodsConvenienceTest', () => {
 
@@ -27,7 +29,7 @@ describe('HTTPMethodsConvenienceTest', () => {
     describe('+isValid: Static and instance methods should polymorphically return the expected value for string and array arguments', () => {
 
         it.each(dataProvider_is_valid_method())('Case #%# $name', async (data) => {
-            const instance = new HTTPMethodsConvenience({ LINK: 'LINK', UNLINK: 'UNLINK' });
+            const instance = new HTTPMethodsConvenience(custom);
 
             const actual = {
                 static: HTTPMethodsConvenience.isValid(data.fixture),
@@ -51,15 +53,30 @@ describe('HTTPMethodsConvenienceTest', () => {
 
     });
 
-    // WRITE: this
-    describe('+isAllowed: Static and instance methods should polymorphically return the expected value for string and array arguments', () => {
+    describe('+isAllowed: Static and instance methods should return the expected value for string and array arguments', () => {
 
         it.each(dataProvider_is_allowed())('Case #%# $name', async (data) => {
+            const instance = new HTTPMethodsConvenience(custom);
+
+            const actual = {
+                static: HTTPMethodsConvenience.isAllowed(data.fixture.given, data.fixture.allowed),
+                instance: instance.isAllowed(data.fixture.given, data.fixture.allowed),
+            };
+
+            expect(actual.static).toEqual(data.expected.static);
+            expect(actual.instance).toEqual(data.expected.instance);
         });
 
         function dataProvider_is_allowed() {
             return [
-                { name: 'Allowed string', fixture: 'POST', expected: true },
+                { name: '[allowed is defined] Standard `given` is allowed', fixture: { given: EHTTPMethods.OPTIONS, allowed: Object.values(EHTTPMethods) }, expected: { static: true, instance: true } },
+                { name: '[allowed is defined] `given` is not allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: Object.values(EHTTPMethods) }, expected: { static: false, instance: false } },
+                { name: '[allowed is undefined] Standard `given` is allowed', fixture: { given: EHTTPMethods.OPTIONS, allowed: undefined }, expected: { static: true, instance: true } },
+                { name: '[allowed is undefined] `given` is not allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: undefined }, expected: { static: false, instance: true } },
+                { name: '[allowed is defined] Custom `given` is allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: Object.values(custom) as EHTTPMethods[]}, expected: { static: true, instance: true } },
+                { name: '[allowed is defined] Custom `given` is not allowed', fixture: { given: 'not-allowed' as EHTTPMethods, allowed: Object.values(custom) as EHTTPMethods[]}, expected: { static: false, instance: false } },
+                { name: '[allowed is undefined] Custom `given` is allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: undefined}, expected: { static: false, instance: true } },
+                { name: '[allowed is undefined] Custom `given` is not allowed', fixture: { given: 'not-allowed' as EHTTPMethods, allowed: undefined}, expected: { static: false, instance: false } },
             ];
         }
     });

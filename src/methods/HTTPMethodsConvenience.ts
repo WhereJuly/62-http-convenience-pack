@@ -66,10 +66,24 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
         return HTTPMethodsConvenience._isValid(maybeMethod, EHTTPMethods);
     }
 
-    public static isAllowed(given: EHTTPMethods, allowed: [EHTTPMethods], shouldThrow: boolean = false): boolean {
-        // WRITE: implement this method
-        // throw if !isValid && shouldThrow
-        return false;
+    /**
+     * Check if a given HTTP method is allowed based on a list of allowed methods.
+     * 
+     * @param {EHTTPMethods} given - see {@link HTTPMethodsConvenience._isAllowed}.
+     * @param {EHTTPMethods[]} [allowed] - An optional array of allowed HTTP methods. 
+     * If not provided, defaults to all standard HTTP methods.
+     * 
+     * With `allowed` undefined it is convenient to replace additional `isValid` method call
+     * as it basically resorts to checking the same result.
+     * 
+     * NB: Describe the use case in the documentation.
+     * 
+     * @returns {boolean} `true` if the given method is in the list of allowed methods, otherwise `false`.
+     */
+    public static isAllowed(given: EHTTPMethods, allowed?: EHTTPMethods[]): boolean {
+        const _allowed = allowed ?? HTTPMethodsConvenience.toValues();
+        
+        return HTTPMethodsConvenience._isAllowed([given], _allowed);
     }
 
     public static normalize(maybeMethod: string): EHTTPMethods {
@@ -106,17 +120,25 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
         return HTTPMethodsConvenience._isValid(maybeMethod, this.valid);
     }
 
+    /**
+     * Check if a given HTTP method is allowed based on a list of allowed methods.
+     * 
+     * @param {EHTTPMethods} given - see {@link HTTPMethodsConvenience._isAllowed}.
+     * @param {EHTTPMethods[]} [allowed] - see {@link HTTPMethodsConvenience.isAllowed}. 
+     * 
+     * @description Delegates to {@link HTTPMethodsConvenience._isAllowed}
+     */
+    public isAllowed(given: EHTTPMethods, allowed?: EHTTPMethods[] | GCustomMethods[]): boolean {
+        const _allowed = allowed ?? this.toValues();
+        
+        return HTTPMethodsConvenience._isAllowed([given], _allowed);
+    }
+
     public normalize(maybeMethod: string): EHTTPMethods | GCustomMethods {
         // WRITE: implement this method calling the static normalize method.
         // throw if not in enum
         // normalize to UpperCase
         return '' as any;
-    }
-
-    // WRITE: polymorphic method to check if verb or array of methods is allowed.
-    public isAllowed(methods: EHTTPMethods, allowed: [EHTTPMethods | GCustomMethods]): boolean {
-        // WRITE: implement this method calling the static normalize method.
-        return false;
     }
 
     /**
@@ -139,7 +161,7 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
      */
 
     /**
-     * Check if the given method(s) are valid.
+     * Check if the given HTTP method(s) are valid.
      * 
      * A delegate to process either solely standard EHTTPMethods or including `GCustomMethods`.
      * 
@@ -155,14 +177,20 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
      */
     private static _isValid<GCustomMethods extends TCustomHTTPMethodsConstraint = {}>(maybeMethod: string | string[], expected: EHTTPMethods | GCustomMethods): boolean {
         const given = HTTPMethodsConvenience._given(maybeMethod);
-        return HTTPMethodsConvenience._isAllowed(given, expected);
+        return HTTPMethodsConvenience._isAllowed(given, Object.values(expected) as EHTTPMethods[] | GCustomMethods[]);
     }
 
-    private static _isAllowed<GCustomMethods extends TCustomHTTPMethodsConstraint = {}>(givens: string[], expected: EHTTPMethods | GCustomMethods): boolean {
+    /**
+     * Check if a given HTTP method is allowed based on a list of allowed methods.
+     *
+     * @param {EHTTPMethods} given - The HTTP method to check.
+     * @param {EHTTPMethods[]} [allowed] - An array of allowed HTTP methods. 
+     * 
+     * @returns {boolean} `true` if the given method is in the list of allowed methods, otherwise `false`.
+     */    
+    private static _isAllowed<GCustomMethods extends TCustomHTTPMethodsConstraint = {}>(givens: string[], allowed: EHTTPMethods[] | GCustomMethods[]): boolean {
         // NB: Translate standard `EHTTPMethods` enum and `GCustomMethods` object to array of values.
-        const _methods = HTTPMethodsConvenience._toValues(expected);
-
-        return givens.every((given: string) => { return _methods.includes(given.toUpperCase() as EHTTPMethods & GCustomMethods); });
+        return givens.every((given: string) => { return allowed.includes(given.toUpperCase() as EHTTPMethods & GCustomMethods); });
     }
 
     /**
