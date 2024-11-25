@@ -18,6 +18,12 @@ Suggest the use cases you find missing from the package either in Discussions or
 
 # HTTP Convenience Pack
 
+The pack purpose is to provide uniform standardized RFC-compliant HTTP notions' values for applications across the consumer's entire TypeScript application stack.
+
+It adds type safety and convenience of auto-complete. It as well allows to avoid string constants ambiguity, ensures you always get the same correct and uniform HTTP header name (or MIME type, or status code / message) sent from your one end (e.g. front) to the other (e.g. back) and / or across you services.
+
+Where applicable for convenience use cases it has functionality (validation, normalization). This functionality can be expanded if more use cases are discovered.
+
 - [Overview](#overview)
   - [HTTP Methods](#http-methods)
   - [HTTP Statuses](#http-statuses)
