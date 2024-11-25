@@ -2,6 +2,8 @@
   <img src="./.docs/banner.jpg" width="100%"/>
 </div>
 
+###### Summary
+
 The small TypeScript HTTP convenience package to expose uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services. Manipulation functionality (validate, normalize etc.) is provided as well.
 
 The new use cases / functionality suggestions are welcome either in Discussions or as pull requests.
