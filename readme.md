@@ -4,7 +4,7 @@
 
 The small TypeScript HTTP convenience package to expose uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services. Manipulation functionality (validate, normalize etc.) is provided as well.
 
-Suggest the use cases you find missing from the package either in Discussions or as pull requests.
+The new use cases / functionality suggestions are welcome either in Discussions or as pull requests.
 
 ![npm version](https://img.shields.io/npm/v/your-package-name.svg)
 ![Build Status](https://img.shields.io/github/workflow/status/your-username/your-repo/CI)
@@ -25,16 +25,83 @@ It adds type safety and convenience of auto-complete. It as well allows to avoid
 Where applicable for convenience use cases it has functionality (validation, normalization, etc.) that can be expanded on your proposal if new use cases are discovered.
 
 - [Overview](#overview)
+  - [Quick Start](#quick-start)
   - [HTTP Methods](#http-methods)
   - [HTTP Statuses](#http-statuses)
-  - [MIME Types](#mime-types)
-  - [Headers](#headers)
+  - [HTTP MIME Types](#http-mime-types)
+  - [HTTP Headers](#http-headers)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Basic](#basic)
   - [Add Custom methods](#add-custom-methods)
 
 ## Overview
+
+### Quick Start
+
+Install the package.
+
+```bash
+npm install http-convenience-pack
+```
+
+> NB: Create all examples in the actual typescript file to check correctness and put here.
+
+Ensure the uniform methods values are used across your application.
+
+Send a request:
+
+```typescript
+import { EHTTPMethods, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
+
+const response = await fetch('https://api.example.com/data', {
+ method: EHTTPMethods.GET,
+ headers: {
+  EHTTPHeaders.AUTHORIZATION: 'Bearer <required-token-here>',
+  EHTTPHeaders.CONTENT_TYPE: EHTTPMIMETypes.APPLICATION_JSON
+ }
+});
+```
+
+On request receive (e.g. in route or endpoint middleware) check a method is valid or allowed, normalize the method if the request came from unknown source.
+
+```typescript
+import { EHTTPMethods, HTTPMethodsConvenience as Methods } from 'http-convenience-pack';
+
+const allowed = [EHTTPMethods.GET, EHTTPMethods.PATCH];
+// Assume the request came for your service above.
+
+Methods.isValid(request.method); // true
+Methods.isAllowed(request.method, allowed); // true
+
+// Assume the request came for some unknown service with method `options` (as lower case).
+
+// Normalize (to upper case) and test against `EHTTPMethods` enum.
+Methods.isValid(Methods.normalize(request.method)); // true
+// Same as preceding but normalize is built-in (as well as exception throw for non-strings or invalid methods, see API description)
+Methods.isAllowed(request.method); // true
+// Normalize and test against `allowed` methods.
+Methods.isAllowed(request.method, allowed); // false
+```
+
+Conveniently respond in an endpoint handler (e.g. in Express)
+
+```typescript
+import { EHTTPHeaders, EHTTPMIMETypes, THTTPStatuses } from 'http-convenience-pack';
+
+const handler = (req: Request, res: Response): void => {
+  const body = JSON.stringify({ message: 'Hello, world!' });
+
+  res.set({
+      EHTTPHeaders.CONTENT_LENGTH: Buffer.byteLength(body).toString(),
+      EHTTPHeaders.CONTENT_TYPE: EHTTPMIMETypes.APPLICATION_JSON
+    })
+    .status(THTTPStatuses[200].code)
+    // Here for brevity. May use it in custom error handler. Here Express would set the default message ('OK'). 
+    .statusMessage(THTTPStatuses[200].message) 
+    .send(bodyString);
+};
+```
 
 ### HTTP Methods
 
@@ -50,13 +117,13 @@ Where applicable for convenience use cases it has functionality (validation, nor
 - Check the given status belongs to statuses groups ("1xx: Info", "2xx: Success" etc.)
 - Check the given status is allowed for your specific use cases ("is in the list");
 
-### MIME Types
+### HTTP MIME Types
 
 WRITE:
 
 The MIME types values list, RFC 9110, uniform across your application. Get the type (via `mime/lite` package).
 
-### Headers
+### HTTP Headers
 
 See [readme](src/headers/implement.md)
 
@@ -78,11 +145,11 @@ npm install http-convenience-pack
 Ensure the uniform methods values are used across your application.
 
 ```typescript
-import { EHTTPmethods } from './src/methods/methods.ts';
+import { EHTTPMethods } from './src/methods/methods.ts';
 
 // Browser or Node
 const response = await fetch('https://api.example.com/data', {
- method: EHTTPmethods.GET
+ method: EHTTPMethods.GET
 });
 ```
 
