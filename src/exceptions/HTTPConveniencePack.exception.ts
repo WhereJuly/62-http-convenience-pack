@@ -15,13 +15,18 @@ export default class HTTPConveniencePackException extends Error {
 
         super(`${message}${originalMessage}`);
 
+        this.name = this.constructor.name;
+        this.#originalError = originalError;
+
         // Maintains proper stack trace for where our error was thrown (only available on V8)
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, HTTPConveniencePackException);
         }
+    }
 
-        this.name = this.constructor.name;
-        this.#originalError = originalError;
+    // NB: Not sure if it is used somewhere, will keep for debugging purposes.
+    public get originalError(): Error | undefined {
+        return this.#originalError;
     }
 
 }
