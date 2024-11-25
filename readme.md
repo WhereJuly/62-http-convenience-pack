@@ -1,4 +1,5 @@
-# HTTP Convenience Pack
+
+---
 
 <div align="center">
   <img src="./.docs/banner.jpg" width="100%"/>
@@ -22,7 +23,7 @@ The new use cases / functionality suggestions are welcome either in Discussions 
 ![Maintainability](https://img.shields.io/codeclimate/maintainability/your-username/your-repo.svg)
 ![Last Commit](https://img.shields.io/github/last-commit/your-username/your-repo.svg)
 
-## The Pack Purpose
+# HTTP Convenience Pack
 
 The pack purpose is to provide uniform standardized RFC-compliant HTTP notions' values for applications across the consumer's entire TypeScript application stack.
 
@@ -30,7 +31,6 @@ It adds type safety and convenience of auto-complete. It as well allows to avoid
 
 Where applicable for convenience use cases it has functionality (validation, normalization, etc.) that can be expanded on your proposal if new use cases are discovered.
 
-- [The Pack Purpose](#the-pack-purpose)
 - [Overview](#overview)
   - [Quick Start](#quick-start)
     - [Installation](#installation)
