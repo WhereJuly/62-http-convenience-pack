@@ -75,6 +75,7 @@
     },
     "files": [
         "code/*",
-        "types/*"
+        "types/*",
+        "changelog.md"
     ]
 }
