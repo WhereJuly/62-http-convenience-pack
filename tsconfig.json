@@ -9,7 +9,6 @@
         "module": "NodeNext",
         "moduleResolution": "NodeNext",
         "baseUrl": ".",
-        "rootDir": ".",
         "paths": {
             "@src/*": ["./src/*"],
             "@tests/*": ["./tests/*"],
@@ -17,7 +16,6 @@
         },
         "resolveJsonModule": true,
         "declaration": true,
-        "outDir": "./.delivery/dist" /* Specify an output folder for all emitted files. */,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
@@ -26,6 +24,6 @@
         "skipLibCheck": true
     },
 
-    "include": ["./src", "./tests/foundation/**/*.ts", "./tests/foundation/integration/.external/**/*.ts", "./tests/foundation/.ancillary/**/*.*"],
+    "include": ["./src", "eslint.config.mjs", "./tests/foundation/**/*.ts", "./tests/foundation/integration/.external/**/*.ts", "./tests/foundation/.ancillary/**/*.*"],
     "exclude": ["node_modules"]
 }

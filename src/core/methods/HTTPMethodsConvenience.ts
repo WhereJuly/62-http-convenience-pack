@@ -2,7 +2,7 @@
 
 import HTTPConveniencePackException from '@src/exceptions/HTTPConveniencePack.exception.js';
 
-export type TCustomHTTPMethodsConstraint = { [key: string]: string; };
+export type TCustomHTTPMethodsConstraint = Record<string, string>;
 
 /**
  * Comply with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#methods)
@@ -18,7 +18,7 @@ export enum EHTTPMethods {
     TRACE = 'TRACE',
 }
 
-export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMethodsConstraint = {}> {
+export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMethodsConstraint = Record<string, string>> {
 
     protected methods: EHTTPMethods | GCustomMethods;
 
@@ -105,7 +105,7 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
      * @returns {EHTTPMethods | GCustomMethods} See {@link HTTPMethodsConvenience._normalize}.
      * 
      * @throws {HTTPConveniencePackException} See {@link HTTPMethodsConvenience._normalize}
-     */    
+     */
     public static normalize(maybeMethod: string): EHTTPMethods {
         return HTTPMethodsConvenience._normalize(maybeMethod, EHTTPMethods) as EHTTPMethods;
     }
@@ -173,7 +173,7 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
      * @param {EHTTPMethods | GCustomMethods} methods - The standard HTTP methods enum or a custom methods object.
      * @returns {EHTTPMethods[] | GCustomMethods[]} An array containing the values of the provided HTTP methods.
      */
-    private static _toValues<GCustomMethods extends TCustomHTTPMethodsConstraint = {}>(methods: EHTTPMethods | GCustomMethods): EHTTPMethods[] | GCustomMethods[] {
+    private static _toValues<GCustomMethods extends TCustomHTTPMethodsConstraint = Record<string, string>>(methods: EHTTPMethods | GCustomMethods): EHTTPMethods[] | GCustomMethods[] {
         return Object.values(methods) as EHTTPMethods[] | GCustomMethods[];
     }
 
@@ -198,7 +198,7 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
      * 
      * @return {boolean} Whether the given `maybeMethod` method(s) are valid.
      */
-    private static _isValid<GCustomMethods extends TCustomHTTPMethodsConstraint = {}>(maybeMethod: string | string[], valid: EHTTPMethods | GCustomMethods): boolean {
+    private static _isValid<GCustomMethods extends TCustomHTTPMethodsConstraint = Record<string, string>>(maybeMethod: string | string[], valid: EHTTPMethods | GCustomMethods): boolean {
         const given = HTTPMethodsConvenience._given(maybeMethod);
         return HTTPMethodsConvenience._isAllowed(given, Object.values(valid) as EHTTPMethods[] | GCustomMethods[]);
     }
@@ -211,7 +211,7 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
      * 
      * @returns {boolean} `true` if the given method is in the list of allowed methods, otherwise `false`.
      */
-    private static _isAllowed<GCustomMethods extends TCustomHTTPMethodsConstraint = {}>(givens: string[], allowed: EHTTPMethods[] | GCustomMethods[]): boolean {
+    private static _isAllowed<GCustomMethods extends TCustomHTTPMethodsConstraint = Record<string, string>>(givens: string[], allowed: EHTTPMethods[] | GCustomMethods[]): boolean {
         // NB: Translate standard `EHTTPMethods` enum and `GCustomMethods` object to array of values.
         return givens.every((given: string) => { return allowed.includes(given.toUpperCase() as EHTTPMethods & GCustomMethods); });
     }
@@ -230,7 +230,7 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
      * 
      * @throws {HTTPConveniencePackException} If the maybeMethod is not a string or is not a valid HTTP method.
      */
-    private static _normalize<GCustomMethods extends TCustomHTTPMethodsConstraint = {}>(maybeMethod: unknown, valid: EHTTPMethods | GCustomMethods): EHTTPMethods | GCustomMethods {
+    private static _normalize<GCustomMethods extends TCustomHTTPMethodsConstraint = Record<string, string>>(maybeMethod: unknown, valid: EHTTPMethods | GCustomMethods): EHTTPMethods | GCustomMethods {
         if (typeof maybeMethod !== 'string') {
             // REFACTOR: To the domain exception class.
             throw new HTTPConveniencePackException(`"maybeMethod" argument should be a string, typeof "${typeof maybeMethod}" given.`);
