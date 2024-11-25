@@ -2,7 +2,7 @@
 
 import { assert, describe, expect, it } from 'vitest';
 
-import HTTPMethodsConvenience, { EHTTPMethods } from '@src/methods/HTTPMethodsConvenience.js';
+import HTTPMethodsConvenience, { EHTTPMethods } from '@src/core/methods/HTTPMethodsConvenience.js';
 import HTTPConveniencePackException from '@src/exceptions/HTTPConveniencePack.exception.js';
 
 const custom = { LINK: 'LINK', UNLINK: 'UNLINK' };
