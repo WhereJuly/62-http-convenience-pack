@@ -21,7 +21,7 @@
         "pre-push": "npm run test:foundation",
         "package:build": "npm run test:foundation && npm run lint && rimraf ./.delivery/.builds/package && tsc -p ./.delivery/configuration/tsconfig.json && npm run package:changelog:generate && npm run package:bundle:copy",
         "package:changelog:generate": "bash .ci/generate-merge-release-notes.sh > ./.delivery/.builds/dist/changelog.md",
-        "package:bundle:copy": "cpy ./package.json ./LICENSE ./readme.md ./.delivery/.builds/dist",
+        "package:bundle:copy": "cpy ./package.json ./LICENSE ./readme.md ./.docs ./.delivery/.builds/dist",
         "package:publish": "cd ./.delivery/.builds/dist && npm publish"
     },
     "repository": {
@@ -76,6 +76,7 @@
     "files": [
         "code/*",
         "types/*",
+        ".docs/*",
         "changelog.md"
     ]
 }
