@@ -26,30 +26,39 @@ Where applicable for convenience use cases it has functionality (validation, nor
 
 - [Overview](#overview)
   - [Quick Start](#quick-start)
+    - [Installation](#installation)
+    - [Autocomplete Demo](#autocomplete-demo)
+    - [Usage](#usage)
   - [HTTP Methods](#http-methods)
   - [HTTP Statuses](#http-statuses)
   - [HTTP MIME Types](#http-mime-types)
   - [HTTP Headers](#http-headers)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Basic](#basic)
+- [Use Cases](#use-cases)
   - [Add Custom methods](#add-custom-methods)
+- [API](#api)
+  - [HTTP Methods](#http-methods-1)
 
 ## Overview
 
 ### Quick Start
 
-Install the package.
+#### Installation
 
 ```bash
 npm install http-convenience-pack
 ```
 
+#### Autocomplete Demo
+
+> Here make and insert the GIF with all autocomplete demonstrations.
+
+#### Usage
+
 > NB: Create all examples in the actual typescript file to check correctness and put here.
 
 Ensure the uniform methods values are used across your application.
 
-Send a request:
+**Send a request**
 
 ```typescript
 import { EHTTPMethods, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
@@ -63,7 +72,7 @@ const response = await fetch('https://api.example.com/data', {
 });
 ```
 
-On request receive (e.g. in route or endpoint middleware) check a method is valid or allowed, normalize the method if the request came from unknown source.
+**On request receive** (e.g. in route or endpoint middleware) check a method is valid or allowed, normalize the method if the request came from unknown source.
 
 ```typescript
 import { EHTTPMethods, HTTPMethodsConvenience as Methods } from 'http-convenience-pack';
@@ -82,9 +91,22 @@ Methods.isValid(Methods.normalize(request.method)); // true
 Methods.isAllowed(request.method); // true
 // Normalize and test against `allowed` methods.
 Methods.isAllowed(request.method, allowed); // false
+
+// This will iterate over keys in `request.headers` object,  normalize each one,
+// find the desired header and by default extract the token with `Bearer token` value scheme. 
+const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION)
+
+// It can extract different standard Authentication schemes and your custom ones.
+// If no scheme provided it detects the decode scheme based on the header 
+// actual value prefix (extracting it and trying against Bearer, Basic, Digest ones) or throws.
+// If scheme is provided explicitly it tries to decode extract and return the respective value 
+// or throws if the scheme does not match. If scheme matches but no value is provided it returns null.
+const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION, 
+  EHTTPAuthenticationScheme.{Bearer, Basic, Digest, Custom}, () => { // required for EHTTPAuthenticationScheme.Custom })
+// Pass the token further down the middleware chain to use.
 ```
 
-Conveniently respond in an endpoint handler (e.g. in Express)
+**Conveniently respond** in an endpoint handler (e.g. in Express)
 
 ```typescript
 import { EHTTPHeaders, EHTTPMIMETypes, THTTPStatuses } from 'http-convenience-pack';
@@ -127,20 +149,17 @@ The MIME types values list, RFC 9110, uniform across your application. Get the t
 
 See [readme](src/headers/implement.md)
 
-## Installation
+## Use Cases
 
-To install this package:
-
-```bash
-npm install http-convenience-pack
-```
-
-## Usage
-
+> UPD: Will see if I need this section here or in Overview just list the use cases in natural language (like what I made in Quick Start).
 > Write the basic usage docs. Describe different use cases in a separate section. Describe formal API.
 > Do this first from imagined use cases. Refine it as you use it yourself.
 
-### Basic
+### Add Custom methods
+
+## API
+
+### HTTP Methods
 
 Ensure the uniform methods values are used across your application.
 
@@ -164,5 +183,3 @@ HTTPmethodsConvenience.isValid('GET'); // true
 HTTPmethodsConvenience.isValid(['GET', 'PUT']); // true
 HTTPmethodsConvenience.isValid(['GET', 'PUT', 'some']); // false
 ```
-
-### Add Custom methods
