@@ -1,6 +1,6 @@
 {
     "name": "@wherejuly/http-convenience-pack",
-    "version": "0.0.1",
+    "version": "0.0.8",
     "description": "HTTP Convenience Pack",
     "author": "valentineshi.dev@gmail.com",
     "type": "module",
@@ -19,7 +19,8 @@
         "lint": "npx eslint ./src",
         "commitlint": "commitlint --config ./.ci/.config/commitlint/commitlint.config.cjs --edit",
         "pre-push": "npm run test:foundation",
-        "package:build": "npm run test:foundation && npm run lint && rimraf ./.delivery/.builds/package && tsc -p ./.delivery/configuration/tsconfig.json && npm run package:changelog:generate && npm run package:bundle:copy",
+        "package:build": "npm run test:foundation && npm run lint && rimraf ./.delivery/.builds/package && tsc -p ./.delivery/configuration/tsconfig.json && npm run package:de-alias && npm run package:bundle:copy",
+        "package:de-alias": "npx tsc-alias -p ./.delivery/configuration/tsconfig.json --verbose",
         "package:changelog:generate": "bash .ci/generate-merge-release-notes.sh > ./.delivery/.builds/dist/changelog.md",
         "package:bundle:copy": "cpy ./package.json ./LICENSE ./readme.md ./.docs ./.delivery/.builds/dist",
         "package:publish": "cd ./.delivery/.builds/dist && npm publish"
