@@ -13,4 +13,9 @@ export namespace HCP {
     export class Methods extends _HTTPMethodsConvenience { };
 }
 
+// HTTP Methods
 export { EHTTPMethods, default as HTTPMethodsConvenience, type TCustomHTTPMethodsConstraint } from './core/methods/HTTPMethodsConvenience.js';
+
+// HTTP Statuses
+export { IHTTPStatus, EHTTPStatusCodeGroups, GROUPED_STATUS_CODES, StatusCodeGroups, THTTPStatuses } from './core/statuses/statuses.types.js';
+export { default as HTTPStatusesConvenience } from './core/statuses/HTTPStatusesConvenience.js';

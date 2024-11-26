@@ -1,6 +1,6 @@
 'use strict';
 
-export interface HTTPStatus {
+export interface IHTTPStatus {
     code: number;
     message: string;
 }
@@ -34,7 +34,7 @@ export type StatusCodeGroups = {
     [key in EHTTPStatusCodeGroups]: typeof GROUPED_STATUS_CODES[key][number];
 };
 
-export const THTTPStatuses: { [key in StatusCodeGroups[EHTTPStatusCodeGroups]]: HTTPStatus } = {
+export const THTTPStatuses: { [key in StatusCodeGroups[EHTTPStatusCodeGroups]]: IHTTPStatus } = {
     100: { code: 100, message: 'Continue' },
     101: { code: 101, message: 'Switching Protocols' },
     102: { code: 102, message: 'Processing' },
