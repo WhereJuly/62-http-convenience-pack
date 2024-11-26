@@ -1,11 +1,31 @@
 'use strict';
 
-interface HTTPStatus {
+/**
+ * The basic interface used within the package or for custom use cases.
+ */
+export interface IHTTPStatus {
     code: number;
     message: string;
 }
 
-export enum EHTTPCodeTypes {
+/**
+ * Enum representing groups of HTTP status codes.
+ * 
+ * Comply with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#section-15) as of June 2022.
+ * The groups are named 'classes' there. Here resort to 'groups' to avoid messing with usual 'class'. 
+ * 
+ * Autocompleting.
+ * Used in methods {@link HTTPStatusesConvenience.inGroup}, {@link HTTPStatusesConvenience.ofGroup} 
+ * or for custom use cases.
+ * 
+ * @see {@link GROUPED_STATUS_CODES}
+ * 
+ * @example
+ * ```typescript
+ * console.log(EHTTPStatusCodeGroups.INFO) // 'info'
+ * ```
+ */
+export enum EHTTPStatusCodeGroups {
     INFO = 'info',
     CLIENTERR = 'clienterr',
     SERVERERR = 'servererr',
@@ -14,27 +34,44 @@ export enum EHTTPCodeTypes {
 }
 
 /**
- * The list of allowed HTTP status codes grouped by HTTP status type.
+ * The list of allowed HTTP status codes grouped by HTTP status code group.
  * 
- * Comply with [RFC 9110 HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110)
- * published in June 2022.
+ * Comply with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#section-15) as of June 2022.
  * 
  * Taken from {@link https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml}.
  * 
+ * Autocompleting. 
+ * Used in methods {@link HTTPStatusesConvenience.inGroup}, {@link HTTPStatusesConvenience.ofGroup} 
+ * 
  */
-export const ALLOWED_STATUS_CODES_RFC_9110 = {
-    [EHTTPCodeTypes.INFO]: [100, 101, 102, 103] as const,
-    [EHTTPCodeTypes.SUCCESS]: [200, 201, 202, 203, 204, 205, 206, 207, 208, 226] as const,
-    [EHTTPCodeTypes.REDIRECT]: [300, 301, 302, 303, 304, 305, 307, 308] as const,
-    [EHTTPCodeTypes.CLIENTERR]: [400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 421, 422, 423, 424, 425, 426, 428, 429, 431, 451] as const,
-    [EHTTPCodeTypes.SERVERERR]: [500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511] as const,
+export const GROUPED_STATUS_CODES = {
+    [EHTTPStatusCodeGroups.INFO]: [100, 101, 102, 103] as const,
+    [EHTTPStatusCodeGroups.SUCCESS]: [200, 201, 202, 203, 204, 205, 206, 207, 208, 226] as const,
+    [EHTTPStatusCodeGroups.REDIRECT]: [300, 301, 302, 303, 304, 305, 307, 308] as const,
+    [EHTTPStatusCodeGroups.CLIENTERR]: [400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 421, 422, 423, 424, 425, 426, 428, 429, 431, 451] as const,
+    [EHTTPStatusCodeGroups.SERVERERR]: [500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511] as const,
 } as const;
 
 export type StatusCodeGroups = {
-    [key in EHTTPCodeTypes]: typeof ALLOWED_STATUS_CODES_RFC_9110[key][number];
+    [key in EHTTPStatusCodeGroups]: typeof GROUPED_STATUS_CODES[key][number];
 };
 
-export const THTTPStatuses: { [key in StatusCodeGroups[EHTTPCodeTypes]]: HTTPStatus } = {
+/**
+ * The list of allowed HTTP statuses objects: code and message.
+ * 
+ * Comply with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#section-15) as of June 2022.
+ * Taken from {@link https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml}.
+ * 
+ * Autocompleting. 
+ * 
+ * @example
+ * ```typescript
+ * console.log(HTTPStatuses[200]) // { code: 200, message: 'OK' }
+ * console.log(HTTPStatuses[404].message) // 'Not Found'
+ * console.log(HTTPStatuses[404].code)' // 404
+ * ```
+ */
+export const THTTPStatuses: { [key in StatusCodeGroups[EHTTPStatusCodeGroups]]: IHTTPStatus } = {
     100: { code: 100, message: 'Continue' },
     101: { code: 101, message: 'Switching Protocols' },
     102: { code: 102, message: 'Processing' },
