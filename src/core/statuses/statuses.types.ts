@@ -5,7 +5,7 @@ export interface HTTPStatus {
     message: string;
 }
 
-export enum EHTTPCodeTypes {
+export enum EHTTPStatusCodeGroups {
     INFO = 'info',
     CLIENTERR = 'clienterr',
     SERVERERR = 'servererr',
@@ -23,18 +23,18 @@ export enum EHTTPCodeTypes {
  * 
  */
 export const GROUPED_STATUS_CODES = {
-    [EHTTPCodeTypes.INFO]: [100, 101, 102, 103] as const,
-    [EHTTPCodeTypes.SUCCESS]: [200, 201, 202, 203, 204, 205, 206, 207, 208, 226] as const,
-    [EHTTPCodeTypes.REDIRECT]: [300, 301, 302, 303, 304, 305, 307, 308] as const,
-    [EHTTPCodeTypes.CLIENTERR]: [400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 421, 422, 423, 424, 425, 426, 428, 429, 431, 451] as const,
-    [EHTTPCodeTypes.SERVERERR]: [500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511] as const,
+    [EHTTPStatusCodeGroups.INFO]: [100, 101, 102, 103] as const,
+    [EHTTPStatusCodeGroups.SUCCESS]: [200, 201, 202, 203, 204, 205, 206, 207, 208, 226] as const,
+    [EHTTPStatusCodeGroups.REDIRECT]: [300, 301, 302, 303, 304, 305, 307, 308] as const,
+    [EHTTPStatusCodeGroups.CLIENTERR]: [400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 421, 422, 423, 424, 425, 426, 428, 429, 431, 451] as const,
+    [EHTTPStatusCodeGroups.SERVERERR]: [500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511] as const,
 } as const;
 
 export type StatusCodeGroups = {
-    [key in EHTTPCodeTypes]: typeof GROUPED_STATUS_CODES[key][number];
+    [key in EHTTPStatusCodeGroups]: typeof GROUPED_STATUS_CODES[key][number];
 };
 
-export const THTTPStatuses: { [key in StatusCodeGroups[EHTTPCodeTypes]]: HTTPStatus } = {
+export const THTTPStatuses: { [key in StatusCodeGroups[EHTTPStatusCodeGroups]]: HTTPStatus } = {
     100: { code: 100, message: 'Continue' },
     101: { code: 101, message: 'Switching Protocols' },
     102: { code: 102, message: 'Processing' },
