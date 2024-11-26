@@ -146,6 +146,13 @@ const handler = (req: Request, res: Response): void => {
 - Check the given status belongs to statuses groups ("1xx: Info", "2xx: Success" etc.)
 - Check the given status is allowed for your specific use cases ("is in the list");
 
+> Use case for isAmong for my frontend where I decide what to do depending on codes.
+> Use cases for exported types: create your own types enum groups, make custom groups of Status objects 
+> (like subsets of standard codes with custom messages) to retrieve custom message by code,
+> detect if code is valid, in group, of group with custom groups.
+
+TBW: API & use cases.
+
 ### HTTP MIME Types
 
 WRITE:

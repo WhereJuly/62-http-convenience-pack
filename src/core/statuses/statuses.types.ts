@@ -1,10 +1,30 @@
 'use strict';
 
+/**
+ * The basic interface used within the package or for custom use cases.
+ */
 export interface IHTTPStatus {
     code: number;
     message: string;
 }
 
+/**
+ * Enum representing groups of HTTP status codes.
+ * 
+ * Comply with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#section-15) as of June 2022.
+ * The groups are named 'classes' there. Here resort to 'groups' to avoid messing with usual 'class'. 
+ * 
+ * Autocompleting.
+ * Used in methods {@link HTTPStatusesConvenience.inGroup}, {@link HTTPStatusesConvenience.ofGroup} 
+ * or for custom use cases.
+ * 
+ * @see {@link GROUPED_STATUS_CODES}
+ * 
+ * @example
+ * ```typescript
+ * console.log(EHTTPStatusCodeGroups.INFO) // 'info'
+ * ```
+ */
 export enum EHTTPStatusCodeGroups {
     INFO = 'info',
     CLIENTERR = 'clienterr',
@@ -14,12 +34,14 @@ export enum EHTTPStatusCodeGroups {
 }
 
 /**
- * The list of allowed HTTP status codes grouped by HTTP status type.
+ * The list of allowed HTTP status codes grouped by HTTP status code group.
  * 
- * Comply with [RFC 9110 HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110)
- * published in June 2022.
+ * Comply with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#section-15) as of June 2022.
  * 
  * Taken from {@link https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml}.
+ * 
+ * Autocompleting. 
+ * Used in methods {@link HTTPStatusesConvenience.inGroup}, {@link HTTPStatusesConvenience.ofGroup} 
  * 
  */
 export const GROUPED_STATUS_CODES = {
@@ -34,6 +56,21 @@ export type StatusCodeGroups = {
     [key in EHTTPStatusCodeGroups]: typeof GROUPED_STATUS_CODES[key][number];
 };
 
+/**
+ * The list of allowed HTTP statuses objects: code and message.
+ * 
+ * Comply with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#section-15) as of June 2022.
+ * Taken from {@link https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml}.
+ * 
+ * Autocompleting. 
+ * 
+ * @example
+ * ```typescript
+ * console.log(HTTPStatuses[200]) // { code: 200, message: 'OK' }
+ * console.log(HTTPStatuses[404].message) // 'Not Found'
+ * console.log(HTTPStatuses[404].code)' // 404
+ * ```
+ */
 export const THTTPStatuses: { [key in StatusCodeGroups[EHTTPStatusCodeGroups]]: IHTTPStatus } = {
     100: { code: 100, message: 'Continue' },
     101: { code: 101, message: 'Switching Protocols' },
