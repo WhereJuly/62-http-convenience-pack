@@ -1,0 +1,16 @@
+{
+    "name": "usage",
+    "version": "0.0.0",
+    "description": "The internal usage package is a part of parent package to independently test the parent package usage as an external dependency.",
+    "main": "index.ts",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "test:consumption": "npm run types:check && vitest run --config tests/vitest.config.ts",
+        "types:check": "npx tsc --noEmit --project ."
+    },
+    "license": "UNLICENSED",
+    "dependencies": {
+        "@wherejuly/http-convenience-pack": "^0.0.11"
+    }
+}

@@ -1,35 +1,84 @@
 {
-  "name": "62-http-convenience",
-  "version": "0.0.1",
-  "description": "later",
-  "main": "index.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git"
-  },
-  "keywords": [
-    "typescript",
-    "http",
-    "convenience",
-    "methods",
-    "statuses",
-    "codes",
-    "mime",
-    "types",
-    "enums",
-    "helpers",
-    "validate",
-    "allow",
-    "normalize",
-    "uniform",
-    "ensure"
-  ],
-  "author": "me",
-  "license": "UNLICENSED",
-  "devDependencies": {
-    "@tsconfig/node18": "^18.2.4"
-  }
+    "name": "@wherejuly/http-convenience-pack",
+    "version": "0.0.11",
+    "description": "HTTP Convenience Pack",
+    "author": "valentineshi.dev@gmail.com",
+    "type": "module",
+    "main": "./code/index.js",
+    "module": "./code/index.js",
+    "types": "./types/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./code/index.js",
+            "types": "./types/index.d.ts"
+        }
+    },
+    "scripts": {
+        "test:foundation": "npm run types:check && cross-env NODE_ENV=test vitest run --config tests/foundation/.ancillary/config/vitest.config.ts",
+        "types:check": "npx tsc --noEmit --project .",
+        "lint": "npx eslint ./src",
+        "commitlint": "commitlint --config ./.ci/.config/commitlint/commitlint.config.cjs --edit",
+        "pre-push": "npm run test:foundation",
+        "package:build": "npm run test:foundation && npm run lint && rimraf ./.delivery/.builds/package && tsc -p ./.delivery/configuration/tsconfig.json && npm run package:de-alias && npm run package:bundle:copy",
+        "package:de-alias": "npx tsc-alias -p ./.delivery/configuration/tsconfig.json --verbose",
+        "package:changelog:generate": "bash .ci/generate-merge-release-notes.sh > ./.delivery/.builds/dist/changelog.md",
+        "package:bundle:copy": "cpy ./package.json ./LICENSE ./readme.md ./.docs ./.delivery/.builds/dist",
+        "package:publish": "cd ./.delivery/.builds/dist && npm publish"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/WhereJuly/62-http-convenience-pack.git"
+    },
+    "homepage": "https://github.com/WhereJuly/62-http-convenience-pack#readme",
+    "issues": "https://github.com/WhereJuly/62-http-convenience-pack/issues",
+    "license": "UNLICENSED",
+    "keywords": [
+        "typescript",
+        "http",
+        "convenience",
+        "autocomplete",
+        "methods",
+        "statuses",
+        "codes",
+        "mime",
+        "headers",
+        "types",
+        "values",
+        "rfc",
+        "enums",
+        "helpers",
+        "validate",
+        "allow",
+        "normalize",
+        "standard",
+        "uniform",
+        "ensure"
+    ],
+    "devDependencies": {
+        "@commitlint/cli": "^19.6.0",
+        "@commitlint/config-conventional": "^19.6.0",
+        "@eslint/js": "^9.15.0",
+        "@tsconfig/node18": "^18.2.4",
+        "@types/node": "^22.9.2",
+        "@typescript-eslint/eslint-plugin": "^8.15.0",
+        "@typescript-eslint/parser": "^8.15.0",
+        "@vitest/coverage-v8": "^2.1.5",
+        "cpy-cli": "^5.0.0",
+        "cross-env": "^7.0.3",
+        "eslint": "^9.15.0",
+        "husky": "^9.1.7",
+        "rimraf": "^5.0.10",
+        "typescript": "^5.7.2",
+        "typescript-eslint": "^8.15.0",
+        "vitest": "^2.1.5"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
+    },
+    "files": [
+        "code/*",
+        "types/*",
+        ".docs/*",
+        "changelog.md"
+    ]
 }

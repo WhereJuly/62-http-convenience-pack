@@ -1,8 +1,17 @@
+
+---
+
 <div align="center">
   <img src="./.docs/banner.jpg" width="100%"/>
 </div>
 
-The small TypeScript HTTP convenience package to validate, normalize and apply uniform HTTP methods, statuses and MIME types across your application HTTP requests and responses.
+**Summary**
+
+The small TypeScript HTTP convenience package to expose uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services. Manipulation functionality (validate, normalize etc.) is provided as well.
+
+The new use cases / functionality suggestions are welcome either in Discussions or as pull requests.
+
+**Package Status**
 
 ![npm version](https://img.shields.io/npm/v/your-package-name.svg)
 ![Build Status](https://img.shields.io/github/workflow/status/your-username/your-repo/CI)
@@ -16,16 +25,112 @@ The small TypeScript HTTP convenience package to validate, normalize and apply u
 
 # HTTP Convenience Pack
 
+The pack purpose is to provide uniform standardized RFC-compliant HTTP notions' values for applications across the consumer's entire TypeScript application stack.
+
+It adds type safety and convenience of auto-complete. It as well allows to avoid string constants ambiguity, ensures you always get the same correct and uniform HTTP header name (or a MIME type, or a status code / message) sent from your one end (e.g. front) to the other (e.g. back) and / or across you services.
+
+Where applicable for convenience use cases it has functionality (validation, normalization, etc.) that can be expanded on your proposal if new use cases are discovered.
+
 - [Overview](#overview)
+  - [Quick Start](#quick-start)
+    - [Installation](#installation)
+    - [Autocomplete Demo](#autocomplete-demo)
+    - [Usage](#usage)
   - [HTTP Methods](#http-methods)
   - [HTTP Statuses](#http-statuses)
-  - [MIME Types](#mime-types)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Basic](#basic)
-  - [Add Custom methods](#add-custom-methods)
+  - [HTTP MIME Types](#http-mime-types)
+  - [HTTP Headers](#http-headers)
+- [Use Cases](#use-cases)
+  - [Use with HTTP Custom Methods](#use-with-http-custom-methods)
+- [API](#api)
+  - [HTTP Methods](#http-methods-1)
 
 ## Overview
+
+### Quick Start
+
+#### Installation
+
+```bash
+npm install http-convenience-pack
+```
+
+#### Autocomplete Demo
+
+> Here make and insert the GIF with all autocomplete demonstrations.
+
+#### Usage
+
+> NB: Create all examples in the actual typescript file to check correctness and put here.
+
+Ensure the uniform methods values are used across your application.
+
+**Send a request**
+
+```typescript
+import { EHTTPMethods, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
+
+const response = await fetch('https://api.example.com/data', {
+ method: EHTTPMethods.GET,
+ headers: {
+  EHTTPHeaders.AUTHORIZATION: 'Bearer <required-token-here>',
+  EHTTPHeaders.CONTENT_TYPE: EHTTPMIMETypes.APPLICATION_JSON
+ }
+});
+```
+
+**On request receive** (e.g. in route or endpoint middleware) check a method is valid or allowed, normalize the method if the request came from unknown source.
+
+```typescript
+import { EHTTPMethods, HTTPMethodsConvenience as Methods } from 'http-convenience-pack';
+
+const allowed = [EHTTPMethods.GET, EHTTPMethods.PATCH];
+// Assume the request came for your service above.
+
+Methods.isValid(request.method); // true
+Methods.isAllowed(request.method, allowed); // true
+
+// Assume the request came for some unknown service with method `options` (as lower case).
+
+// Normalize (to upper case) and test against `EHTTPMethods` enum.
+Methods.isValid(Methods.normalize(request.method)); // true
+// Same as preceding but normalize is built-in (as well as exception throw for non-strings or invalid methods, see API description)
+Methods.isAllowed(request.method); // true
+// Normalize and test against `allowed` methods.
+Methods.isAllowed(request.method, allowed); // false
+
+// This will iterate over keys in `request.headers` object,  normalize each one,
+// find the desired header and by default extract the token with `Bearer token` value scheme. 
+const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION)
+
+// It can extract different standard Authentication schemes and your custom ones.
+// If no scheme provided it detects the decode scheme based on the header 
+// actual value prefix (extracting it and trying against Bearer, Basic, Digest ones) or throws.
+// If scheme is provided explicitly it tries to decode extract and return the respective value 
+// or throws if the scheme does not match. If scheme matches but no value is provided it returns null.
+const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION, 
+  EHTTPAuthenticationScheme.{Bearer, Basic, Digest, Custom}, () => { // required for EHTTPAuthenticationScheme.Custom })
+// Pass the token further down the middleware chain to use.
+```
+
+**Conveniently respond** in an endpoint handler (e.g. in Express)
+
+```typescript
+import { EHTTPHeaders, EHTTPMIMETypes, THTTPStatuses } from 'http-convenience-pack';
+
+const handler = (req: Request, res: Response): void => {
+  const body = JSON.stringify({ message: 'Hello, world!' });
+
+  res.set({
+      EHTTPHeaders.CONTENT_LENGTH: Buffer.byteLength(body).toString(),
+      EHTTPHeaders.CONTENT_TYPE: EHTTPMIMETypes.APPLICATION_JSON
+    })
+    .status(THTTPStatuses[200].code)
+    // Here for brevity. May use it in custom error handler. Here Express would set the default message ('OK'). 
+    .statusMessage(THTTPStatuses[200].message) 
+    .send(bodyString);
+};
+```
 
 ### HTTP Methods
 
@@ -41,32 +146,68 @@ The small TypeScript HTTP convenience package to validate, normalize and apply u
 - Check the given status belongs to statuses groups ("1xx: Info", "2xx: Success" etc.)
 - Check the given status is allowed for your specific use cases ("is in the list");
 
-### MIME Types
+> Use case for isAmong for my frontend where I decide what to do depending on codes.
+> Use cases for exported types: create your own types enum groups, make custom groups of Status objects 
+> (like subsets of standard codes with custom messages) to retrieve custom message by code,
+> detect if code is valid, in group, of group with custom groups.
+
+TBW: API & use cases.
+
+### HTTP MIME Types
 
 WRITE:
 
 The MIME types values list, RFC 9110, uniform across your application. Get the type (via `mime/lite` package).
 
-## Installation
+### HTTP Headers
 
-To install this package:
+See [readme](src/headers/implement.md)
 
-```bash
-npm install http-convenience-pack
+## Use Cases
+
+> UPD: Will see if I need this section here or in Overview just list the use cases in natural language (like what I made in Quick Start).
+> Write the basic usage docs. Describe different use cases in a separate section. Describe formal API.
+> Do this first from imagined use cases. Refine it as you use it yourself.
+
+### Use with HTTP Custom Methods
+
+This use case should be pretty rare. Nevertheless the package provides it as the implementation is pretty simple. The usage is very simple: instantiate the package adding an object with custom methods definitions. Then use it.
+
+```typescript
+// -- Instantiate
+export enum ECustomHTTPMethods {
+    LINK = 'LINK',
+    UNLINK = 'UNLINK',
+    // Add more custom methods if needed
+}
+
+export const ExtendedHTTPMethods = { ...EHTTPMethods, ...ECustomHTTPMethods };
+
+const cMethods = new HTTPMethodsConvenience(ECustomHTTPMethods); // Instantiate
+
+// --- Use
+//  `ECustomHTTPMethods.` provides autocomplete for both standard and custom enums.
+console.log(ECustomHTTPMethods.LINK) // LINK;
+
+const cMethods.isValid('LINK') // true
+const cMethods.isAllowed('UNLINK') // true
+const cMethods.normalize('unlink') // 'UNLINK'
 ```
 
-## Usage
+To use the single instance across the application you may either extend the original `HTTPMethodsConvenience` class adding the custom methods to the extended one. Or use DI container (e.g. [tsyringe](https://github.com/microsoft/tsyringe) or others) to instantiate the singleton with custom methods centrally then taking it from the DI container.
 
-### Basic
+## API
+
+### HTTP Methods
 
 Ensure the uniform methods values are used across your application.
 
 ```typescript
-import { EHTTPmethods } from './src/methods/methods.ts';
+import { EHTTPMethods } from './src/methods/methods.ts';
 
 // Browser or Node
 const response = await fetch('https://api.example.com/data', {
- method: EHTTPmethods.GET
+ method: EHTTPMethods.GET
 });
 ```
 
@@ -81,5 +222,3 @@ HTTPmethodsConvenience.isValid('GET'); // true
 HTTPmethodsConvenience.isValid(['GET', 'PUT']); // true
 HTTPmethodsConvenience.isValid(['GET', 'PUT', 'some']); // false
 ```
-
-### Add Custom methods
