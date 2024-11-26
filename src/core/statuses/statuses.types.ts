@@ -1,6 +1,6 @@
 'use strict';
 
-interface HTTPStatus {
+export interface HTTPStatus {
     code: number;
     message: string;
 }
@@ -22,7 +22,7 @@ export enum EHTTPCodeTypes {
  * Taken from {@link https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml}.
  * 
  */
-export const ALLOWED_STATUS_CODES_RFC_9110 = {
+export const GROUPED_STATUS_CODES = {
     [EHTTPCodeTypes.INFO]: [100, 101, 102, 103] as const,
     [EHTTPCodeTypes.SUCCESS]: [200, 201, 202, 203, 204, 205, 206, 207, 208, 226] as const,
     [EHTTPCodeTypes.REDIRECT]: [300, 301, 302, 303, 304, 305, 307, 308] as const,
@@ -31,7 +31,7 @@ export const ALLOWED_STATUS_CODES_RFC_9110 = {
 } as const;
 
 export type StatusCodeGroups = {
-    [key in EHTTPCodeTypes]: typeof ALLOWED_STATUS_CODES_RFC_9110[key][number];
+    [key in EHTTPCodeTypes]: typeof GROUPED_STATUS_CODES[key][number];
 };
 
 export const THTTPStatuses: { [key in StatusCodeGroups[EHTTPCodeTypes]]: HTTPStatus } = {

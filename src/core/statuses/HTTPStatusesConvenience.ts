@@ -2,7 +2,7 @@
 
 import { EHTTPCodeTypes, THTTPStatuses } from '@src/core/statuses/statuses.types.js';
 
-export class HTTPStatuses {
+export class HTTPStatusesConvenience {
 
     public static type(code: keyof typeof THTTPStatuses): EHTTPCodeTypes {
         if (code >= 100 && code < 200) return EHTTPCodeTypes.INFO;
@@ -14,8 +14,14 @@ export class HTTPStatuses {
         throw new Error(`Unknown HTTP status code ${code}`);
     }
 
-    public static message(code: keyof typeof THTTPStatuses): string | undefined {
-        return THTTPStatuses[code]?.message;
+    public static isValid(given: number | string): boolean {
+        const code = typeof given === 'string' ? parseInt(given, 10) : given;
+        
+        return Object.keys(THTTPStatuses).includes(code.toString());
+    }
+
+    public static message(code: number): string | undefined {
+        return THTTPStatuses[code as keyof typeof THTTPStatuses]?.message;
     }
 
 }
