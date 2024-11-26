@@ -167,8 +167,21 @@ See [readme](src/headers/implement.md)
 This use case should be pretty rare. Nevertheless the package provides it as the implementation is pretty simple. The usage is very simple: instantiate the package adding an object with custom methods definitions. Then use it.
 
 ```typescript
-const cMethods = new HTTPMethodsConvenience({LINK: 'LINK', UNLINK: 'UNLINK'}); // Instantiate
-// Use
+// -- Instantiate
+export enum ECustomHTTPMethods {
+    LINK = 'LINK',
+    UNLINK = 'UNLINK',
+    // Add more custom methods if needed
+}
+
+export const ExtendedHTTPMethods = { ...EHTTPMethods, ...ECustomHTTPMethods };
+
+const cMethods = new HTTPMethodsConvenience(ECustomHTTPMethods); // Instantiate
+
+// --- Use
+//  `ECustomHTTPMethods.` provides autocomplete for both standard and custom enums.
+console.log(ECustomHTTPMethods.LINK) // LINK;
+
 const cMethods.isValid('LINK') // true
 const cMethods.isAllowed('UNLINK') // true
 const cMethods.normalize('unlink') // 'UNLINK'
