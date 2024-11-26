@@ -51,6 +51,23 @@ describe('HTTPStatusesConvenienceTest', () => {
         }
     });
 
+    describe('+ofGroup: Should return the group matching code or null', () => {
+        it.each(dataProvider_in_group())('Case #%# $name', (data) => {
+            const actual = HTTPStatusesConvenience.ofGroup(data.fixture);
+
+            expect(actual).toEqual(data.expected);
+        });
+
+        function dataProvider_in_group() {
+            return [
+                { name: 'Group found (INFO)', fixture: 100, expected: EHTTPStatusCodeGroups.INFO },
+                { name: 'Group found (CLIENTERR)', fixture: 401, expected: EHTTPStatusCodeGroups.CLIENTERR },
+                { name: 'Group not found', fixture: 999, expected: null },
+            ];
+        }
+    });
+
+
 
     // Assert: given status code is withing the group
     // Assert: ofGroup method returns the correct group or null

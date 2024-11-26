@@ -23,8 +23,16 @@ export class HTTPStatusesConvenience {
     // inGroup function to check if a status code is in the specified group
     public static inGroup(given: number | string, type: EHTTPStatusCodeGroups): boolean {
         const code = HTTPStatusesConvenience.normalizeCodeInput(given);
-        
+
         return (GROUPED_STATUS_CODES[type] as readonly number[]).includes(code);
+    }
+
+    public static ofGroup(given: number): EHTTPStatusCodeGroups | null {
+        const code = HTTPStatusesConvenience.normalizeCodeInput(given);
+        const entries = Object.entries(GROUPED_STATUS_CODES) as [EHTTPStatusCodeGroups, readonly number[]][];
+        const found = entries.find(([_type, codes]) => { return codes.includes(code); });
+
+        return found ? found[0] : null;
     }
 
     public static message(code: number): string | undefined {
