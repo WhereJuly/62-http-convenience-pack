@@ -41,7 +41,7 @@ Where applicable for convenience use cases it has functionality (validation, nor
   - [HTTP MIME Types](#http-mime-types)
   - [HTTP Headers](#http-headers)
 - [Use Cases](#use-cases)
-  - [Add Custom methods](#add-custom-methods)
+  - [Use with HTTP Custom Methods](#use-with-http-custom-methods)
 - [API](#api)
   - [HTTP Methods](#http-methods-1)
 
@@ -162,7 +162,19 @@ See [readme](src/headers/implement.md)
 > Write the basic usage docs. Describe different use cases in a separate section. Describe formal API.
 > Do this first from imagined use cases. Refine it as you use it yourself.
 
-### Add Custom methods
+### Use with HTTP Custom Methods
+
+This use case should be pretty rare. Nevertheless the package provides it as the implementation is pretty simple. The usage is very simple: instantiate the package adding an object with custom methods definitions. Then use it.
+
+```typescript
+const cMethods = new HTTPMethodsConvenience({LINK: 'LINK', UNLINK: 'UNLINK'}); // Instantiate
+// Use
+const cMethods.isValid('LINK') // true
+const cMethods.isAllowed('UNLINK') // true
+const cMethods.normalize('unlink') // 'UNLINK'
+```
+
+To use the single instance across the application you may either extend the original `HTTPMethodsConvenience` class adding the custom methods to the extended one. Or use DI container (e.g. [tsyringe](https://github.com/microsoft/tsyringe) or others) to instantiate the singleton with custom methods centrally then taking it from the DI container.
 
 ## API
 
