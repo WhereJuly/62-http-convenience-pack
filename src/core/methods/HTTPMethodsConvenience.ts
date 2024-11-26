@@ -5,6 +5,8 @@ import HTTPConveniencePackException from '@src/exceptions/HTTPConveniencePack.ex
 export type TCustomHTTPMethodsConstraint = Record<string, string>;
 
 /**
+ * The standard HTTP methods enum.
+ * 
  * Comply with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#methods)
  */
 export enum EHTTPMethods {
@@ -18,26 +20,44 @@ export enum EHTTPMethods {
     TRACE = 'TRACE',
 }
 
+/**
+ * Provide convenient interface to work with  HTTP methods, standard {@link EHTTPMethods} 
+ * and custom {@link GCustomMethods}.
+ * 
+ * Statics methods allow working with standard HTTP methods.
+ * The class instance allows to work with custom HTTP methods you define.
+ * 
+ * 
+ * @template GCustomMethods - A generic type extending TCustomHTTPMethodsConstraint, representing custom HTTP methods.
+ * 
+ * @example
+ * 
+ * Work with standard HTTP methods via static class.
+ * 
+ * ```typescript
+ * console.log(HTTPMethodsConvenience.isValid('GET')); // true;
+ * ```
+ * @example
+ * 
+ * Add custom HTTP methods at instantiation and work with both standard and custom HTTP methods
+ * via the instance. 
+ * 
+ * ```typescript
+ * enum ECustomHTTPMethods { LINK = 'LINK', UNLINK = 'UNLINK' }
+ * const ExtendedHTTPMethods = { ...EHTTPMethods, ...ECustomHTTPMethods }; 
+ * 
+ * // Will-provide-autocomplete for standard and custom HTTP methods -
+ * console.log(ECustomHTTPMethods.LINK);
+ * 
+ * // Use the instance
+ * const httpMethodsConvenience = new HTTPMethodsConvenience(ECustomHTTPMethods);
+ * console.log(HTTPMethodsConvenience.isValid(['LINK', 'GET'])); // true;
+ * ```
+ */
 export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMethodsConstraint = Record<string, string>> {
 
     protected methods: EHTTPMethods | GCustomMethods;
 
-    /**
-     * 
-     * Statics methods allow working with standard HTTP methods.
-     * The class instance allows to work with custom HTTP methods you define.
-     * 
-     * @example
-     * ```typescript
-     * // Work with standard HTTP methods via static class.
-     * console.log(HTTPMethodsConvenience.isValid('GET')); // true;
-     * 
-     * // Add custom HTTP methods at instantiation and work with both standard and custom HTTP methods
-     * // via the instance. 
-     * const httpMethodsConvenience = new HTTPMethodsConvenience({ LINK: 'LINK', UNLINK: 'UNLINK' });
-     * console.log(HTTPMethodsConvenience.isValid(['LINK', 'GET'])); // true;
-     * ```
-     */
     constructor(customMethods: GCustomMethods) {
         this.methods = { ...EHTTPMethods, ...customMethods };
     }
@@ -144,7 +164,7 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
      * @param {EHTTPMethods} given - see {@link HTTPMethodsConvenience._isAllowed}.
      * @param {EHTTPMethods[]} [allowed] - see {@link HTTPMethodsConvenience.isAllowed}. 
      */
-    public isAllowed(given: EHTTPMethods, allowed?: EHTTPMethods[] | GCustomMethods[]): boolean {
+    public isAllowed(given: string, allowed?: EHTTPMethods[] | GCustomMethods[]): boolean {
         const _allowed = allowed ?? this.toValues();
 
         return HTTPMethodsConvenience._isAllowed([given], _allowed);
@@ -165,6 +185,12 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
     }
 
     /**
+     * ---
+     * IMPORTANT: Here come private static methods that universally process both standard and custom HTTP methods.
+     * --- 
+     */
+
+    /**
      * Retrieves the values of the standard `EHTTPMethods` enum or `GCustomMethods` object.
      * 
      * @description A delegate to process either solely standard EHTTPMethods or including `GCustomMethods`.
@@ -176,12 +202,6 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
     private static _toValues<GCustomMethods extends TCustomHTTPMethodsConstraint = Record<string, string>>(methods: EHTTPMethods | GCustomMethods): EHTTPMethods[] | GCustomMethods[] {
         return Object.values(methods) as EHTTPMethods[] | GCustomMethods[];
     }
-
-    /**
-     * ---
-     * IMPORTANT: Here come private static methods that universally process both standard and custom HTTP methods.
-     * --- 
-     */
 
     /**
      * Check if the given HTTP method(s) are valid.

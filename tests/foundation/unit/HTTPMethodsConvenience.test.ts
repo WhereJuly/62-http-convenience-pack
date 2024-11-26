@@ -7,6 +7,14 @@ import HTTPConveniencePackException from '@src/exceptions/HTTPConveniencePack.ex
 
 const custom = { LINK: 'LINK', UNLINK: 'UNLINK' };
 
+// WARNING: This is the type fixture to test adding custom HTTP methods.
+enum ECustomHTTPMethods {
+    LINK = 'LINK',
+    UNLINK = 'UNLINK',
+}
+
+const ExtendedHTTPMethods = { ...EHTTPMethods, ...ECustomHTTPMethods };
+
 describe('HTTPMethodsConvenienceTest', () => {
 
     it('The static HTTPMethodsConvenience object should exist', () => {
@@ -25,6 +33,15 @@ describe('HTTPMethodsConvenienceTest', () => {
         expect(actual.isValid).toBeInstanceOf(Function);
         expect(actual.isAllowed).toBeInstanceOf(Function);
         expect(actual.normalize).toBeInstanceOf(Function);
+    });
+
+    it('The HTTPMethodsConvenience object instance should operate on standards and custom HTTP methods', () => {
+        const actual = new HTTPMethodsConvenience(ECustomHTTPMethods);
+
+        expect(actual.isValid(ExtendedHTTPMethods.GET)).toEqual(true); // Test standard HTTP method autocomplete
+        expect(actual.isValid(ExtendedHTTPMethods.LINK)).toEqual(true);
+        expect(actual.isAllowed(ECustomHTTPMethods.LINK)).toEqual(true);
+        expect(actual.normalize('unlink')).toEqual(ECustomHTTPMethods.UNLINK);
     });
 
     describe('+isValid: Static and instance methods should polymorphically return the expected value for string and array arguments', () => {
