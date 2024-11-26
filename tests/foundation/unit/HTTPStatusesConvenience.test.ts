@@ -2,9 +2,8 @@
 
 import { describe, expect, it } from 'vitest';
 
-import { HTTPStatusesConvenience } from '../../../src/core/statuses/HTTPStatusesConvenience.js';
+import HTTPStatusesConvenience from '../../../src/core/statuses/HTTPStatusesConvenience.js';
 import { EHTTPStatusCodeGroups, THTTPStatuses } from '../../../src/core/statuses/statuses.types.js';
-
 
 describe('HTTPStatusesConvenienceTest', () => {
 
@@ -52,13 +51,13 @@ describe('HTTPStatusesConvenienceTest', () => {
     });
 
     describe('+ofGroup: Should return the group matching code or null', () => {
-        it.each(dataProvider_in_group())('Case #%# $name', (data) => {
+        it.each(dataProvider_of_group())('Case #%# $name', (data) => {
             const actual = HTTPStatusesConvenience.ofGroup(data.fixture);
 
             expect(actual).toEqual(data.expected);
         });
 
-        function dataProvider_in_group() {
+        function dataProvider_of_group() {
             return [
                 { name: 'Group found (INFO)', fixture: 100, expected: EHTTPStatusCodeGroups.INFO },
                 { name: 'Group found (CLIENTERR)', fixture: 401, expected: EHTTPStatusCodeGroups.CLIENTERR },
@@ -67,8 +66,19 @@ describe('HTTPStatusesConvenienceTest', () => {
         }
     });
 
+    describe('+isAmong: Should return true if the code is among a list of codes', () => {
+        it.each(dataProvider_is_among())('Case #%# $name', (data) => {
+            const actual = HTTPStatusesConvenience.isAmong(data.fixture.code, data.fixture.list);
 
+            expect(actual).toEqual(data.expected);
+        });
 
-    // Assert: given status code is withing the group
-    // Assert: ofGroup method returns the correct group or null
+        function dataProvider_is_among() {
+            return [
+                { name: 'Is among', fixture: { code: 201, list: [201, 204] }, expected: true },
+                { name: 'Is not among', fixture: { code: 100, list: [201, 204] }, expected: false },
+            ];
+        }
+    });
+
 });

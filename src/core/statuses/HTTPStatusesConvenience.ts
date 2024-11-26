@@ -2,7 +2,7 @@
 
 import { EHTTPStatusCodeGroups, GROUPED_STATUS_CODES, THTTPStatuses } from '@src/core/statuses/statuses.types.js';
 
-export class HTTPStatusesConvenience {
+export default class HTTPStatusesConvenience {
 
     public static type(code: keyof typeof THTTPStatuses): EHTTPStatusCodeGroups {
         if (code >= 100 && code < 200) return EHTTPStatusCodeGroups.INFO;
@@ -24,7 +24,8 @@ export class HTTPStatusesConvenience {
     public static inGroup(given: number | string, type: EHTTPStatusCodeGroups): boolean {
         const code = HTTPStatusesConvenience.normalizeCodeInput(given);
 
-        return (GROUPED_STATUS_CODES[type] as readonly number[]).includes(code);
+        // return (GROUPED_STATUS_CODES[type] as readonly number[]).includes(code);
+        return HTTPStatusesConvenience.isAmong(code, GROUPED_STATUS_CODES[type] as unknown as number[]);
     }
 
     public static ofGroup(given: number): EHTTPStatusCodeGroups | null {
@@ -33,6 +34,12 @@ export class HTTPStatusesConvenience {
         const found = entries.find(([_type, codes]) => { return codes.includes(code); });
 
         return found ? found[0] : null;
+    }
+
+    public static isAmong(given: number | string, list: number[]): boolean {
+        const code = HTTPStatusesConvenience.normalizeCodeInput(given);
+
+        return list.includes(code);
     }
 
     public static message(code: number): string | undefined {
