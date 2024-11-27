@@ -2,7 +2,7 @@
 ---
 
 <div align="center">
-  <img src="./.docs/banner-3.jpg" width="100%"/>
+  <img src="./.docs/banner-4.jpg" width="100%"/>
 </div>
 
 <div align="center">
