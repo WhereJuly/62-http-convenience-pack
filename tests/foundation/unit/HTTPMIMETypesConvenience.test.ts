@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import HTTPMIMETypesConvenience from '@src/core/mime/HTTPMIMETypesConvenience.js';
 import { MIME_TYPES_BUILTIN } from '@src/core/mime/types/builtin.mime.js';
 import { EMIMEExtensions, EMIMEGroups } from '@src/core/mime/types/common.mime.js';
-import { MIME_TYPES_POPULAR } from '@src/core/mime/types/popular.types.js';
+import { MIME_TYPES_POPULAR } from '@src/core/mime/types/popular.mime.js';
 
 describe('HTTPMIMETypesConvenienceTest', () => {
 
