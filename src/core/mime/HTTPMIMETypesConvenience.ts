@@ -1,7 +1,7 @@
 'use strict';
 
 import { MIME_TYPES_BUILTIN } from '@src/core/mime/types/builtin.mime.js';
-import { TExtendedMIMETypes } from '@src/core/mime/utility.types.js';
+import { TExtendedMIMETypes, TMIMETypeEntry } from '@src/core/mime/utility.types.js';
 
 export const MIMExtensionInapplicable = 'inapplicable';
 
@@ -67,11 +67,30 @@ export default class HTTPMIMETypesConvenience {
      * ```typescript
      * const isValidMIME = HTTPMIMETypesConvenience.isValid('application/json'); // true
      * ```
-     * Same as {@link HTTPMIMETypesConvenience.inList} with no `list` parameter
+     * @see {@link HTTPMIMETypesConvenience.isAmong} with no `types` parameter
      */
     public static isValid(maybeType: string): boolean {
         return !!Object.keys(HTTPMIMETypesConvenience.types).find((type: string) => {
             return type === maybeType;
+        });
+    }
+
+    /**
+     * REFACTOR: The GROUPED_MIME_TYPES_BUILTIN would better bear the type as a key
+     * being similar in this to {@link MIME_TYPES_BUILTIN} with its signature
+     * ```typescript
+     * [key in EBuiltInMIMETypes]: TMIMETypeEntry<EBuiltInMIMETypes>
+     * ```
+     * IMPORTANT: Then the question comes: what single source data structure would allow
+     * for MIME_TYPES_BUILTIN and GROUPED_MIME_TYPES_BUILTIN automated generation? So that
+     * those read-only constants be auto-generated.
+     */
+    public static isAmong(type: string | keyof TExtendedMIMETypes<string>, among?: Readonly<TMIMETypeEntry<string>[]>): boolean {
+        const toTypesList = (among: Readonly<TMIMETypeEntry<string>[]>) => { return among.map((entry: TMIMETypeEntry<string>) => entry.type); };
+        const where = among ? toTypesList(among) : Object.keys(HTTPMIMETypesConvenience.types);
+
+        return !!where.find((among: string) => {
+            return type === among;
         });
     }
 

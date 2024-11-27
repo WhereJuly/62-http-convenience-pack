@@ -63,11 +63,24 @@ describe('HTTPMIMETypesConvenienceTest', () => {
         actual.reset();
     });
 
-    // Assert: isValid (check against built-in and extended types, alias for inList with no `list` parameter)
+    it('+static isAmong(): check the provided type is among the default or provided types objects ', () => {
+        const actual = HTTPMIMETypesConvenience;
+
+        // Check against `HTTPMIMETypesConvenience.types`
+        expect(actual.isAmong(EBuiltInMIMETypes.AUDIO_MPEG)).toEqual(true);
+        expect(actual.isAmong(EPopularMIMETypes.APPLICATION_JAR)).toEqual(false); 
+        expect(actual.isAmong('invalid')).toEqual(false); // NB: Check it accepts strings
+        
+        expect(actual.isAmong(EBuiltInMIMETypes.AUDIO_MPEG, GROUPED_MIME_TYPES_BUILTIN.AUDIO)).toEqual(true);
+        expect(actual.isAmong(EBuiltInMIMETypes.AUDIO_MPEG, GROUPED_MIME_TYPES_BUILTIN.APPLICATION)).toEqual(false);
+
+    });
+
+
+    // Assert: inList (with and without `list` parameter)
     // Assert: ofGroup
     // Assert: inGroup
-    // Assert: inList (with and without `list` parameter)
-    // Assert: findBy(attribute: EAttribute, value: string): TMIMETypeEntry<GMIMEType, GMIMEExtension, GMIMEGroup> | null
+    // Assert: pickBy(attribute: EAttribute [type after the object keys], value: string): TMIMETypeEntry<GMIMEType, GMIMEExtension, GMIMEGroup> | null
     // Assert: get groups
     // Assert: enum autocompletion & enum values for all the enums, essential and popular.
     // Assert: create the typed MIME types constant, extend with it and see the autocomplete.
