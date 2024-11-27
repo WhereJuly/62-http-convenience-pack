@@ -14,6 +14,8 @@ Type-safe, RFC-compliant, auto-completable HTTP constants and convenience functi
 > Reflect actual list of the pack's modules (methods, statuses, MIME types, headers) in the sub-line.
 > Make the banner as narrow as the initial version. 
 
+Use TypeScript type inference and IDE autocomplete functionality for the outstanding comfort and type safety in HTTP constants manipulations.
+
 **Summary**
 
 The small TypeScript HTTP convenience package to expose uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services. Manipulation functionality (validate, normalize etc.) is provided as well.
