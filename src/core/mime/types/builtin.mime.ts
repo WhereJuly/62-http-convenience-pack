@@ -67,7 +67,7 @@ export const MIME_TYPES_BUILTIN: {
     }
 } as const;
 
-export const GROUPED_MIME_TYPES_ESSENTIAL = {
+export const GROUPED_MIME_TYPES_BUILTIN = {
     [EMIMEGroups.TEXT]: [{
         type: EBuiltInMIMETypes.TEXT_PLAIN, extension: EMIMEExtensions.TXT, group: EMIMEGroups.TEXT
     },
