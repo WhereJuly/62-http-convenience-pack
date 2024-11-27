@@ -3,11 +3,17 @@
 import { describe, expect, it } from 'vitest';
 
 import HTTPMIMETypesConvenience from '@src/core/mime/HTTPMIMETypesConvenience.js';
-import { MIME_TYPES_BUILTIN } from '@src/core/mime/types/builtin.mime.js';
+import { EBuiltInMIMETypes, GROUPED_MIME_TYPES_BUILTIN, MIME_TYPES_BUILTIN } from '@src/core/mime/types/builtin.mime.js';
 import { EMIMEExtensions, EMIMEGroups } from '@src/core/mime/types/common.mime.js';
-import { MIME_TYPES_POPULAR } from '@src/core/mime/types/popular.mime.js';
+import { EPopularMIMETypes, MIME_TYPES_POPULAR } from '@src/core/mime/types/popular.mime.js';
 
 describe('HTTPMIMETypesConvenienceTest', () => {
+
+    it.skip('Console output for documentation snippets ', () => {
+        console.dir(HTTPMIMETypesConvenience.types);
+        console.dir(GROUPED_MIME_TYPES_BUILTIN);
+        console.dir(MIME_TYPES_POPULAR['application/gzip'].group);
+    });
 
     it('The static HTTPMIMETypesConvenience object should exist', () => {
         const actual = HTTPMIMETypesConvenience;
@@ -44,16 +50,27 @@ describe('HTTPMIMETypesConvenienceTest', () => {
     });
 
     it('+static isValid(): check the provided type is a valid one against built-in and extended ', () => {
+        const actual = HTTPMIMETypesConvenience;
 
+        expect(actual.isValid(EBuiltInMIMETypes.AUDIO_MPEG)).toEqual(true);
+        expect(actual.isValid('image/png')).toEqual(true); // NB: Check it accepts strings
+        expect(actual.isValid('invalid')).toEqual(false);
+
+        actual.extend(MIME_TYPES_POPULAR);
+
+        expect(actual.isValid(EPopularMIMETypes.APPLICATION_JAR)).toEqual(true);
+
+        actual.reset();
     });
 
-
+    // Assert: isValid (check against built-in and extended types, alias for inList with no `list` parameter)
     // Assert: ofGroup
     // Assert: inGroup
     // Assert: inList (with and without `list` parameter)
-    // Assert: isValid (check against built-in and extended types, alias for inList with no `list` parameter)
     // Assert: findBy(attribute: EAttribute, value: string): TMIMETypeEntry<GMIMEType, GMIMEExtension, GMIMEGroup> | null
     // Assert: get groups
     // Assert: enum autocompletion & enum values for all the enums, essential and popular.
+    // Assert: create the typed MIME types constant, extend with it and see the autocomplete.
+
 
 });
