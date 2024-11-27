@@ -44,6 +44,7 @@ It adds type safety and convenience of auto-complete. It as well allows to avoid
 Where applicable for convenience use cases it has functionality (validation, normalization, etc.) that can be expanded on your proposal if new use cases are discovered.
 
 - [Overview](#overview)
+  - [Documentation](#documentation)
   - [Quick Start](#quick-start)
     - [Installation](#installation)
     - [Autocomplete Demo](#autocomplete-demo)
@@ -67,6 +68,12 @@ Where applicable for convenience use cases it has functionality (validation, nor
 
 ## Overview
 
+### Documentation
+
+The package is carefully documented. From the good-named identifiers in code, autocompletion, doc blocks with usage examples on enums, constants classes and methods to the detailed readme with use cases and modules API references.
+
+There is a [Discussion](https://github.com/WhereJuly/62-http-convenience-pack/discussions) for specific subjects and question.
+
 ### Quick Start
 
 #### Installation
@@ -78,6 +85,7 @@ npm install http-convenience-pack
 #### Autocomplete Demo
 
 > Here make and insert the GIF with all autocomplete demonstrations.
+> Hide the demo under details tag not to annoy
 
 #### Usage
 
