@@ -61,7 +61,7 @@ export const MIME_TYPES_POPULAR: {
     [key in EPopularMIMETypes]: TMIMETypeEntry<EPopularMIMETypes>;
 } = {
     [EPopularMIMETypes.TEXT_XML]: {
-        type: EPopularMIMETypes.TEXT_XML, extension: EMIMEExtensions.TEXT_XML, group: EMIMEGroups.TEXT,
+        type: EPopularMIMETypes.TEXT_XML, extension: EMIMEExtensions.XML, group: EMIMEGroups.TEXT,
     },
     [EPopularMIMETypes.TEXT_YAML]: {
         type: EPopularMIMETypes.TEXT_YAML, extension: EMIMEExtensions.TEXT_YAML, group: EMIMEGroups.TEXT,

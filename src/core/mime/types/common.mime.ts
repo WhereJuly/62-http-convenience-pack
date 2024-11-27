@@ -18,24 +18,23 @@ export enum EMIMEGroups {
 
 export enum EMIMEExtensions {
     // --- Essential MIME types extensions
-    JSON = "json",
-    TXT = "txt",
-    HTML = "html",
-    CSS = "css",
-    PNG = "png",
-    JPEG = "jpeg",
-    GIF = "gif",
-    MP4 = "mp4",
-    MP3 = "mp3",
-    MULTIPART = "multipart",
-    XML = "xml",
-    JS = "js",
-    CSV = "csv",
-    TSV = "tsv",
+    JSON = ".json",
+    TXT = ".txt",
+    HTML = ".html",
+    CSS = ".css",
+    PNG = ".png",
+    JPEG = ".jpeg",
+    GIF = ".gif",
+    MP4 = ".mp4",
+    MP3 = ".mp3",
+    MULTIPART = ".multipart",
+    XML = ".xml",
+    JS = ".js",
+    CSV = ".csv",
+    TSV = ".tsv",
 
     // --- Popular MIME types extensions
     // Text MIME Types
-    TEXT_XML = ".xml",
     TEXT_YAML = ".yaml",
     TEXT_MARKDOWN = ".md",
     TEXT_RICHTEXT = ".rtf",
@@ -90,6 +89,4 @@ export enum EMIMEExtensions {
 
     // JSON-LD MIME Type
     APPLICATION_JSONLD = ".jsonld",
-
-
 }
