@@ -1,7 +1,7 @@
 'use strict';
 
 import { TMIMETypeEntry } from '../utility.types.js';
-
+import { EMIMEExtensions, EMIMEGroups } from './common.mime.js';
 
 export enum EEssentialMIMETypes {
     APPLICATION_JSON = "application/json",
@@ -20,34 +20,8 @@ export enum EEssentialMIMETypes {
     TEXT_TSV = "text/tab-separated-values",
 }
 
-export enum EMIMEGroups {
-    TEXT = "TEXT",
-    IMAGE = "IMAGE",
-    VIDEO = "VIDEO",
-    APPLICATION = "APPLICATION",
-    AUDIO = "AUDIO",
-    MULTIPART = "MULTIPART"
-}
-
-export enum EMIMEExtensions {
-    JSON = "json",
-    TXT = "txt",
-    HTML = "html",
-    CSS = "css",
-    PNG = "png",
-    JPEG = "jpeg",
-    GIF = "gif",
-    MP4 = "mp4",
-    MP3 = "mp3",
-    MULTIPART = "multipart",
-    XML = "xml",
-    JS = "js",
-    CSV = "csv",
-    TSV = "tsv"
-}
-
 export const MIME_TYPES_ESSENTIAL: {
-    [key in EEssentialMIMETypes]: TMIMETypeEntry<EEssentialMIMETypes, EMIMEExtensions, EMIMEGroups>
+    [key in EEssentialMIMETypes]: TMIMETypeEntry<EEssentialMIMETypes>
 } = {
     [EEssentialMIMETypes.APPLICATION_JSON]: {
         type: EEssentialMIMETypes.APPLICATION_JSON, extension: EMIMEExtensions.JSON, group: EMIMEGroups.APPLICATION
@@ -91,5 +65,55 @@ export const MIME_TYPES_ESSENTIAL: {
     [EEssentialMIMETypes.TEXT_TSV]: {
         type: EEssentialMIMETypes.TEXT_TSV, extension: EMIMEExtensions.TSV, group: EMIMEGroups.TEXT
     }
-};
+} as const;
 
+export const GROUPED_MIME_TYPES_ESSENTIAL = {
+    [EMIMEGroups.TEXT]: [{
+        type: EEssentialMIMETypes.TEXT_PLAIN, extension: EMIMEExtensions.TXT, group: EMIMEGroups.TEXT
+    },
+    {
+        type: EEssentialMIMETypes.TEXT_HTML, extension: EMIMEExtensions.HTML, group: EMIMEGroups.TEXT
+    },
+    {
+        type: EEssentialMIMETypes.TEXT_CSS, extension: EMIMEExtensions.CSS, group: EMIMEGroups.TEXT
+    },
+    {
+        type: EEssentialMIMETypes.TEXT_CSV, extension: EMIMEExtensions.CSV, group: EMIMEGroups.TEXT
+    },
+    {
+        type: EEssentialMIMETypes.TEXT_TSV, extension: EMIMEExtensions.TSV, group: EMIMEGroups.TEXT
+    }
+    ],
+    [EMIMEGroups.IMAGE]: [{
+        type: EEssentialMIMETypes.IMAGE_PNG, extension: EMIMEExtensions.PNG, group: EMIMEGroups.IMAGE
+    },
+    {
+        type: EEssentialMIMETypes.IMAGE_JPEG, extension: EMIMEExtensions.JPEG, group: EMIMEGroups.IMAGE
+    },
+    {
+        type: EEssentialMIMETypes.IMAGE_GIF, extension: EMIMEExtensions.GIF, group: EMIMEGroups.IMAGE
+    }
+    ],
+    [EMIMEGroups.VIDEO]: [{
+        type: EEssentialMIMETypes.VIDEO_MP4, extension: EMIMEExtensions.MP4, group: EMIMEGroups.VIDEO
+    }
+    ],
+    [EMIMEGroups.AUDIO]: [{
+        type: EEssentialMIMETypes.AUDIO_MPEG, extension: EMIMEExtensions.MP3, group: EMIMEGroups.AUDIO
+    }
+    ],
+    [EMIMEGroups.MULTIPART]: [{
+        type: EEssentialMIMETypes.MULTIPART_FORM_DATA, extension: EMIMEExtensions.MULTIPART, group: EMIMEGroups.MULTIPART
+    }
+    ],
+    [EMIMEGroups.APPLICATION]: [{
+        type: EEssentialMIMETypes.APPLICATION_JSON, extension: EMIMEExtensions.JSON, group: EMIMEGroups.APPLICATION
+    },
+    {
+        type: EEssentialMIMETypes.APPLICATION_XML, extension: EMIMEExtensions.XML, group: EMIMEGroups.APPLICATION
+    },
+    {
+        type: EEssentialMIMETypes.APPLICATION_JAVASCRIPT, extension: EMIMEExtensions.JS, group: EMIMEGroups.APPLICATION
+    }
+    ]
+} as const;

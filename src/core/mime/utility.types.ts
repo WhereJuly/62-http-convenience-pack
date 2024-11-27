@@ -1,11 +1,13 @@
 'use strict';
 
-export type TMIMETypeEntry<GMIMEType, GMIMEExtension, GMIMEGroup> = {
+import { EMIMEExtensions, EMIMEGroups } from './types/common.mime.js';
+
+export type TMIMETypeEntry<GMIMEType> = {
     type: GMIMEType;
-    extension: GMIMEExtension;
-    group: GMIMEGroup;
+    extension: EMIMEExtensions;
+    group: EMIMEGroups;
 };
 
-export type TExtendedMIMETypes<GMIMEType extends string, GMIMEExtension, GMIMEGroup> = {
-    [key in GMIMEType]: TMIMETypeEntry<GMIMEType, GMIMEExtension, GMIMEGroup>;
+export type TExtendedMIMETypes<GMIMEType extends string> = {
+    [key in GMIMEType]: TMIMETypeEntry<GMIMEType>;
 };
