@@ -2,8 +2,14 @@
 ---
 
 <div align="center">
+  <img src="./.docs/banner-3.jpg" width="100%"/>
+</div>
+
+<div align="center">
   <img src="./.docs/banner.jpg" width="100%"/>
 </div>
+
+Type-safe, RFC-compliant, auto-completable HTTP constants and convenience functions to ensure uniform values across the stack.
 
 **Summary**
 
