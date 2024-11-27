@@ -164,9 +164,14 @@ TBW: API & use cases.
 
 ### HTTP MIME Types
 
+Development: see [use cases](.docs/a&cd/mime/use-cases.md)
+
 WRITE:
 
 The MIME types values list, RFC 9110, uniform across your application. Get the type (via `mime/lite` package).
+
+Decide:
+- how the autocomplete should work on consumer side;
 
 ### HTTP Headers
 
