@@ -71,6 +71,10 @@ npm install http-convenience-pack
 
 #### Usage
 
+**Conventions**
+
+In the code you see I apply the following conventions with great comfort: start interface names with `I`, enums with `E`, type aliases with `T`. Abbreviations are always in caps (satisfactory comfort). Hope you appreciate.
+
 > NB: Create all examples in the actual typescript file to check correctness and put here.
 
 Ensure the uniform methods values are used across your application.
