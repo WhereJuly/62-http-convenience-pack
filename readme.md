@@ -11,7 +11,7 @@
 
 Type-safe, RFC-compliant, auto-completable HTTP constants and convenience functions to ensure uniform values across the stack.
 
-> Reflect actual list of the pack's modules (methods, statuses, MIME types, headers) in the sub-line.
+> Reflect actual list of the pack's modules (methods, statuses, MIME Types, headers) in the sub-line.
 > Make the banner as narrow as the initial version. 
 
 Use TypeScript type inference and IDE autocomplete functionality for the outstanding comfort and type safety in HTTP constants manipulations.
@@ -50,6 +50,15 @@ Where applicable for convenience use cases it has functionality (validation, nor
   - [HTTP Methods](#http-methods)
   - [HTTP Statuses](#http-statuses)
   - [HTTP MIME Types](#http-mime-types)
+    - [At a Glance](#at-a-glance)
+    - [The MIME Type Object](#the-mime-type-object)
+    - [Predefined MIME Types](#predefined-mime-types)
+    - [Extend Built-In MIME Types](#extend-built-in-mime-types)
+    - [API Reference](#api-reference)
+      - [`MIME_TYPES_BUILTIN` Constant](#mime_types_builtin-constant)
+      - [`GROUPED_MIME_TYPES_BUILTIN` Constant](#grouped_mime_types_builtin-constant)
+      - [`MIME_TYPES_POPULAR` Constant](#mime_types_popular-constant)
+      - [`EMIMEGroups` Enum](#emimegroups-enum)
   - [HTTP Headers](#http-headers)
 - [Use Cases](#use-cases)
   - [Use with HTTP Custom Methods](#use-with-http-custom-methods)
@@ -170,10 +179,12 @@ const handler = (req: Request, res: Response): void => {
 ---
 
 Refactor (TBC):
+
 - no need in instance, extend as i did with Mime Types;
 - add group to TStatuses, keep GROUPED_STATUS_CODES as convenient representation;
 - refactor the ofGroup, inGroup with this regard;
 - rename isAllowed to inList, see Mime Types `inList`;
+
 ---
 
 TBW: API & use cases.
@@ -182,12 +193,114 @@ TBW: API & use cases.
 
 Development: see [use cases](.docs/a&cd/mime/use-cases.md)
 
-WRITE:
+WRITE: The MIME Types values list, RFC 9110, uniform across your application.
 
-The MIME types values list, RFC 9110, uniform across your application. Get the type (via `mime/lite` package).
+---
 
-Decide:
-- how the autocomplete should work on consumer side;
+#### At a Glance
+
+MIME Types objects, built-in and "popular" extension supplied with the Pack.
+
+```typescript
+console.log(MIME_TYPES_BUILTIN); // All the built-in MIME Types objects
+
+// Single MIME Type object
+console.log(MIME_TYPES_BUILTIN['image/png']); // { type: 'image/png', extension: '.png', group: 'IMAGE' };
+console.log(MIME_TYPES_BUILTIN['image/png'].extension); // '.png' };
+console.log(EBuiltInMIMETypes); // All built-in MIME Types string constants
+console.log(EBuiltInMIMETypes.AUDIO_MPEG);  // 'audio/mpeg'
+```
+
+The above built-in MIME Types grouped by [`EMIMEGroups`](#emimegroups-enum)
+
+```typescript
+// Code
+console.log(GROUPED_MIME_TYPES_BUILTIN);
+// Output extract, shortened for brevity
+{
+  TEXT: [
+    { type: 'text/plain', extension: '.txt', group: 'TEXT' },
+    { type: 'text/html', extension: '.html', group: 'TEXT' }, /* more here */
+  ],
+  IMAGE: [
+    { type: 'image/png', extension: '.png', group: 'IMAGE' }, /* more here */
+  ]
+}
+```
+
+The extension [`MIME_TYPES_POPULAR`](#mime_types_popular-constant).
+
+```typescript
+console.log(MIME_TYPES_POPULAR); // All the popular MIME Types objects
+console.log(MIME_TYPES_POPULAR['application/java-archive']); // { type: 'application/gzip', extension: '.gz', group: 'APPLICATION' }
+console.log(MIME_TYPES_POPULAR['application/gzip'].group); // 'APPLICATION'
+console.log(EPopularMIMETypes); // All "popular" MIME Types string constants
+```
+
+
+#### The MIME Type Object
+
+The module provides the MIME Types as predefined typed constant - readonly objects that under the hood look like this (the part of actual `console.log(MIME_TYPES_BUILTIN)` output):
+
+```typescript
+{
+  'application/json': { type: 'application/json', extension: 'json', group: 'APPLICATION' },
+  'text/plain': { type: 'text/plain', extension: 'txt', group: 'TEXT' },
+}
+```
+
+Here is the member of the `MIME_TYPES_BUILTIN`
+
+```typescript
+console.log(MIME_TYPES_BUILTIN['image/png']); // { type: 'image/png', extension: 'png', group: 'IMAGE' };
+```
+
+#### Predefined MIME Types
+
+There are two predefined sets of MIME Types coming with the pack (`MIME_TYPES_BUILTIN` and `MIME_TYPES_POPULAR`). You can add your own [custom MIME Types](#extend-built-in-mime-types) following the link.
+
+> Describe all available enums including grouped with autocomplete. Insert module-relevant autocomplete demo GIF here.
+
+#### Extend Built-In MIME Types
+
+There is a set of predefined "popular" `MIME_TYPES_POPULAR` MIME Types you can extend the built-in ones with couples of line.
+
+```typescript
+import { MIME_TYPES_POPULAR } from 'http-convenience-pack';
+
+HTTPMIMETypesConvenience.extend(MIME_TYPES_POPULAR);
+```
+
+Do this before first use of `HTTPMIMETypesConvenience` class. `HTTPMIMETypesConvenience.types` getter now provides `MIME_TYPES_BUILTIN` and `MIME_TYPES_POPULAR` types everywhere in the application.
+
+> Describe: how to create the typed constant.
+
+#### API Reference
+
+##### `MIME_TYPES_BUILTIN` Constant
+
+The typed readonly constant [MIME type objects](#the-mime-type-object) with autocomplete. Contains 14 most used MIME Types ([source code](src/core/mime/types/builtin.mime.ts)) each with group and file extension.
+
+> GIF with autocomplete demo for all the enums and nested properties.
+
+**Usage**
+
+```typescript
+console.log(MIME_TYPES_BUILTIN); // The entire constant
+console.log(MIME_TYPES_BUILTIN['image/png']); // { type: 'image/png', extension: 'png', group: 'IMAGE' };
+```
+
+##### `GROUPED_MIME_TYPES_BUILTIN` Constant
+
+The `MIME_TYPES_BUILTIN` content grouped by `EMIMEGroups` enum.
+
+##### `MIME_TYPES_POPULAR` Constant
+
+Similar to `MIME_TYPES_BUILTIN`, contains 32 "popular" MIME Types ([source code](src/core/mime/types/popular.mime.ts)).
+
+##### `EMIMEGroups` Enum
+
+Defines ([source code](src/core/mime/types/common.mime.ts)) all the 11 MIME Types groups according to the [IANA Media Types](https://www.iana.org/assignments/media-types/media-types.xhtml) document (updated 2024-11-26).
 
 ### HTTP Headers
 
