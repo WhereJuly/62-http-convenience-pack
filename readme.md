@@ -53,6 +53,7 @@ Where applicable for convenience use cases it has functionality (validation, nor
   - [Use with HTTP Custom Methods](#use-with-http-custom-methods)
 - [API](#api)
   - [HTTP Methods](#http-methods-1)
+- [Contribution Guideline](#contribution-guideline)
 
 ## Overview
 
@@ -236,3 +237,7 @@ HTTPmethodsConvenience.isValid('GET'); // true
 HTTPmethodsConvenience.isValid(['GET', 'PUT']); // true
 HTTPmethodsConvenience.isValid(['GET', 'PUT', 'some']); // false
 ```
+
+## Contribution Guideline
+
+New code (additional enum members, constants, functionality): accompany the new code with the use case code example and description.
