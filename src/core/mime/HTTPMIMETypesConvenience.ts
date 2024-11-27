@@ -17,4 +17,12 @@ export default class HTTPMIMETypesConvenience {
         this.extended = customExtended;
     }
 
+    public static reset(): void {
+        this.extended = null;
+    }
+
+    public static get isExtended(): boolean {
+        return !!this.extended;
+    }
+
 }
