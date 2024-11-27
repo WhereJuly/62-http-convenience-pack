@@ -1,3 +1,4 @@
+/
 
 ---
 
@@ -12,7 +13,7 @@
 Type-safe, RFC-compliant, auto-completable HTTP constants and convenience functions to ensure uniform values across the stack.
 
 > Reflect actual list of the pack's modules (methods, statuses, MIME Types, headers) in the sub-line.
-> Make the banner as narrow as the initial version. 
+> Make the banner as narrow as the initial version.
 
 Use TypeScript type inference and IDE autocomplete functionality for the outstanding comfort and type safety in HTTP constants manipulations.
 
@@ -47,23 +48,21 @@ Where applicable for convenience use cases it has functionality (validation, nor
     - [Installation](#installation)
     - [Autocomplete Demo](#autocomplete-demo)
     - [Usage](#usage)
-  - [HTTP Methods](#http-methods)
-  - [HTTP Statuses](#http-statuses)
-  - [HTTP MIME Types](#http-mime-types)
-    - [At a Glance](#at-a-glance)
-    - [The MIME Type Object](#the-mime-type-object)
-    - [Predefined MIME Types](#predefined-mime-types)
-    - [Extend Built-In MIME Types](#extend-built-in-mime-types)
-    - [API Reference](#api-reference)
-      - [`MIME_TYPES_BUILTIN` Constant](#mime_types_builtin-constant)
-      - [`GROUPED_MIME_TYPES_BUILTIN` Constant](#grouped_mime_types_builtin-constant)
-      - [`MIME_TYPES_POPULAR` Constant](#mime_types_popular-constant)
-      - [`EMIMEGroups` Enum](#emimegroups-enum)
-  - [HTTP Headers](#http-headers)
-- [Use Cases](#use-cases)
+- [HTTP Methods](#http-methods)
+  - [At a Glance](#at-a-glance)
   - [Use with HTTP Custom Methods](#use-with-http-custom-methods)
-- [API](#api)
-  - [HTTP Methods](#http-methods-1)
+- [HTTP Statuses](#http-statuses)
+- [HTTP MIME Types](#http-mime-types)
+  - [At a Glance](#at-a-glance-1)
+  - [The MIME Type Object](#the-mime-type-object)
+  - [Extend Built-In MIME Types](#extend-built-in-mime-types)
+  - [API Reference](#api-reference)
+    - [`MIME_TYPES_BUILTIN` Constant](#mime_types_builtin-constant)
+    - [`GROUPED_MIME_TYPES_BUILTIN` Constant](#grouped_mime_types_builtin-constant)
+    - [`MIME_TYPES_POPULAR` Constant](#mime_types_popular-constant)
+    - [`EMIMEGroups` Enum](#emimegroups-enum)
+- [HTTP Headers](#http-headers)
+  - [Use Cases](#use-cases)
 - [Contribution Guideline](#contribution-guideline)
 
 ## Overview
@@ -125,15 +124,15 @@ Methods.isAllowed(request.method); // true
 Methods.isAllowed(request.method, allowed); // false
 
 // This will iterate over keys in `request.headers` object,  normalize each one,
-// find the desired header and by default extract the token with `Bearer token` value scheme. 
+// find the desired header and by default extract the token with `Bearer token` value scheme.
 const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION)
 
 // It can extract different standard Authentication schemes and your custom ones.
-// If no scheme provided it detects the decode scheme based on the header 
+// If no scheme provided it detects the decode scheme based on the header
 // actual value prefix (extracting it and trying against Bearer, Basic, Digest ones) or throws.
-// If scheme is provided explicitly it tries to decode extract and return the respective value 
+// If scheme is provided explicitly it tries to decode extract and return the respective value
 // or throws if the scheme does not match. If scheme matches but no value is provided it returns null.
-const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION, 
+const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION,
   EHTTPAuthenticationScheme.{Bearer, Basic, Digest, Custom}, () => { // required for EHTTPAuthenticationScheme.Custom })
 // Pass the token further down the middleware chain to use.
 ```
@@ -151,166 +150,43 @@ const handler = (req: Request, res: Response): void => {
       EHTTPHeaders.CONTENT_TYPE: EHTTPMIMETypes.APPLICATION_JSON
     })
     .status(THTTPStatuses[200].code)
-    // Here for brevity. May use it in custom error handler. Here Express would set the default message ('OK'). 
-    .statusMessage(THTTPStatuses[200].message) 
+    // Here for brevity. May use it in custom error handler. Here Express would set the default message ('OK').
+    .statusMessage(THTTPStatuses[200].message)
     .send(bodyString);
 };
 ```
 
-### HTTP Methods
+## HTTP Methods
 
 - Ensure the valid ([RFC 9110 Methods](https://www.rfc-editor.org/rfc/rfc9110.html#section-9)) uniform methods values are used across your application;
 - Check if the given method(s) valid;
 - Normalize given method(s) to uniform value (throwing and non-throwing)
 - Check given methods are allowed for your specific use cases ("is in the list");
 
-### HTTP Statuses
+### At a Glance
 
-- Ensure you use the latest valid status codes and messages from [RFC 9110 Status Codes](https://www.rfc-editor.org/rfc/rfc9110.html#section-15) across your application;
-- Comfortably autocomplete desired status values from a typed constant like this `console.log(THTTPStatuses[200]) // { code: 200, message: 'Success' }`.
-- Check the given status belongs to statuses groups ("1xx: Info", "2xx: Success" etc.)
-- Check the given status is allowed for your specific use cases ("is in the list");
-
-> Use case for isAmong for my frontend where I decide what to do depending on codes.
-> Use cases for exported types: create your own types enum groups, make custom groups of Status objects 
-> (like subsets of standard codes with custom messages) to retrieve custom message by code,
-> detect if code is valid, in group, of group with custom groups.
-
----
-
-Refactor (TBC):
-
-- no need in instance, extend as i did with Mime Types;
-- add group to TStatuses, keep GROUPED_STATUS_CODES as convenient representation;
-- refactor the ofGroup, inGroup with this regard;
-- rename isAllowed to inList, see Mime Types `inList`;
-
----
-
-TBW: API & use cases.
-
-### HTTP MIME Types
-
-Development: see [use cases](.docs/a&cd/mime/use-cases.md)
-
-WRITE: The MIME Types values list, RFC 9110, uniform across your application.
-
----
-
-#### At a Glance
-
-MIME Types objects, built-in and "popular" extension supplied with the Pack.
+Ensure the uniform methods values are used across your application.
 
 ```typescript
-console.log(MIME_TYPES_BUILTIN); // All the built-in MIME Types objects
+import { EHTTPMethods } from './src/methods/methods.ts';
 
-// Single MIME Type object
-console.log(MIME_TYPES_BUILTIN['image/png']); // { type: 'image/png', extension: '.png', group: 'IMAGE' };
-console.log(MIME_TYPES_BUILTIN['image/png'].extension); // '.png' };
-console.log(EBuiltInMIMETypes); // All built-in MIME Types string constants
-console.log(EBuiltInMIMETypes.AUDIO_MPEG);  // 'audio/mpeg'
+// Browser or Node
+const response = await fetch('https://api.example.com/data', {
+ method: EHTTPMethods.GET
+});
 ```
 
-The above built-in MIME Types grouped by [`EMIMEGroups`](#emimegroups-enum)
+Check a method or a list of methods is valid.
 
 ```typescript
-// Code
-console.log(GROUPED_MIME_TYPES_BUILTIN);
-// Output extract, shortened for brevity
-{
-  TEXT: [
-    { type: 'text/plain', extension: '.txt', group: 'TEXT' },
-    { type: 'text/html', extension: '.html', group: 'TEXT' }, /* more here */
-  ],
-  IMAGE: [
-    { type: 'image/png', extension: '.png', group: 'IMAGE' }, /* more here */
-  ]
-}
+import HTTPmethodsConvenience from './src/methods/methods.ts';
+
+HTTPmethodsConvenience.isValid('some'); // false
+HTTPmethodsConvenience.isValid(['some', 'other']); // false
+HTTPmethodsConvenience.isValid('GET'); // true
+HTTPmethodsConvenience.isValid(['GET', 'PUT']); // true
+HTTPmethodsConvenience.isValid(['GET', 'PUT', 'some']); // false
 ```
-
-The extension [`MIME_TYPES_POPULAR`](#mime_types_popular-constant).
-
-```typescript
-console.log(MIME_TYPES_POPULAR); // All the popular MIME Types objects
-console.log(MIME_TYPES_POPULAR['application/java-archive']); // { type: 'application/gzip', extension: '.gz', group: 'APPLICATION' }
-console.log(MIME_TYPES_POPULAR['application/gzip'].group); // 'APPLICATION'
-console.log(EPopularMIMETypes); // All "popular" MIME Types string constants
-```
-
-
-#### The MIME Type Object
-
-The module provides the MIME Types as predefined typed constant - readonly objects that under the hood look like this (the part of actual `console.log(MIME_TYPES_BUILTIN)` output):
-
-```typescript
-{
-  'application/json': { type: 'application/json', extension: 'json', group: 'APPLICATION' },
-  'text/plain': { type: 'text/plain', extension: 'txt', group: 'TEXT' },
-}
-```
-
-Here is the member of the `MIME_TYPES_BUILTIN`
-
-```typescript
-console.log(MIME_TYPES_BUILTIN['image/png']); // { type: 'image/png', extension: 'png', group: 'IMAGE' };
-```
-
-#### Predefined MIME Types
-
-There are two predefined sets of MIME Types coming with the pack (`MIME_TYPES_BUILTIN` and `MIME_TYPES_POPULAR`). You can add your own [custom MIME Types](#extend-built-in-mime-types) following the link.
-
-> Describe all available enums including grouped with autocomplete. Insert module-relevant autocomplete demo GIF here.
-
-#### Extend Built-In MIME Types
-
-There is a set of predefined "popular" `MIME_TYPES_POPULAR` MIME Types you can extend the built-in ones with couples of line.
-
-```typescript
-import { MIME_TYPES_POPULAR } from 'http-convenience-pack';
-
-HTTPMIMETypesConvenience.extend(MIME_TYPES_POPULAR);
-```
-
-Do this before first use of `HTTPMIMETypesConvenience` class. `HTTPMIMETypesConvenience.types` getter now provides `MIME_TYPES_BUILTIN` and `MIME_TYPES_POPULAR` types everywhere in the application.
-
-> Describe: how to create the typed constant.
-
-#### API Reference
-
-##### `MIME_TYPES_BUILTIN` Constant
-
-The typed readonly constant [MIME type objects](#the-mime-type-object) with autocomplete. Contains 14 most used MIME Types ([source code](src/core/mime/types/builtin.mime.ts)) each with group and file extension.
-
-> GIF with autocomplete demo for all the enums and nested properties.
-
-**Usage**
-
-```typescript
-console.log(MIME_TYPES_BUILTIN); // The entire constant
-console.log(MIME_TYPES_BUILTIN['image/png']); // { type: 'image/png', extension: 'png', group: 'IMAGE' };
-```
-
-##### `GROUPED_MIME_TYPES_BUILTIN` Constant
-
-The `MIME_TYPES_BUILTIN` content grouped by `EMIMEGroups` enum.
-
-##### `MIME_TYPES_POPULAR` Constant
-
-Similar to `MIME_TYPES_BUILTIN`, contains 32 "popular" MIME Types ([source code](src/core/mime/types/popular.mime.ts)).
-
-##### `EMIMEGroups` Enum
-
-Defines ([source code](src/core/mime/types/common.mime.ts)) all the 11 MIME Types groups according to the [IANA Media Types](https://www.iana.org/assignments/media-types/media-types.xhtml) document (updated 2024-11-26).
-
-### HTTP Headers
-
-See [readme](src/headers/implement.md)
-
-## Use Cases
-
-> UPD: Will see if I need this section here or in Overview just list the use cases in natural language (like what I made in Quick Start).
-> Write the basic usage docs. Describe different use cases in a separate section. Describe formal API.
-> Do this first from imagined use cases. Refine it as you use it yourself.
 
 ### Use with HTTP Custom Methods
 
@@ -339,32 +215,154 @@ const cMethods.normalize('unlink') // 'UNLINK'
 
 To use the single instance across the application you may either extend the original `HTTPMethodsConvenience` class adding the custom methods to the extended one. Or use DI container (e.g. [tsyringe](https://github.com/microsoft/tsyringe) or others) to instantiate the singleton with custom methods centrally then taking it from the DI container.
 
-## API
+## HTTP Statuses
 
-### HTTP Methods
+- Ensure you use the latest valid status codes and messages from [RFC 9110 Status Codes](https://www.rfc-editor.org/rfc/rfc9110.html#section-15) across your application;
+- Comfortably autocomplete desired status values from a typed constant like this `console.log(THTTPStatuses[200]) // { code: 200, message: 'Success' }`.
+- Check the given status belongs to statuses groups ("1xx: Info", "2xx: Success" etc.)
+- Check the given status is allowed for your specific use cases ("is in the list");
 
-Ensure the uniform methods values are used across your application.
+> Use case for isAmong for my frontend where I decide what to do depending on codes.
+> Use cases for exported types: create your own types enum groups, make custom groups of Status objects
+> (like subsets of standard codes with custom messages) to retrieve custom message by code,
+> detect if code is valid, in group, of group with custom groups.
+
+---
+
+Refactor (TBC):
+
+- no need in instance, extend as i did with Mime Types;
+- add group to TStatuses, keep GROUPED_STATUS_CODES as convenient representation;
+- refactor the ofGroup, inGroup with this regard;
+- rename isAllowed to inList, see Mime Types `inList`;
+
+---
+
+TBW: API & use cases.
+
+## HTTP MIME Types
+
+> Probably good to extract into a dedicated document.
+
+Development: see [use cases](.docs/a&cd/mime/use-cases.md)
+
+WRITE: The MIME Types values list, RFC 9110, uniform across your application.
+
+---
+
+### At a Glance
+
+There are two predefined sets of MIME Types coming with the pack ([`MIME_TYPES_BUILTIN`](#mime_types_builtin-constant) and [`MIME_TYPES_POPULAR`](#mime_types_popular-constant)). You can add your own [custom MIME Types](#extend-built-in-mime-types) following the link. There are as well [list and describe here all the enums with links to the API Reference section]
+
+MIME Types objects, built-in and "popular" extension supplied with the Pack.
 
 ```typescript
-import { EHTTPMethods } from './src/methods/methods.ts';
+console.log(MIME_TYPES_BUILTIN); // All the built-in MIME Types objects
 
-// Browser or Node
-const response = await fetch('https://api.example.com/data', {
- method: EHTTPMethods.GET
-});
+// Single MIME Type object
+console.log(MIME_TYPES_BUILTIN['image/png']); // { type: 'image/png', extension: '.png', group: 'IMAGE' };
+console.log(MIME_TYPES_BUILTIN['image/png'].extension); // '.png' };
+console.log(EBuiltInMIMETypes); // All built-in MIME Types string constants
+console.log(EBuiltInMIMETypes.AUDIO_MPEG); // 'audio/mpeg'
 ```
 
-Check a method or a list of methods is valid.
+The above built-in MIME Types grouped by [`EMIMEGroups`](#emimegroups-enum)
 
 ```typescript
-import HTTPmethodsConvenience from './src/methods/methods.ts';
-
-HTTPmethodsConvenience.isValid('some'); // false
-HTTPmethodsConvenience.isValid(['some', 'other']); // false
-HTTPmethodsConvenience.isValid('GET'); // true
-HTTPmethodsConvenience.isValid(['GET', 'PUT']); // true
-HTTPmethodsConvenience.isValid(['GET', 'PUT', 'some']); // false
+// Code
+console.log(GROUPED_MIME_TYPES_BUILTIN);
+// Output extract, shortened for brevity
+{
+  TEXT: [
+    { type: 'text/plain', extension: '.txt', group: 'TEXT' },
+    { type: 'text/html', extension: '.html', group: 'TEXT' }, /* more here */
+  ],
+  IMAGE: [
+    { type: 'image/png', extension: '.png', group: 'IMAGE' }, /* more here */
+  ]
+}
 ```
+
+The extension [`MIME_TYPES_POPULAR`](#mime_types_popular-constant).
+
+```typescript
+console.log(MIME_TYPES_POPULAR); // All the popular MIME Types objects
+console.log(MIME_TYPES_POPULAR['application/java-archive']); // { type: 'application/gzip', extension: '.gz', group: 'APPLICATION' }
+console.log(MIME_TYPES_POPULAR['application/gzip'].group); // 'APPLICATION'
+console.log(EPopularMIMETypes); // All "popular" MIME Types string constants
+```
+
+### The MIME Type Object
+
+The module provides the MIME Types as predefined typed constant - readonly objects that under the hood look like this (the part of actual `console.log(MIME_TYPES_BUILTIN)` output):
+
+```typescript
+{
+  'application/json': { type: 'application/json', extension: 'json', group: 'APPLICATION' },
+  'text/plain': { type: 'text/plain', extension: 'txt', group: 'TEXT' },
+}
+```
+
+Here is the member of the `MIME_TYPES_BUILTIN`
+
+```typescript
+console.log(MIME_TYPES_BUILTIN['image/png']); // { type: 'image/png', extension: 'png', group: 'IMAGE' };
+```
+
+### Extend Built-In MIME Types
+
+There is a set of predefined "popular" `MIME_TYPES_POPULAR` MIME Types you can extend the built-in ones with couples of line.
+
+```typescript
+import { MIME_TYPES_POPULAR } from 'http-convenience-pack';
+
+HTTPMIMETypesConvenience.extend(MIME_TYPES_POPULAR);
+```
+
+Do this before first use of `HTTPMIMETypesConvenience` class. `HTTPMIMETypesConvenience.types` getter now provides `MIME_TYPES_BUILTIN` and `MIME_TYPES_POPULAR` types everywhere in the application.
+
+> Describe: how to create the typed constant.
+
+### API Reference
+
+> Add the docblocks to enums and constants.
+
+> Describe all available enums including grouped with autocomplete. Insert module-relevant autocomplete demo GIF here. Explain all the class functionality.
+
+#### `MIME_TYPES_BUILTIN` Constant
+
+The typed readonly constant [MIME type objects](#the-mime-type-object) with autocomplete. Contains 14 most used MIME Types ([source code](src/core/mime/types/builtin.mime.ts)) each with group and file extension.
+
+> GIF with autocomplete demo for all the enums and nested properties.
+
+**Usage**
+
+```typescript
+console.log(MIME_TYPES_BUILTIN); // The entire constant
+console.log(MIME_TYPES_BUILTIN['image/png']); // { type: 'image/png', extension: 'png', group: 'IMAGE' };
+```
+
+#### `GROUPED_MIME_TYPES_BUILTIN` Constant
+
+The `MIME_TYPES_BUILTIN` content grouped by `EMIMEGroups` enum.
+
+#### `MIME_TYPES_POPULAR` Constant
+
+Similar to `MIME_TYPES_BUILTIN`, contains 32 "popular" MIME Types ([source code](src/core/mime/types/popular.mime.ts)).
+
+#### `EMIMEGroups` Enum
+
+Defines ([source code](src/core/mime/types/common.mime.ts)) all the 11 MIME Types groups according to the [IANA Media Types](https://www.iana.org/assignments/media-types/media-types.xhtml) document (updated 2024-11-26).
+
+## HTTP Headers
+
+See [readme](src/headers/implement.md)
+
+### Use Cases
+
+> UPD: Will see if I need this section here or in Overview just list the use cases in natural language (like what I made in Quick Start).
+> Write the basic usage docs. Describe different use cases in a separate section. Describe formal API.
+> Do this first from imagined use cases. Refine it as you use it yourself.
 
 ## Contribution Guideline
 
