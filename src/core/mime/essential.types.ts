@@ -1,7 +1,5 @@
 'use strict';
 
-'use strict';
-
 export enum EEssentialMIMETypes {
     APPLICATION_JSON = "application/json",
     TEXT_PLAIN = "text/plain",
