@@ -2,7 +2,7 @@
 
 // NB: Will try to use to extend the essential MIME types
 
-export enum EExtendedMIMETypes {
+export enum EPopularMIMETypes {
     // Text MIME Types
     TEXT_XML = "text/xml",
     TEXT_YAML = "text/yaml",
@@ -54,7 +54,7 @@ export enum EExtendedMIMETypes {
     APPLICATION_JSONLD = "application/ld+json",
 }
 
-export enum EExtendedMIMEGroups {
+export enum EPopularMIMEGroups {
     TEXT = "TEXT",
     IMAGE = "IMAGE",
     VIDEO = "VIDEO",
@@ -66,37 +66,37 @@ export enum EExtendedMIMEGroups {
 }
 
 export const GROUPED_EXTENDED_MIME_TYPES = {
-    [EExtendedMIMEGroups.TEXT]: [
-        EExtendedMIMETypes.TEXT_XML, EExtendedMIMETypes.TEXT_YAML, EExtendedMIMETypes.TEXT_MARKDOWN,
-        EExtendedMIMETypes.TEXT_RICHTEXT,
+    [EPopularMIMEGroups.TEXT]: [
+        EPopularMIMETypes.TEXT_XML, EPopularMIMETypes.TEXT_YAML, EPopularMIMETypes.TEXT_MARKDOWN,
+        EPopularMIMETypes.TEXT_RICHTEXT,
     ],
-    [EExtendedMIMEGroups.IMAGE]: [
-        EExtendedMIMETypes.IMAGE_BMP, EExtendedMIMETypes.IMAGE_SVG_XML, EExtendedMIMETypes.IMAGE_WEBP,
-        EExtendedMIMETypes.IMAGE_HEIF,
+    [EPopularMIMEGroups.IMAGE]: [
+        EPopularMIMETypes.IMAGE_BMP, EPopularMIMETypes.IMAGE_SVG_XML, EPopularMIMETypes.IMAGE_WEBP,
+        EPopularMIMETypes.IMAGE_HEIF,
     ],
-    [EExtendedMIMEGroups.VIDEO]: [
-        EExtendedMIMETypes.VIDEO_WEBM, EExtendedMIMETypes.VIDEO_OGG, EExtendedMIMETypes.VIDEO_AVI,
-        EExtendedMIMETypes.VIDEO_3GP,
+    [EPopularMIMEGroups.VIDEO]: [
+        EPopularMIMETypes.VIDEO_WEBM, EPopularMIMETypes.VIDEO_OGG, EPopularMIMETypes.VIDEO_AVI,
+        EPopularMIMETypes.VIDEO_3GP,
     ],
-    [EExtendedMIMEGroups.AUDIO]: [
-        EExtendedMIMETypes.AUDIO_WAV, EExtendedMIMETypes.AUDIO_OGG, EExtendedMIMETypes.AUDIO_FLAC,
-        EExtendedMIMETypes.AUDIO_WEBM,
+    [EPopularMIMEGroups.AUDIO]: [
+        EPopularMIMETypes.AUDIO_WAV, EPopularMIMETypes.AUDIO_OGG, EPopularMIMETypes.AUDIO_FLAC,
+        EPopularMIMETypes.AUDIO_WEBM,
     ],
-    [EExtendedMIMEGroups.APPLICATION]: [
-        EExtendedMIMETypes.APPLICATION_PDF, EExtendedMIMETypes.APPLICATION_ZIP,
-        EExtendedMIMETypes.APPLICATION_GZIP, EExtendedMIMETypes.APPLICATION_TAR,
-        EExtendedMIMETypes.APPLICATION_JAR, EExtendedMIMETypes.APPLICATION_XHTML_XML,
+    [EPopularMIMEGroups.APPLICATION]: [
+        EPopularMIMETypes.APPLICATION_PDF, EPopularMIMETypes.APPLICATION_ZIP,
+        EPopularMIMETypes.APPLICATION_GZIP, EPopularMIMETypes.APPLICATION_TAR,
+        EPopularMIMETypes.APPLICATION_JAR, EPopularMIMETypes.APPLICATION_XHTML_XML,
     ],
-    [EExtendedMIMEGroups.MULTIPART]: [
-        EExtendedMIMETypes.MULTIPART_MIXED, EExtendedMIMETypes.MULTIPART_ALTERNATIVE,
-        EExtendedMIMETypes.MULTIPART_RELATED,
+    [EPopularMIMEGroups.MULTIPART]: [
+        EPopularMIMETypes.MULTIPART_MIXED, EPopularMIMETypes.MULTIPART_ALTERNATIVE,
+        EPopularMIMETypes.MULTIPART_RELATED,
     ],
-    [EExtendedMIMEGroups.FONT]: [
-        EExtendedMIMETypes.FONT_TTF, EExtendedMIMETypes.FONT_OTF, EExtendedMIMETypes.FONT_WOFF,
-        EExtendedMIMETypes.FONT_WOFF2,
+    [EPopularMIMEGroups.FONT]: [
+        EPopularMIMETypes.FONT_TTF, EPopularMIMETypes.FONT_OTF, EPopularMIMETypes.FONT_WOFF,
+        EPopularMIMETypes.FONT_WOFF2,
     ],
-    [EExtendedMIMEGroups.DATA]: [
-        EExtendedMIMETypes.APPLICATION_SQL, EExtendedMIMETypes.APPLICATION_XSQL,
-        EExtendedMIMETypes.APPLICATION_JSONLD,
+    [EPopularMIMEGroups.DATA]: [
+        EPopularMIMETypes.APPLICATION_SQL, EPopularMIMETypes.APPLICATION_XSQL,
+        EPopularMIMETypes.APPLICATION_JSONLD,
     ],
 } as const;
