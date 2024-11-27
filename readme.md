@@ -70,7 +70,7 @@ Where applicable for convenience use cases it has functionality (validation, nor
 
 ### Documentation
 
-The package is carefully documented. From the good-named identifiers in code, autocompletion, doc blocks with usage examples on enums, constants classes and methods to the detailed readme with use cases and modules API references.
+The package is carefully documented for comfortable developer experience. From the good-named identifiers in code, thought-out autocompletion with animated GIF [demo](#autocomplete-demo), hover-popup doc blocks with usage examples on enums, constants classes and methods to the detailed readme with use cases and the modules' API references.
 
 There is a [Discussion](https://github.com/WhereJuly/62-http-convenience-pack/discussions) for specific subjects and question.
 
