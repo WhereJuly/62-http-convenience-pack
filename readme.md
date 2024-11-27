@@ -165,6 +165,15 @@ const handler = (req: Request, res: Response): void => {
 > (like subsets of standard codes with custom messages) to retrieve custom message by code,
 > detect if code is valid, in group, of group with custom groups.
 
+---
+
+Refactor (TBC):
+- no need in instance, extend as i did with Mime Types;
+- add group to TStatuses, keep GROUPED_STATUS_CODES as convenient representation;
+- refactor the ofGroup, inGroup with this regard;
+- rename isAllowed to inList, see Mime Types `inList`;
+---
+
 TBW: API & use cases.
 
 ### HTTP MIME Types
