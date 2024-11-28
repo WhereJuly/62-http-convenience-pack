@@ -135,10 +135,47 @@ export default class HTTPMIMETypesConvenience2 {
      * ```
      */
     public static inGroup(typeName: string, group: string): boolean {
-        const found = Object.values(HTTPMIMETypesConvenience2.types)
-            .find((typeRecord: TMIMETypeObject<TSource>) => { return typeRecord.type === typeName; });
+        const found = HTTPMIMETypesConvenience2.findBy(typeName);
 
         return found?.group === group;
+    }
+
+    /**
+     * Retrieves the group of a given MIME type from
+     * the MIME Types Registry {@link HTTPMIMETypesConvenience2.types}.
+     * 
+     * @static
+     * 
+     * @param {string} typeName - The MIME type name for which to retrieve the group.
+     * 
+     * @returns {string | null} The group of the MIME type if found, otherwise `null`.
+     * 
+     * @example Retrieve the group for a specific MIME type
+     * 
+     * ```typescript
+     * const group = HTTPMIMETypesConvenience2.ofGroup('application/json');
+     * console.log(group); // 'APPLICATION' or null if not found
+     * ```
+     */
+    public static ofGroup(typeName: string): string | null {
+        const found = HTTPMIMETypesConvenience2.findBy(typeName);
+
+        return found ? found.group : null;
+    }
+
+    public static pickBy(value: string): (TMIMETypeObject<TSource>)[] | null {
+        const multiple = Object.values(HTTPMIMETypesConvenience2.types)
+            .filter((typeRecord: TMIMETypeObject<TSource>) => { return typeRecord.type === value; });
+
+        return multiple ?? null;
+    }
+
+    // WARNING: So far implement only for Type attribute.
+    private static findBy(value: string): TMIMETypeObject<TSource> | null {
+        const found = Object.values(HTTPMIMETypesConvenience2.types)
+            .find((typeRecord: TMIMETypeObject<TSource>) => { return typeRecord.type === value; });
+
+        return found ?? null;
     }
 
 }

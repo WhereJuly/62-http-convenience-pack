@@ -8,8 +8,8 @@ import { MIME_TYPES_BUILTIN, MIME_TYPES_EXTENSIONS_BUILTIN, MIME_TYPES_GROUPS_BU
 import { MIMEExtensionsFactory, MIMEGroupsFactory, MIMETypesGenericRegistryFactory } from '@src/core/mime2/factories.js';
 
 const fixture = [
-    ['custom/json', 'json', '.json'],
-    ['custom/plain', 'txt', '.txt'],
+    ['custom/json', 'CUSTOM', '.json'],
+    ['custom/plain', 'CUSTOM', '.txt'],
 ] as const;
 
 const MIME_TYPES_EXTENDED = MIMETypesGenericRegistryFactory<typeof fixture>(fixture);
@@ -102,7 +102,7 @@ describe('HTTPMIMETypesConvenience2Test', () => {
         expect(actual.isAmong('text/xml', ['application/gzip', 'application/json'])).toEqual(false);
     });
 
-    it('+static inGroup(): check the provided type belongs to a given group', () => {
+    it('+static inGroup(): Should check the provided type belongs to a given group', () => {
         const actual = HTTPMIMETypesConvenience2;
 
         expect(actual.inGroup('application/gzip', MIME_TYPES_GROUPS_BUILTIN.APPLICATION)).toEqual(true);
@@ -110,7 +110,17 @@ describe('HTTPMIMETypesConvenience2Test', () => {
         expect(actual.inGroup('wrong', MIME_TYPES_GROUPS_BUILTIN.AUDIO)).toEqual(false);
     });
 
-    // Assert: ofGroup
+    it('+static ofGroup(): Should return group for the given type', () => {
+        const actual = HTTPMIMETypesConvenience2;
+        actual.extend(MIME_TYPES_EXTENDED);
+
+        expect(actual.ofGroup('application/gzip')).toEqual(MIME_TYPES_GROUPS_BUILTIN.APPLICATION);
+        expect(actual.ofGroup(MIME_TYPES_EXTENDED['custom/json'].type)).toEqual('CUSTOM');
+        expect(actual.ofGroup('wrong')).toEqual(null);
+
+        actual.reset();
+    });
+
     // Assert: pickBy(attribute: EAttribute [type after the object keys], value: string): TMIMETypeEntry<GMIMEType, GMIMEExtension, GMIMEGroup> | null
     // Assert: get groups
     // Assert: enum autocompletion & enum values for all the enums, essential and popular.
