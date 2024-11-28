@@ -1,7 +1,7 @@
 'use strict';
 
+import { MIMETypesRegistryFactory } from '@src/core/mime2/factories.js';
 import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
-import HTTPMIMETypesConvenience2 from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
 import { TMIMETypesRegistry, TMIMETypeArray } from '@src/core/mime2/types.js';
 
 // NB: --- initial experimentation stub
@@ -21,7 +21,7 @@ const MIME_TYPES = Object.fromEntries(
 
 
 // WARNING: --- Success
-const MIME_RECORD_EXPERIMENT = HTTPMIMETypesConvenience2.createMIMETypes(BuiltInMIMETypesSource);
+const MIME_RECORD_EXPERIMENT = MIMETypesRegistryFactory(BuiltInMIMETypesSource);
 
 console.log(MIME_RECORD_EXPERIMENT['application/gzip']);
 console.log(MIME_RECORD_EXPERIMENT['application/gzip'].extension);

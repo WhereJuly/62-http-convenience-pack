@@ -4,29 +4,33 @@ import { describe, expect, it } from 'vitest';
 
 import HTTPMIMETypesConvenience2 from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
 import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
+import { MIME_TYPES_BUILTIN } from '@src/core/mime2/builtin.constants.js';
+import { MIMETypesRegistryFactory } from '@src/core/mime2/factories.js';
 
 describe('HTTPMIMETypesConvenience2Test', () => {
 
     it.skip('Console output for documentation snippets ', () => {
-        console.dir(HTTPMIMETypesConvenience2.types);
-        // console.dir(GROUPED_MIME_TYPES_BUILTIN);
-        // console.dir(MIME_TYPES_POPULAR['application/gzip'].group);
+        console.dir(HTTPMIMETypesConvenience2.types['application/gzip'].extension);
+        console.dir(MIME_TYPES_BUILTIN['application/gzip'].group);
+        console.dir(MIME_TYPES_BUILTIN['application/gzip'].type);
     });
 
     it('The static HTTPMIMETypesConvenience object should exist', () => {
         const actual = HTTPMIMETypesConvenience2;
 
         expect(actual).toBeDefined();
-        expect(actual.createMIMETypes).toBeInstanceOf(Function);
+        expect(MIMETypesRegistryFactory).toBeInstanceOf(Function);
         // expect(actual.types).toEqual(MIME_TYPES_BUILTIN);
         // expect(actual.extend).toBeInstanceOf(Function);
         // expect(actual.reset).toBeInstanceOf(Function);
     });
-    
-    it('+static createMIMETypes(): Should create the built-in MIME Types with autocomplete', () => {
-        const actual = HTTPMIMETypesConvenience2.createMIMETypes(BuiltInMIMETypesSource);
+
+    it('+static createMIMETypes(): Should create the built-in MIME Types Registry with autocomplete', () => {
+        const actual = MIMETypesRegistryFactory(BuiltInMIMETypesSource);
 
         expect(Object.keys(actual)).toHaveLength(BuiltInMIMETypesSource.length);
+        expect(HTTPMIMETypesConvenience2.types['application/gzip'].extension).toEqual('.gz');
+        expect(MIME_TYPES_BUILTIN['application/json'].extension).toEqual('.json');
     });
 
     // it('+static extend(), +get isExtended: Should add the extended types and check it', () => {
@@ -75,7 +79,7 @@ describe('HTTPMIMETypesConvenience2Test', () => {
     //     expect(actual.isAmong(EBuiltInMIMETypes.AUDIO_MPEG)).toEqual(true);
     //     expect(actual.isAmong(EPopularMIMETypes.APPLICATION_JAR)).toEqual(false); 
     //     expect(actual.isAmong('invalid')).toEqual(false); // NB: Check it accepts strings
-        
+
     //     expect(actual.isAmong(EBuiltInMIMETypes.AUDIO_MPEG, GROUPED_MIME_TYPES_BUILTIN.AUDIO)).toEqual(true);
     //     expect(actual.isAmong(EBuiltInMIMETypes.AUDIO_MPEG, GROUPED_MIME_TYPES_BUILTIN.APPLICATION)).toEqual(false);
 
