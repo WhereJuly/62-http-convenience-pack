@@ -1,8 +1,8 @@
 'use strict';
 
-import { BuiltInMIMETypes } from '@src/core/mime2/source/builtin.mime.js';
+import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
 import HTTPMIMETypesConvenience2 from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
-import { TMIMETypes, TMIMETypeArray } from '@src/core/mime2/types.js';
+import { TMIMETypesRegistry, TMIMETypeArray } from '@src/core/mime2/types.js';
 
 // NB: --- initial experimentation stub
 const _types = [
@@ -14,14 +14,14 @@ const _types = [
 
 // NB: --- Keep so far as an initial implementation.
 const MIME_TYPES = Object.fromEntries(
-    BuiltInMIMETypes.map(([type, group, extension]) => [
+    BuiltInMIMETypesSource.map(([type, group, extension]) => [
         type, { type, group, extension },
     ])
-) as TMIMETypes;
+) as TMIMETypesRegistry;
 
 
 // WARNING: --- Success
-const MIME_RECORD_EXPERIMENT = HTTPMIMETypesConvenience2.createMIMETypes(BuiltInMIMETypes);
+const MIME_RECORD_EXPERIMENT = HTTPMIMETypesConvenience2.createMIMETypes(BuiltInMIMETypesSource);
 
 console.log(MIME_RECORD_EXPERIMENT['application/gzip']);
 console.log(MIME_RECORD_EXPERIMENT['application/gzip'].extension);
@@ -38,7 +38,7 @@ type MIMEGroupRecord<T extends readonly (readonly [string, string, string])[]> =
 type MIMEGroup = MIMEGroupRecord<TMIMETypeArray>;
 
 const MIME_GROUPS: MIMEGroup = Object.fromEntries(
-    BuiltInMIMETypes.map(([_, group]) => [group, group])
+    BuiltInMIMETypesSource.map(([_, group]) => [group, group])
 ) as MIMEGroup;
 
 // --- MIME Extensions
@@ -50,7 +50,7 @@ type MIMEExtensionsRecord<T extends readonly (readonly [string, string, string])
 type MIMEExtensions = MIMEExtensionsRecord<TMIMETypeArray>;
 
 const MIME_EXTENSIONS: MIMEExtensions = Object.fromEntries(
-    BuiltInMIMETypes.map(([_, __, extension]) => [extension, extension])
+    BuiltInMIMETypesSource.map(([_, __, extension]) => [extension, extension])
 ) as MIMEExtensions;
 
 // --- Usage
