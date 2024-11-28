@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import HTTPMIMETypesConvenience2, { MIMExtensionInapplicable } from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
 import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
 import { MIME_TYPES_BUILTIN, MIME_TYPES_EXTENSIONS_BUILTIN, MIME_TYPES_GROUPS_BUILTIN } from '@src/core/mime2/builtin.constants.js';
-import { MIMEExtensionsFactory, MIMEGroupsFactory, MIMETypesRegistryFactory } from '@src/core/mime2/factories.js';
+import { MIMEExtensionsFactory, MIMEGroupsFactory, MIMETypesGenericRegistryFactory } from '@src/core/mime2/factories.js';
 
 describe('HTTPMIMETypesConvenience2Test', () => {
 
@@ -19,14 +19,14 @@ describe('HTTPMIMETypesConvenience2Test', () => {
         const actual = HTTPMIMETypesConvenience2;
 
         expect(actual).toBeDefined();
-        expect(MIMETypesRegistryFactory).toBeInstanceOf(Function);
+        expect(MIMETypesGenericRegistryFactory).toBeInstanceOf(Function);
         // expect(actual.types).toEqual(MIME_TYPES_BUILTIN);
         // expect(actual.extend).toBeInstanceOf(Function);
         // expect(actual.reset).toBeInstanceOf(Function);
     });
 
     it('MIMETypesRegistryFactory(): Should create the built-in MIME Types Registry with autocomplete', () => {
-        const actual = MIMETypesRegistryFactory(BuiltInMIMETypesSource);
+        const actual = MIMETypesGenericRegistryFactory(BuiltInMIMETypesSource);
 
         expect(Object.keys(actual)).toHaveLength(BuiltInMIMETypesSource.length);
         expect(HTTPMIMETypesConvenience2.types['application/gzip'].extension).toEqual('.gz');
@@ -48,23 +48,19 @@ describe('HTTPMIMETypesConvenience2Test', () => {
         expect(MIME_TYPES_EXTENSIONS_BUILTIN.inapplicable).toEqual(MIMExtensionInapplicable);
     });
 
-    // it('+static extend(), +get isExtended: Should add the extended types and check it', () => {
-    //     const actual = HTTPMIMETypesConvenience;
+    it('+static extend(), +get isExtended: Should add the extended types and check it', () => {
+        const actual = HTTPMIMETypesConvenience2;
+        const fixture = [
+            ['custom/json', 'json', '.json'],
+            ['custom/plain', 'txt', '.txt'],
+        ] as const;
+        const MIME_TYPES_EXTENDED = MIMETypesGenericRegistryFactory<typeof fixture>(fixture);
 
-    //     // Check .extend() with POJO
-    //     actual.extend({
-    //         'application/vnd.example.custom': {
-    //             type: 'application/vnd.example.custom',
-    //             extension: 'custom' as EMIMEExtensions,
-    //             group: 'custom' as EMIMEGroups,
-    //         },
-    //     });
+        actual.extend(MIME_TYPES_EXTENDED);
 
-    //     // Check .extend() with the correctly typed const
-    //     actual.extend(MIME_TYPES_POPULAR);
-
-    //     expect(actual.isExtended).toEqual(true);
-    // });
+        expect(actual.isExtended).toEqual(true);
+        expect(actual.types['application/gzip'].extension).toEqual('.gz');
+    });
 
     // it('+static reset(): check the class is extended ', () => {
     //     const actual = HTTPMIMETypesConvenience;

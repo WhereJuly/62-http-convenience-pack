@@ -1,14 +1,13 @@
 'use strict';
 
-import { TMIMEExtensions, TMIMEGroups, TMIMETypeArray, TMIMETypesRegistry } from '@src/core/mime2/types.js';
+import { TMIMEExtensions, TMIMEGroups, TMIMETypeArray, TMIMETypesRegistryGeneric, TSource } from '@src/core/mime2/types.js';
 
-// Use to create MIME Types Registry constants. Usually for extended types.
-export function MIMETypesRegistryFactory(mimeTypes: TMIMETypeArray): TMIMETypesRegistry {
+export function MIMETypesGenericRegistryFactory<GTSource extends readonly (TSource)[]>(mimeTypes: GTSource): TMIMETypesRegistryGeneric<GTSource> {
     return Object.fromEntries(
         mimeTypes.map(([type, group, extension]) => [
             type, { type, group, extension },
         ])
-    ) as TMIMETypesRegistry;
+    ) as TMIMETypesRegistryGeneric<GTSource>;
 }
 
 export function MIMEGroupsFactory(mimeTypes: TMIMETypeArray) {

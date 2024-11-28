@@ -2,7 +2,9 @@
 
 import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
 
-type TMIMETypeObject<T extends [string, string, string]> = {
+export type TSource = readonly [string, string, string];
+
+type TMIMETypeObject<T extends TSource> = {
     type: T[0];
     group: T[1];
     extension: T[2];
@@ -10,7 +12,7 @@ type TMIMETypeObject<T extends [string, string, string]> = {
 
 // WARNING: --- MIME Types Registry types ---
 
-type TMIMETypeRecord<T extends readonly (readonly [string, string, string])[]> = {
+export type TMIMETypeRecord<T extends readonly (TSource)[]> = {
     [K in T[number][0]]: TMIMETypeObject<[K, Extract<T[number], [K, string, string]>[1], Extract<T[number], [K, string, string]>[2]]>;
 };
 
@@ -20,11 +22,11 @@ type TMIMETypeRecord<T extends readonly (readonly [string, string, string])[]> =
  */
 export type TMIMETypeArray = typeof BuiltInMIMETypesSource;
 
-export type TMIMETypesRegistry = TMIMETypeRecord<TMIMETypeArray>;
+export type TMIMETypesRegistryGeneric<GTSource extends readonly (TSource)[]> = TMIMETypeRecord<GTSource>;
 
 // WARNING: --- MIME Types groups types ---
 
-type TMIMEGroupRecord<T extends readonly (readonly [string, string, string])[]> = {
+type TMIMEGroupRecord<T extends readonly (TSource)[]> = {
     [G in T[number][1]]: G; // Maps group keys to their own value
 };
 
@@ -32,7 +34,7 @@ export type TMIMEGroups = TMIMEGroupRecord<TMIMETypeArray>;
 
 // WARNING: --- MIME Types extensions types ---
 
-type TMIMEExtensionsRecord<T extends readonly (readonly [string, string, string])[]> = {
+type TMIMEExtensionsRecord<T extends readonly (TSource)[]> = {
     [E in T[number][2]]: E; // Maps extension keys to their own value
 };
 

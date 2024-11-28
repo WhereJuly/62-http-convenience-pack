@@ -1,8 +1,7 @@
 'use strict';
 
-import { MIMETypesRegistryFactory } from '@src/core/mime2/factories.js';
 import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
-import { TMIMETypesRegistry, TMIMEGroups, TMIMEExtensions } from '@src/core/mime2/types.js';
+import { TMIMEGroups, TMIMEExtensions, TMIMETypeRecord, TMIMETypeArray } from '@src/core/mime2/types.js';
 
 // NB: --- initial experimentation stub
 const _types = [
@@ -11,6 +10,7 @@ const _types = [
 ] as const; // Mark as const for literal types
 
 // type MIMETypeArray = typeof types;
+export type TMIMETypesRegistry = TMIMETypeRecord<TMIMETypeArray>;
 
 // NB: --- Keep so far as an initial implementation.
 const MIME_TYPES = Object.fromEntries(
@@ -18,15 +18,6 @@ const MIME_TYPES = Object.fromEntries(
         type, { type, group, extension },
     ])
 ) as TMIMETypesRegistry;
-
-
-// WARNING: --- Success
-const MIME_RECORD_EXPERIMENT = MIMETypesRegistryFactory(BuiltInMIMETypesSource);
-
-console.log(MIME_RECORD_EXPERIMENT['application/gzip']);
-console.log(MIME_RECORD_EXPERIMENT['application/gzip'].extension);
-
-// NB: --- End experiment
 
 // NB: --- Keep so far as an initial implementation.
 const MIME_GROUPS: TMIMEGroups = Object.fromEntries(
