@@ -163,6 +163,10 @@ export default class HTTPMIMETypesConvenience2 {
         return found ? found.group : null;
     }
 
+    /**
+     * This method is undocumented. Not officially available yet.
+     * @todo Suggest use cases. TDD implement.
+     */
     public static pickBy(value: string): (TMIMETypeObject<TSource>)[] | null {
         const multiple = Object.values(HTTPMIMETypesConvenience2.types)
             .filter((typeRecord: TMIMETypeObject<TSource>) => { return typeRecord.type === value; });
@@ -170,7 +174,10 @@ export default class HTTPMIMETypesConvenience2 {
         return multiple ?? null;
     }
 
-    // WARNING: So far implement only for Type attribute.
+    /**
+     * WARNING: So far implement only for Type attribute.
+     * @return {TMIMETypeObject<TSource> | null}
+     */
     private static findBy(value: string): TMIMETypeObject<TSource> | null {
         const found = Object.values(HTTPMIMETypesConvenience2.types)
             .find((typeRecord: TMIMETypeObject<TSource>) => { return typeRecord.type === value; });

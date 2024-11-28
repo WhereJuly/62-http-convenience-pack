@@ -121,10 +121,13 @@ describe('HTTPMIMETypesConvenience2Test', () => {
         actual.reset();
     });
 
+    /**
+     * @see {@link HTTPMIMETypesConvenience2.pickBy} method doc block
+     */
+    it.skip('+static pickBy(): Should return MIME Type objects for the', () => {
+    });
+
     // Assert: pickBy(attribute: EAttribute [type after the object keys], value: string): TMIMETypeEntry<GMIMEType, GMIMEExtension, GMIMEGroup> | null
     // Assert: get groups
-    // Assert: enum autocompletion & enum values for all the enums, essential and popular.
-    // Assert: create the typed MIME types constant, extend with it and see the autocomplete.
-
 
 });
