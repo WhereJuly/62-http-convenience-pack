@@ -53,7 +53,7 @@ Where applicable for convenience use cases it has functionality (validation, nor
   - [At a Glance](#at-a-glance)
   - [Use with HTTP Custom Methods](#use-with-http-custom-methods)
 - [HTTP Statuses](#http-statuses)
-- [HTTP MIME Types](#http-mime-types)
+- [HTTP MIME Types Module](#http-mime-types-module)
   - [At a Glance](#at-a-glance-1)
   - [The MIME Type Object](#the-mime-type-object)
   - [Extend Built-In MIME Types](#extend-built-in-mime-types)
@@ -248,9 +248,9 @@ Refactor (TBC):
 
 TBW: API & use cases.
 
-## HTTP MIME Types
+## HTTP MIME Types Module
 
-> Probably good to extract into a dedicated document.
+- [documentation](.docs/mime-types.md)
 
 Development: see [use cases](.docs/a&cd/mime/use-cases.md)
 
