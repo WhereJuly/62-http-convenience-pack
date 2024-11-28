@@ -44,7 +44,7 @@ export default class HTTPMIMETypesConvenience2 {
     }
 
     /**
-     * The polymorphic method to validate the provided MIME Type attribute value
+     * The method validates the provided MIME Type attribute value
      * against the values from {@link HTTPMIMETypesConvenience2.type} getter.
      * 
      * The actual attribute to compare against is defined by {@link EIsValidAttributes}.
@@ -56,7 +56,7 @@ export default class HTTPMIMETypesConvenience2 {
      * @param {EIsValidAttributes} attribute - The attribute to validate against.
      * @default EIsValidAttributes.TYPE
      * 
-     * @returns {boolean} `true` if the value is valid for the specified attribute, otherwise `false`.
+     * @returns {boolean} `true` if the value is valid for the provided attribute, otherwise `false`.
      * 
      * @example Implicit attribute validation (defaults to TYPE)
      * ```typescript
@@ -111,6 +111,34 @@ export default class HTTPMIMETypesConvenience2 {
         const where = typeNames ?? Object.keys(HTTPMIMETypesConvenience2.types);
 
         return where.some((typeName: string) => { return typeNameToFind === typeName; });
+    }
+
+    /**
+     * Determines if a given MIME type belongs to a provided group existing in
+     * the MIME Types Registry {@link HTTPMIMETypesConvenience2.types}.
+     * 
+     * The method first looks for the given MIME type in the registry. If found,
+     * it checks the found MIME type group matches the provided group.
+     * 
+     * @static
+     * 
+     * @param {string} typeName - The MIME type name to check.
+     * @param {TMIMEGroups | string} group - The group to check against.
+     * 
+     * @returns {boolean} `true` if the MIME type belongs to the provided group, otherwise `false`.
+     * 
+     * @example Check if a MIME type is in a specific group
+     * 
+     * ```typescript
+     * const isInGroup = HTTPMIMETypesConvenience2.inGroup('application/json', MIME_TYPES_GROUPS_BUILTIN.APPLICATION);
+     * console.log(isInGroup); // true or false based on the registry
+     * ```
+     */
+    public static inGroup(typeName: string, group: string): boolean {
+        const found = Object.values(HTTPMIMETypesConvenience2.types)
+            .find((typeRecord: TMIMETypeObject<TSource>) => { return typeRecord.type === typeName; });
+
+        return found?.group === group;
     }
 
 }

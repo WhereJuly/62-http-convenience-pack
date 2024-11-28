@@ -94,7 +94,6 @@ describe('HTTPMIMETypesConvenience2Test', () => {
 
     });
 
-
     it('+static isAmong(): check the provided type is among the default or provided types objects ', () => {
         const actual = HTTPMIMETypesConvenience2;
 
@@ -103,10 +102,15 @@ describe('HTTPMIMETypesConvenience2Test', () => {
         expect(actual.isAmong('text/xml', ['application/gzip', 'application/json'])).toEqual(false);
     });
 
+    it('+static inGroup(): check the provided type belongs to a given group', () => {
+        const actual = HTTPMIMETypesConvenience2;
 
-    // Assert: inList (with and without `list` parameter)
+        expect(actual.inGroup('application/gzip', MIME_TYPES_GROUPS_BUILTIN.APPLICATION)).toEqual(true);
+        expect(actual.inGroup('application/gzip', MIME_TYPES_GROUPS_BUILTIN.AUDIO)).toEqual(false);
+        expect(actual.inGroup('wrong', MIME_TYPES_GROUPS_BUILTIN.AUDIO)).toEqual(false);
+    });
+
     // Assert: ofGroup
-    // Assert: inGroup
     // Assert: pickBy(attribute: EAttribute [type after the object keys], value: string): TMIMETypeEntry<GMIMEType, GMIMEExtension, GMIMEGroup> | null
     // Assert: get groups
     // Assert: enum autocompletion & enum values for all the enums, essential and popular.
