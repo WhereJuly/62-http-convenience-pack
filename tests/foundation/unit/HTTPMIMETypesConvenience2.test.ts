@@ -3,6 +3,7 @@
 import { describe, expect, it } from 'vitest';
 
 import HTTPMIMETypesConvenience2 from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
+import { BuiltInMIMETypes } from '@src/core/mime2/builtin.mime.js';
 
 describe('HTTPMIMETypesConvenienceTest', () => {
 
@@ -22,7 +23,10 @@ describe('HTTPMIMETypesConvenienceTest', () => {
         // expect(actual.reset).toBeInstanceOf(Function);
     });
     
-    it('The static HTTPMIMETypesConvenience object should exist', () => {
+    it('+static createMIMETypes(): Should create the built-in MIME Types with autocomplete', () => {
+        const actual = HTTPMIMETypesConvenience2.createMIMETypes(BuiltInMIMETypes);
+
+        expect(actual).toEqual(BuiltInMIMETypes);
     });
 
     // it('+static extend(), +get isExtended: Should add the extended types and check it', () => {

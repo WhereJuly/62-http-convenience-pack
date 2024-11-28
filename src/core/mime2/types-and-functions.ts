@@ -1,8 +1,10 @@
 'use strict';
 
 import { BuiltInMIMETypes } from '@src/core/mime2/builtin.mime.js';
+import HTTPMIMETypesConvenience2 from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
+import { TMIMETypes, TMIMETypeArray } from '@src/core/mime2/types.js';
 
-// WARNING: experimentation stub
+// NB: --- initial experimentation stub
 const _types = [
     ['application/json', 'json', '.json'],
     ['text/plain', 'txt', '.txt'],
@@ -10,40 +12,16 @@ const _types = [
 
 // type MIMETypeArray = typeof types;
 
-// --- MIMEObject
-
-type MIMETypeObject<T extends [string, string, string]> = {
-    type: T[0];
-    group: T[1];
-    extension: T[2];
-};
-
-type MIMETypeRecord<T extends readonly (readonly [string, string, string])[]> = {
-    [K in T[number][0]]: MIMETypeObject<[K, Extract<T[number], [K, string, string]>[1], Extract<T[number], [K, string, string]>[2]]>;
-};
-
-export type MIMETypeArray = typeof BuiltInMIMETypes;
-
-export type MIMERecord = MIMETypeRecord<MIMETypeArray>;
-
+// NB: --- Keep so far as an initial implementation.
 const MIME_TYPES = Object.fromEntries(
     BuiltInMIMETypes.map(([type, group, extension]) => [
         type, { type, group, extension },
     ])
-) as MIMERecord;
+) as TMIMETypes;
 
-
-// NB: --- Experiment: create function to accept any array of MIME types and return a record
-function createMIMERecord(mimeTypes: MIMETypeArray): MIMERecord {
-    return Object.fromEntries(
-        mimeTypes.map(([type, group, extension]) => [
-            type, { type, group, extension },
-        ])
-    ) as MIMERecord;
-}
 
 // WARNING: --- Success
-const MIME_RECORD_EXPERIMENT = createMIMERecord(BuiltInMIMETypes);
+const MIME_RECORD_EXPERIMENT = HTTPMIMETypesConvenience2.createMIMETypes(BuiltInMIMETypes);
 
 console.log(MIME_RECORD_EXPERIMENT['application/gzip']);
 console.log(MIME_RECORD_EXPERIMENT['application/gzip'].extension);
@@ -57,7 +35,7 @@ type MIMEGroupRecord<T extends readonly (readonly [string, string, string])[]> =
 };
 
 
-type MIMEGroup = MIMEGroupRecord<MIMETypeArray>;
+type MIMEGroup = MIMEGroupRecord<TMIMETypeArray>;
 
 const MIME_GROUPS: MIMEGroup = Object.fromEntries(
     BuiltInMIMETypes.map(([_, group]) => [group, group])
@@ -69,7 +47,7 @@ type MIMEExtensionsRecord<T extends readonly (readonly [string, string, string])
     [E in T[number][2]]: E; // Maps extension keys to their own value
 };
 
-type MIMEExtensions = MIMEExtensionsRecord<MIMETypeArray>;
+type MIMEExtensions = MIMEExtensionsRecord<TMIMETypeArray>;
 
 const MIME_EXTENSIONS: MIMEExtensions = Object.fromEntries(
     BuiltInMIMETypes.map(([_, __, extension]) => [extension, extension])
