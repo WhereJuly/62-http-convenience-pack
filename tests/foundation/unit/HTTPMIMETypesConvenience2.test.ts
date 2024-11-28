@@ -95,18 +95,13 @@ describe('HTTPMIMETypesConvenience2Test', () => {
     });
 
 
-    // it('+static isAmong(): check the provided type is among the default or provided types objects ', () => {
-    //     const actual = HTTPMIMETypesConvenience;
+    it('+static isAmong(): check the provided type is among the default or provided types objects ', () => {
+        const actual = HTTPMIMETypesConvenience2;
 
-    //     // Check against `HTTPMIMETypesConvenience.types`
-    //     expect(actual.isAmong(EBuiltInMIMETypes.AUDIO_MPEG)).toEqual(true);
-    //     expect(actual.isAmong(EPopularMIMETypes.APPLICATION_JAR)).toEqual(false); 
-    //     expect(actual.isAmong('invalid')).toEqual(false); // NB: Check it accepts strings
-
-    //     expect(actual.isAmong(EBuiltInMIMETypes.AUDIO_MPEG, GROUPED_MIME_TYPES_BUILTIN.AUDIO)).toEqual(true);
-    //     expect(actual.isAmong(EBuiltInMIMETypes.AUDIO_MPEG, GROUPED_MIME_TYPES_BUILTIN.APPLICATION)).toEqual(false);
-
-    // });
+        expect(actual.isAmong('application/gzip')).toEqual(true);
+        expect(actual.isAmong('application/gzip', ['application/gzip', 'application/json'])).toEqual(true);
+        expect(actual.isAmong('text/xml', ['application/gzip', 'application/json'])).toEqual(false);
+    });
 
 
     // Assert: inList (with and without `list` parameter)

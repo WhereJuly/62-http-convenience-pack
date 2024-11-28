@@ -44,18 +44,10 @@ export default class HTTPMIMETypesConvenience2 {
     }
 
     /**
-     * The polymorphic method to validate the provided MIME Type attribute 
-     * value against the specified attribute.
-     * 
-     * @example 
-     * ```typescript
-     * isValid(value: string, attribute: EIsValidAttributes): boolean
-     * ```
-     */
-
-    /**
      * The polymorphic method to validate the provided MIME Type attribute value
-     * against the specified attribute from {@link EIsValidAttributes}.
+     * against the values from {@link HTTPMIMETypesConvenience2.type} getter.
+     * 
+     * The actual attribute to compare against is defined by {@link EIsValidAttributes}.
      * 
      * @static
      * 
@@ -80,12 +72,45 @@ export default class HTTPMIMETypesConvenience2 {
      */
     public static isValid(value: string, attribute?: EIsValidAttributes): boolean {
         const attributeName = attribute || EMimeTypeRecordAttributes.TYPE;
+
         // NB: If attributeName is EXTENSION, normalize the value to include dot (if not present). 
         const normalized = attributeName === EMimeTypeRecordAttributes.TYPE ? value :
             attributeName === EIsValidAttributes.EXTENSION && value.includes('.') ? value : `.${value}`;
 
-        return !!Object.values(HTTPMIMETypesConvenience2.types).find((type: TMIMETypeObject<TSource>) => {
+        return Object.values(HTTPMIMETypesConvenience2.types).some((type: TMIMETypeObject<TSource>) => {
             return normalized === type[attributeName];
         });
     }
+
+    /**
+     * Checks if a given MIME type name is among a list of type names.
+     * 
+     * @static
+     * 
+     * @param {string} typeNameToFind - The MIME type name to search for.
+     * @param {string[]} typeNames - An optional array of type names to search within. 
+     * Defaults to all type names from {@link HTTPMIMETypesConvenience2.types}.
+     * 
+     * @returns {boolean} `true` if the type name is found in `typeNames`, otherwise `false`.
+     * 
+     * @example Check if a type name is among the default registry
+     * 
+     * ```typescript
+     * const isAmongDefault = HTTPMIMETypesConvenience2.isAmong('application/json');
+     * console.log(isAmongDefault); // true
+     * ```
+     * 
+     * @example Check if a type name is among a custom list
+     * ```typescript
+     * const customTypes = ['application/xml', 'text/html'];
+     * const isAmongCustom = HTTPMIMETypesConvenience2.isAmong('text/html', customTypes);
+     * console.log(isAmongCustom); // true
+     * ```
+     */
+    public static isAmong(typeNameToFind: string, typeNames?: string[]): boolean {
+        const where = typeNames ?? Object.keys(HTTPMIMETypesConvenience2.types);
+
+        return where.some((typeName: string) => { return typeNameToFind === typeName; });
+    }
+
 }
