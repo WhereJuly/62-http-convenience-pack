@@ -1,6 +1,6 @@
 'use strict';
 
-import { BuiltInMIMETypes } from '@src/core/mime/revised/builtin-2.mime.js';
+import { BuiltInMIMETypes } from '@src/core/mime2/builtin.mime.js';
 
 // WARNING: experimentation stub
 const _types = [
@@ -9,8 +9,6 @@ const _types = [
 ] as const; // Mark as const for literal types
 
 // type MIMETypeArray = typeof types;
-
-type MIMETypeArray = typeof BuiltInMIMETypes;
 
 // --- MIMEObject
 
@@ -24,14 +22,33 @@ type MIMETypeRecord<T extends readonly (readonly [string, string, string])[]> = 
     [K in T[number][0]]: MIMETypeObject<[K, Extract<T[number], [K, string, string]>[1], Extract<T[number], [K, string, string]>[2]]>;
 };
 
-type MIMERecord = MIMETypeRecord<MIMETypeArray>;
+export type MIMETypeArray = typeof BuiltInMIMETypes;
+
+export type MIMERecord = MIMETypeRecord<MIMETypeArray>;
 
 const MIME_TYPES = Object.fromEntries(
     BuiltInMIMETypes.map(([type, group, extension]) => [
-        type,
-        { type, group, extension },
+        type, { type, group, extension },
     ])
 ) as MIMERecord;
+
+
+// NB: --- Experiment: create function to accept any array of MIME types and return a record
+function createMIMERecord(mimeTypes: MIMETypeArray): MIMERecord {
+    return Object.fromEntries(
+        mimeTypes.map(([type, group, extension]) => [
+            type, { type, group, extension },
+        ])
+    ) as MIMERecord;
+}
+
+// WARNING: --- Success
+const MIME_RECORD_EXPERIMENT = createMIMERecord(BuiltInMIMETypes);
+
+console.log(MIME_RECORD_EXPERIMENT['application/gzip']);
+console.log(MIME_RECORD_EXPERIMENT['application/gzip'].extension);
+
+// NB: --- End experiment
 
 // --- MIME Groups
 

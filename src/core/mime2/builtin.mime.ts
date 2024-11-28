@@ -1,5 +1,10 @@
 'use strict';
 
+import { MIMExtensionInapplicable } from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
+
+/**
+ * IMPORTANT: This is the read-only single source of truth for built-in MIME types.
+ */
 export const BuiltInMIMETypes = [
     ['text/plain', 'TEXT', '.txt'],
     ['text/html', 'TEXT', '.html'],
@@ -44,10 +49,10 @@ export const BuiltInMIMETypes = [
     ['application/x-sql', 'APPLICATION', '.sql'],
     ['application/ld+json', 'APPLICATION', '.jsonld'],
 
-    ['multipart/form-data', 'MULTIPART', 'null'],
-    ['multipart/mixed', 'MULTIPART', 'null'],
-    ['multipart/alternative', 'MULTIPART', 'null'],
-    ['multipart/related', 'MULTIPART', 'null'],
+    ['multipart/form-data', 'MULTIPART', MIMExtensionInapplicable],
+    ['multipart/mixed', 'MULTIPART', MIMExtensionInapplicable],
+    ['multipart/alternative', 'MULTIPART', MIMExtensionInapplicable],
+    ['multipart/related', 'MULTIPART', MIMExtensionInapplicable],
 
     ['font/ttf', 'FONT', '.ttf'],
     ['font/otf', 'FONT', '.otf'],

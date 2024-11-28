@@ -1,0 +1,90 @@
+'use strict';
+
+import { describe, expect, it } from 'vitest';
+
+import HTTPMIMETypesConvenience2 from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
+
+describe('HTTPMIMETypesConvenienceTest', () => {
+
+    it.skip('Console output for documentation snippets ', () => {
+        // console.dir(HTTPMIMETypesConvenience.types);
+        // console.dir(GROUPED_MIME_TYPES_BUILTIN);
+        // console.dir(MIME_TYPES_POPULAR['application/gzip'].group);
+    });
+
+    it('The static HTTPMIMETypesConvenience object should exist', () => {
+        const actual = HTTPMIMETypesConvenience2;
+
+        expect(actual).toBeDefined();
+        expect(actual.createMIMETypes).toBeInstanceOf(Function);
+        // expect(actual.types).toEqual(MIME_TYPES_BUILTIN);
+        // expect(actual.extend).toBeInstanceOf(Function);
+        // expect(actual.reset).toBeInstanceOf(Function);
+    });
+    
+    it('The static HTTPMIMETypesConvenience object should exist', () => {
+    });
+
+    // it('+static extend(), +get isExtended: Should add the extended types and check it', () => {
+    //     const actual = HTTPMIMETypesConvenience;
+
+    //     // Check .extend() with POJO
+    //     actual.extend({
+    //         'application/vnd.example.custom': {
+    //             type: 'application/vnd.example.custom',
+    //             extension: 'custom' as EMIMEExtensions,
+    //             group: 'custom' as EMIMEGroups,
+    //         },
+    //     });
+
+    //     // Check .extend() with the correctly typed const
+    //     actual.extend(MIME_TYPES_POPULAR);
+
+    //     expect(actual.isExtended).toEqual(true);
+    // });
+
+    // it('+static reset(): check the class is extended ', () => {
+    //     const actual = HTTPMIMETypesConvenience;
+    //     actual.reset();
+
+    //     expect(actual.isExtended).toEqual(false);
+    // });
+
+    // it('+static isValid(): check the provided type is a valid one against built-in and extended ', () => {
+    //     const actual = HTTPMIMETypesConvenience;
+
+    //     expect(actual.isValid(EBuiltInMIMETypes.AUDIO_MPEG)).toEqual(true);
+    //     expect(actual.isValid('image/png')).toEqual(true); // NB: Check it accepts strings
+    //     expect(actual.isValid('invalid')).toEqual(false);
+
+    //     actual.extend(MIME_TYPES_POPULAR);
+
+    //     expect(actual.isValid(EPopularMIMETypes.APPLICATION_JAR)).toEqual(true);
+
+    //     actual.reset();
+    // });
+
+    // it('+static isAmong(): check the provided type is among the default or provided types objects ', () => {
+    //     const actual = HTTPMIMETypesConvenience;
+
+    //     // Check against `HTTPMIMETypesConvenience.types`
+    //     expect(actual.isAmong(EBuiltInMIMETypes.AUDIO_MPEG)).toEqual(true);
+    //     expect(actual.isAmong(EPopularMIMETypes.APPLICATION_JAR)).toEqual(false); 
+    //     expect(actual.isAmong('invalid')).toEqual(false); // NB: Check it accepts strings
+        
+    //     expect(actual.isAmong(EBuiltInMIMETypes.AUDIO_MPEG, GROUPED_MIME_TYPES_BUILTIN.AUDIO)).toEqual(true);
+    //     expect(actual.isAmong(EBuiltInMIMETypes.AUDIO_MPEG, GROUPED_MIME_TYPES_BUILTIN.APPLICATION)).toEqual(false);
+
+    // });
+
+
+    // Assert: inList (with and without `list` parameter)
+    // Assert: ofGroup
+    // Assert: inGroup
+    // Assert: pickBy(attribute: EAttribute [type after the object keys], value: string): TMIMETypeEntry<GMIMEType, GMIMEExtension, GMIMEGroup> | null
+    // Assert: get groups
+    // Assert: enum autocompletion & enum values for all the enums, essential and popular.
+    // Assert: create the typed MIME types constant, extend with it and see the autocomplete.
+
+
+});
