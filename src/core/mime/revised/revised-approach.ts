@@ -1,11 +1,16 @@
 'use strict';
 
-const types = [
+import { BuiltInMIMETypes } from '@src/core/mime/revised/builtin-2.mime.js';
+
+// WARNING: experimentation stub
+const _types = [
     ['application/json', 'json', '.json'],
     ['text/plain', 'txt', '.txt'],
 ] as const; // Mark as const for literal types
 
-type MIMETypeArray = typeof types;
+// type MIMETypeArray = typeof types;
+
+type MIMETypeArray = typeof BuiltInMIMETypes;
 
 // --- MIMEObject
 
@@ -22,7 +27,7 @@ type MIMETypeRecord<T extends readonly (readonly [string, string, string])[]> = 
 type MIMERecord = MIMETypeRecord<MIMETypeArray>;
 
 const MIME_TYPES = Object.fromEntries(
-    types.map(([type, group, extension]) => [
+    BuiltInMIMETypes.map(([type, group, extension]) => [
         type,
         { type, group, extension },
     ])
@@ -38,7 +43,7 @@ type MIMEGroupRecord<T extends readonly (readonly [string, string, string])[]> =
 type MIMEGroup = MIMEGroupRecord<MIMETypeArray>;
 
 const MIME_GROUPS: MIMEGroup = Object.fromEntries(
-    types.map(([_, group]) => [group, group])
+    BuiltInMIMETypes.map(([_, group]) => [group, group])
 ) as MIMEGroup;
 
 // --- MIME Extensions
@@ -50,7 +55,7 @@ type MIMEExtensionsRecord<T extends readonly (readonly [string, string, string])
 type MIMEExtensions = MIMEExtensionsRecord<MIMETypeArray>;
 
 const MIME_EXTENSIONS: MIMEExtensions = Object.fromEntries(
-    types.map(([_, __, extension]) => [extension, extension])
+    BuiltInMIMETypes.map(([_, __, extension]) => [extension, extension])
 ) as MIMEExtensions;
 
 // --- Usage
@@ -60,7 +65,7 @@ console.log(MIME_TYPES['application/json']);
 console.log(MIME_TYPES['application/json'].type); // Output: 'json'
 
 // MIME Groups
-console.log(MIME_GROUPS.txt); // Output: 'application/json'
+console.log(MIME_GROUPS.FONT); // Output: 'application/json'
 
 // MIME Extensions
 console.log(MIME_EXTENSIONS['.json']); // Output: '.json'
