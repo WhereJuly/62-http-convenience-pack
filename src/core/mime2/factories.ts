@@ -4,6 +4,8 @@ import { TMIMEExtensions, TMIMEGroups, TMIMETypeArray, TMIMETypesRegistryGeneric
 
 // WRITE: Should I write checking the uniqueness of the MIME types and extensions?
 // Probably yes for at least MIME Types. For extensions probably not.
+// WRITE: Should I normalize all the type an extension inputs to lower case?
+// WRITE: Should I normalize the extensions to "."-prefixed?
 export function MIMETypesGenericRegistryFactory<GTSource extends readonly (TSource)[]>(mimeTypes: GTSource): TMIMETypesRegistryGeneric<GTSource> {
     return Object.fromEntries(
         mimeTypes.map(([type, group, extension]) => [
