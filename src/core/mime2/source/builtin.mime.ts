@@ -1,7 +1,5 @@
 'use strict';
 
-import { MIMExtensionInapplicable } from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
-
 /**
  * IMPORTANT: This is the read-only single source of truth for built-in MIME types.
  */
@@ -55,10 +53,10 @@ export const BuiltInMIMETypesSource = [
     ['application/ld+json', 'APPLICATION', '.jsonld'],
 
     // Multipart
-    ['multipart/form-data', 'MULTIPART', MIMExtensionInapplicable],
-    ['multipart/mixed', 'MULTIPART', MIMExtensionInapplicable],
-    ['multipart/alternative', 'MULTIPART', MIMExtensionInapplicable],
-    ['multipart/related', 'MULTIPART', MIMExtensionInapplicable],
+    ['multipart/form-data', 'MULTIPART', 'inapplicable'],
+    ['multipart/mixed', 'MULTIPART', 'inapplicable'],
+    ['multipart/alternative', 'MULTIPART', 'inapplicable'],
+    ['multipart/related', 'MULTIPART', 'inapplicable'],
 
     // Font
     ['font/ttf', 'FONT', '.ttf'],

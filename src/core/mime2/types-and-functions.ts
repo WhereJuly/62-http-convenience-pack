@@ -2,7 +2,7 @@
 
 import { MIMETypesRegistryFactory } from '@src/core/mime2/factories.js';
 import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
-import { TMIMETypesRegistry, TMIMETypeArray, TMIMEGroups } from '@src/core/mime2/types.js';
+import { TMIMETypesRegistry, TMIMEGroups, TMIMEExtensions } from '@src/core/mime2/types.js';
 
 // NB: --- initial experimentation stub
 const _types = [
@@ -35,15 +35,15 @@ const MIME_GROUPS: TMIMEGroups = Object.fromEntries(
 
 // --- MIME Extensions
 
-type MIMEExtensionsRecord<T extends readonly (readonly [string, string, string])[]> = {
-    [E in T[number][2]]: E; // Maps extension keys to their own value
-};
+// type MIMEExtensionsRecord<T extends readonly (readonly [string, string, string])[]> = {
+//     [E in T[number][2]]: E; // Maps extension keys to their own value
+// };
 
-type MIMEExtensions = MIMEExtensionsRecord<TMIMETypeArray>;
+// type MIMEExtensions = MIMEExtensionsRecord<TMIMETypeArray>;
 
-const MIME_EXTENSIONS: MIMEExtensions = Object.fromEntries(
+const MIME_EXTENSIONS: TMIMEExtensions = Object.fromEntries(
     BuiltInMIMETypesSource.map(([_, __, extension]) => [extension, extension])
-) as MIMEExtensions;
+) as TMIMEExtensions;
 
 // --- Usage
 

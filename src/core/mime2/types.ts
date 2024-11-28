@@ -30,3 +30,10 @@ type TMIMEGroupRecord<T extends readonly (readonly [string, string, string])[]> 
 
 export type TMIMEGroups = TMIMEGroupRecord<TMIMETypeArray>;
 
+// WARNING: --- MIME Types extensions types ---
+
+type TMIMEExtensionsRecord<T extends readonly (readonly [string, string, string])[]> = {
+    [E in T[number][2]]: E; // Maps extension keys to their own value
+};
+
+export type TMIMEExtensions = TMIMEExtensionsRecord<TMIMETypeArray>;

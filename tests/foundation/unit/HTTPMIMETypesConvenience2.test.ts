@@ -2,10 +2,10 @@
 
 import { describe, expect, it } from 'vitest';
 
-import HTTPMIMETypesConvenience2 from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
+import HTTPMIMETypesConvenience2, { MIMExtensionInapplicable } from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
 import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
-import { MIME_TYPES_BUILTIN, MIME_TYPES_GROUPS_BUILTIN } from '@src/core/mime2/builtin.constants.js';
-import { MIMEGroupsFactory, MIMETypesRegistryFactory } from '@src/core/mime2/factories.js';
+import { MIME_TYPES_BUILTIN, MIME_TYPES_EXTENSIONS_BUILTIN, MIME_TYPES_GROUPS_BUILTIN } from '@src/core/mime2/builtin.constants.js';
+import { MIMEExtensionsFactory, MIMEGroupsFactory, MIMETypesRegistryFactory } from '@src/core/mime2/factories.js';
 
 describe('HTTPMIMETypesConvenience2Test', () => {
 
@@ -38,6 +38,14 @@ describe('HTTPMIMETypesConvenience2Test', () => {
 
         expect(Object.keys(actual)).toHaveLength(7);
         expect(MIME_TYPES_GROUPS_BUILTIN.APPLICATION).toEqual('APPLICATION');
+    });
+
+    it('MIMEExtensionsFactory(): Should create the built-in MIME Types extensions with autocomplete', () => {
+        const actual = MIMEExtensionsFactory(BuiltInMIMETypesSource);
+
+        expect(Object.keys(actual)).toHaveLength(40);
+        expect(MIME_TYPES_EXTENSIONS_BUILTIN['.bmp']).toEqual('.bmp');
+        expect(MIME_TYPES_EXTENSIONS_BUILTIN.inapplicable).toEqual(MIMExtensionInapplicable);
     });
 
     // it('+static extend(), +get isExtended: Should add the extended types and check it', () => {
