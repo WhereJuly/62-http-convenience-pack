@@ -2,7 +2,7 @@
 
 import { MIMETypesRegistryFactory } from '@src/core/mime2/factories.js';
 import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
-import { TMIMETypesRegistry, TMIMETypeArray } from '@src/core/mime2/types.js';
+import { TMIMETypesRegistry, TMIMETypeArray, TMIMEGroups } from '@src/core/mime2/types.js';
 
 // NB: --- initial experimentation stub
 const _types = [
@@ -28,18 +28,10 @@ console.log(MIME_RECORD_EXPERIMENT['application/gzip'].extension);
 
 // NB: --- End experiment
 
-// --- MIME Groups
-
-type MIMEGroupRecord<T extends readonly (readonly [string, string, string])[]> = {
-    [G in T[number][1]]: G; // Maps group keys to their own value
-};
-
-
-type MIMEGroup = MIMEGroupRecord<TMIMETypeArray>;
-
-const MIME_GROUPS: MIMEGroup = Object.fromEntries(
+// NB: --- Keep so far as an initial implementation.
+const MIME_GROUPS: TMIMEGroups = Object.fromEntries(
     BuiltInMIMETypesSource.map(([_, group]) => [group, group])
-) as MIMEGroup;
+) as TMIMEGroups;
 
 // --- MIME Extensions
 

@@ -4,8 +4,8 @@ import { describe, expect, it } from 'vitest';
 
 import HTTPMIMETypesConvenience2 from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
 import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
-import { MIME_TYPES_BUILTIN } from '@src/core/mime2/builtin.constants.js';
-import { MIMETypesRegistryFactory } from '@src/core/mime2/factories.js';
+import { MIME_TYPES_BUILTIN, MIME_TYPES_GROUPS_BUILTIN } from '@src/core/mime2/builtin.constants.js';
+import { MIMEGroupsFactory, MIMETypesRegistryFactory } from '@src/core/mime2/factories.js';
 
 describe('HTTPMIMETypesConvenience2Test', () => {
 
@@ -25,12 +25,19 @@ describe('HTTPMIMETypesConvenience2Test', () => {
         // expect(actual.reset).toBeInstanceOf(Function);
     });
 
-    it('+static createMIMETypes(): Should create the built-in MIME Types Registry with autocomplete', () => {
+    it('MIMETypesRegistryFactory(): Should create the built-in MIME Types Registry with autocomplete', () => {
         const actual = MIMETypesRegistryFactory(BuiltInMIMETypesSource);
 
         expect(Object.keys(actual)).toHaveLength(BuiltInMIMETypesSource.length);
         expect(HTTPMIMETypesConvenience2.types['application/gzip'].extension).toEqual('.gz');
         expect(MIME_TYPES_BUILTIN['application/json'].extension).toEqual('.json');
+    });
+
+    it('MIMEGroupsFactory(): Should create the built-in MIME Types groups with autocomplete', () => {
+        const actual = MIMEGroupsFactory(BuiltInMIMETypesSource);
+
+        expect(Object.keys(actual)).toHaveLength(7);
+        expect(MIME_TYPES_GROUPS_BUILTIN.APPLICATION).toEqual('APPLICATION');
     });
 
     // it('+static extend(), +get isExtended: Should add the extended types and check it', () => {

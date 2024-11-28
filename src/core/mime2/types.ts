@@ -8,6 +8,8 @@ type TMIMETypeObject<T extends [string, string, string]> = {
     extension: T[2];
 };
 
+// WARNING: --- MIME Types Registry types ---
+
 type TMIMETypeRecord<T extends readonly (readonly [string, string, string])[]> = {
     [K in T[number][0]]: TMIMETypeObject<[K, Extract<T[number], [K, string, string]>[1], Extract<T[number], [K, string, string]>[2]]>;
 };
@@ -19,3 +21,12 @@ type TMIMETypeRecord<T extends readonly (readonly [string, string, string])[]> =
 export type TMIMETypeArray = typeof BuiltInMIMETypesSource;
 
 export type TMIMETypesRegistry = TMIMETypeRecord<TMIMETypeArray>;
+
+// WARNING: --- MIME Types groups types ---
+
+type TMIMEGroupRecord<T extends readonly (readonly [string, string, string])[]> = {
+    [G in T[number][1]]: G; // Maps group keys to their own value
+};
+
+export type TMIMEGroups = TMIMEGroupRecord<TMIMETypeArray>;
+
