@@ -2,10 +2,17 @@
 
 import { describe, expect, it } from 'vitest';
 
-import HTTPMIMETypesConvenience2, { MIMExtensionInapplicable } from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
+import HTTPMIMETypesConvenience2, { EIsValidAttributes, MIMExtensionInapplicable } from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
 import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
 import { MIME_TYPES_BUILTIN, MIME_TYPES_EXTENSIONS_BUILTIN, MIME_TYPES_GROUPS_BUILTIN } from '@src/core/mime2/builtin.constants.js';
 import { MIMEExtensionsFactory, MIMEGroupsFactory, MIMETypesGenericRegistryFactory } from '@src/core/mime2/factories.js';
+
+const fixture = [
+    ['custom/json', 'json', '.json'],
+    ['custom/plain', 'txt', '.txt'],
+] as const;
+
+const MIME_TYPES_EXTENDED = MIMETypesGenericRegistryFactory<typeof fixture>(fixture);
 
 describe('HTTPMIMETypesConvenience2Test', () => {
 
@@ -50,11 +57,6 @@ describe('HTTPMIMETypesConvenience2Test', () => {
 
     it('+static extend(), +get isExtended: Should add the extended types and check it', () => {
         const actual = HTTPMIMETypesConvenience2;
-        const fixture = [
-            ['custom/json', 'json', '.json'],
-            ['custom/plain', 'txt', '.txt'],
-        ] as const;
-        const MIME_TYPES_EXTENDED = MIMETypesGenericRegistryFactory<typeof fixture>(fixture);
 
         actual.extend(MIME_TYPES_EXTENDED);
 
@@ -62,26 +64,36 @@ describe('HTTPMIMETypesConvenience2Test', () => {
         expect(actual.types['application/gzip'].extension).toEqual('.gz');
     });
 
-    // it('+static reset(): check the class is extended ', () => {
-    //     const actual = HTTPMIMETypesConvenience;
-    //     actual.reset();
+    it('+static reset(): check the class is extended ', () => {
+        const actual = HTTPMIMETypesConvenience2;
+        actual.reset();
 
-    //     expect(actual.isExtended).toEqual(false);
-    // });
+        expect(actual.isExtended).toEqual(false);
+    });
 
-    // it('+static isValid(): check the provided type is a valid one against built-in and extended ', () => {
-    //     const actual = HTTPMIMETypesConvenience;
+    describe('+static isValid(): check the provided type is a valid one against built-in and extended ', () => {
 
-    //     expect(actual.isValid(EBuiltInMIMETypes.AUDIO_MPEG)).toEqual(true);
-    //     expect(actual.isValid('image/png')).toEqual(true); // NB: Check it accepts strings
-    //     expect(actual.isValid('invalid')).toEqual(false);
+        it.each(dataProvider_is_valid_method())('Case #%# $name', (data) => {
+            const convenience = HTTPMIMETypesConvenience2;
 
-    //     actual.extend(MIME_TYPES_POPULAR);
+            const actual = convenience.isValid(data.fixture, data.attribute);
 
-    //     expect(actual.isValid(EPopularMIMETypes.APPLICATION_JAR)).toEqual(true);
+            expect(actual).toEqual(data.expected);
+        });
 
-    //     actual.reset();
-    // });
+        function dataProvider_is_valid_method() {
+            return [
+                { name: 'Valid "type" autocomplete: default', fixture: MIME_TYPES_BUILTIN['application/gzip'].type, attribute: undefined, expected: true },
+                { name: 'Valid "type" autocomplete: explicit', fixture: MIME_TYPES_BUILTIN['application/ld+json'].type, attribute: EIsValidAttributes.TYPE, expected: true },
+                { name: 'Valid "extension" autocomplete: explicit', fixture: MIME_TYPES_BUILTIN['application/gzip'].extension, attribute: EIsValidAttributes.EXTENSION, expected: true },
+                { name: 'Valid "extension" autocomplete: explicit, no "."', fixture: 'gz', attribute: EIsValidAttributes.EXTENSION, expected: true },
+                { name: 'Invalid "type" autocomplete: explicit', fixture: 'invalid-type', attribute: EIsValidAttributes.TYPE, expected: false },
+                { name: 'Invalid "extension" value: explicit', fixture: 'invalid-extension', attribute: EIsValidAttributes.EXTENSION, expected: false },
+            ];
+        }
+
+    });
+
 
     // it('+static isAmong(): check the provided type is among the default or provided types objects ', () => {
     //     const actual = HTTPMIMETypesConvenience;
