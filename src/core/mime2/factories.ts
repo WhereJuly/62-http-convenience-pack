@@ -2,6 +2,8 @@
 
 import { TMIMEExtensions, TMIMEGroups, TMIMETypeArray, TMIMETypesRegistryGeneric, TSource } from '@src/core/mime2/types.js';
 
+// WRITE: Should I write checking the uniqueness of the MIME types and extensions?
+// Probably yes for at least MIME Types. For extensions probably not.
 export function MIMETypesGenericRegistryFactory<GTSource extends readonly (TSource)[]>(mimeTypes: GTSource): TMIMETypesRegistryGeneric<GTSource> {
     return Object.fromEntries(
         mimeTypes.map(([type, group, extension]) => [
