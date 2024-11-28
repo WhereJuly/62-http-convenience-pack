@@ -83,12 +83,12 @@ export const MIME_TYPES_BUILTIN = MIMETypesGenericRegistryFactory<typeof BuiltIn
 // Here is how it looks.
 
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-export default class HTTPMIMETypesConvenience2 {
+export default class HTTPMIMETypesConvenience {
     private static extended: TMIMETypesRegistryGeneric<any> | null = null;
 
     public static get types(): TMIMETypesRegistryGeneric<typeof BuiltInMIMETypesSource> &
-        (typeof HTTPMIMETypesConvenience2.extended extends TMIMETypesRegistryGeneric<any>
-            ? typeof HTTPMIMETypesConvenience2.extended
+        (typeof HTTPMIMETypesConvenience.extended extends TMIMETypesRegistryGeneric<any>
+            ? typeof HTTPMIMETypesConvenience.extended
             : {}) {
         return this.extended
             ? { ...MIME_TYPES_BUILTIN, ...this.extended }

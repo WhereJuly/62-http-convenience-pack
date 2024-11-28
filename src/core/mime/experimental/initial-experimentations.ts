@@ -1,7 +1,7 @@
 'use strict';
 
-import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
-import { TMIMEGroups, TMIMEExtensions, TMIMETypeRecord, TMIMETypeArray } from '@src/core/mime2/types.js';
+import { BuiltInMIMETypesSource } from '@src/core/mime/source/builtin.mime.js';
+import { TMIMEGroups, TMIMEExtensions, TMIMETypeRecord, TMIMETypeArray } from '@src/core/mime/types.js';
 
 // NB: --- initial experimentation stub
 const _types = [

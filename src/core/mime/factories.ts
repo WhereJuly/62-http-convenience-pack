@@ -1,6 +1,6 @@
 'use strict';
 
-import { TMIMEExtensions, TMIMEGroups, TMIMETypeArray, TMIMETypesRegistryGeneric, TSource } from '@src/core/mime2/types.js';
+import { TMIMEExtensions, TMIMEGroups, TMIMETypeArray, TMIMETypesRegistryGeneric, TSource } from '@src/core/mime/types.js';
 
 // WRITE: Should I write checking the uniqueness of the MIME types and extensions?
 // Probably yes for at least MIME Types. For extensions probably not.

@@ -1,6 +1,6 @@
 'use strict';
 
-import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
+import { BuiltInMIMETypesSource } from '@src/core/mime/source/builtin.mime.js';
 
 /**
  * The basic structure for the MIME Types sources: a triplet of type, group, and extension.

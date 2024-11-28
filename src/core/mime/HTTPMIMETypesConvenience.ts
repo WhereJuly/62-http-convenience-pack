@@ -2,9 +2,9 @@
 
 'use strict';
 
-import { MIME_TYPES_BUILTIN } from '@src/core/mime2/builtin.constants.js';
-import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
-import { TMIMETypeObject, TMIMETypesRegistryGeneric, TSource } from '@src/core/mime2/types.js';
+import { MIME_TYPES_BUILTIN } from '@src/core/mime/builtin.constants.js';
+import { BuiltInMIMETypesSource } from '@src/core/mime/source/builtin.mime.js';
+import { TMIMETypeObject, TMIMETypesRegistryGeneric, TSource } from '@src/core/mime/types.js';
 
 enum EMimeTypeRecordAttributes {
     TYPE = 'type',
@@ -19,12 +19,12 @@ export enum EIsValidAttributes {
     EXTENSION = EMimeTypeRecordAttributes.EXTENSION
 }
 
-export default class HTTPMIMETypesConvenience2 {
+export default class HTTPMIMETypesConvenience {
     private static extended: TMIMETypesRegistryGeneric<any> | null = null;
 
     public static get types(): TMIMETypesRegistryGeneric<typeof BuiltInMIMETypesSource> &
-        (typeof HTTPMIMETypesConvenience2.extended extends TMIMETypesRegistryGeneric<any>
-            ? typeof HTTPMIMETypesConvenience2.extended
+        (typeof HTTPMIMETypesConvenience.extended extends TMIMETypesRegistryGeneric<any>
+            ? typeof HTTPMIMETypesConvenience.extended
             : {}) {
         return this.extended
             ? { ...MIME_TYPES_BUILTIN, ...this.extended }
@@ -45,7 +45,7 @@ export default class HTTPMIMETypesConvenience2 {
 
     /**
      * The method validates the provided MIME Type attribute value
-     * against the values from {@link HTTPMIMETypesConvenience2.type} getter.
+     * against the values from {@link HTTPMIMETypesConvenience.type} getter.
      * 
      * The actual attribute to compare against is defined by {@link EIsValidAttributes}.
      * 
@@ -60,13 +60,13 @@ export default class HTTPMIMETypesConvenience2 {
      * 
      * @example Implicit attribute validation (defaults to TYPE)
      * ```typescript
-     * const isValid = HTTPMIMETypesConvenience2.isValid('application/json');
+     * const isValid = HTTPMIMETypesConvenience.isValid('application/json');
      * console.log(isValid); // true
      * ```
      * 
      * @example Explicit `EXTENSION` attribute validation
      * ```typescript
-     * const isValidExtension = HTTPMIMETypesConvenience2.isValid('.json', EIsValidAttributes.EXTENSION);
+     * const isValidExtension = HTTPMIMETypesConvenience.isValid('.json', EIsValidAttributes.EXTENSION);
      * console.log(isValidExtension); // true 
      * ```
      */
@@ -77,7 +77,7 @@ export default class HTTPMIMETypesConvenience2 {
         const normalized = attributeName === EMimeTypeRecordAttributes.TYPE ? value :
             attributeName === EIsValidAttributes.EXTENSION && value.includes('.') ? value : `.${value}`;
 
-        return Object.values(HTTPMIMETypesConvenience2.types).some((type: TMIMETypeObject<TSource>) => {
+        return Object.values(HTTPMIMETypesConvenience.types).some((type: TMIMETypeObject<TSource>) => {
             return normalized === type[attributeName];
         });
     }
@@ -89,33 +89,33 @@ export default class HTTPMIMETypesConvenience2 {
      * 
      * @param {string} typeNameToFind - The MIME type name to search for.
      * @param {string[]} typeNames - An optional array of type names to search within. 
-     * Defaults to all type names from {@link HTTPMIMETypesConvenience2.types}.
+     * Defaults to all type names from {@link HTTPMIMETypesConvenience.types}.
      * 
      * @returns {boolean} `true` if the type name is found in `typeNames`, otherwise `false`.
      * 
      * @example Check if a type name is among the default registry
      * 
      * ```typescript
-     * const isAmongDefault = HTTPMIMETypesConvenience2.isAmong('application/json');
+     * const isAmongDefault = HTTPMIMETypesConvenience.isAmong('application/json');
      * console.log(isAmongDefault); // true
      * ```
      * 
      * @example Check if a type name is among a custom list
      * ```typescript
      * const customTypes = ['application/xml', 'text/html'];
-     * const isAmongCustom = HTTPMIMETypesConvenience2.isAmong('text/html', customTypes);
+     * const isAmongCustom = HTTPMIMETypesConvenience.isAmong('text/html', customTypes);
      * console.log(isAmongCustom); // true
      * ```
      */
     public static isAmong(typeNameToFind: string, typeNames?: string[]): boolean {
-        const where = typeNames ?? Object.keys(HTTPMIMETypesConvenience2.types);
+        const where = typeNames ?? Object.keys(HTTPMIMETypesConvenience.types);
 
         return where.some((typeName: string) => { return typeNameToFind === typeName; });
     }
 
     /**
      * Determines if a given MIME type belongs to a provided group existing in
-     * the MIME Types Registry {@link HTTPMIMETypesConvenience2.types}.
+     * the MIME Types Registry {@link HTTPMIMETypesConvenience.types}.
      * 
      * The method first looks for the given MIME type in the registry. If found,
      * it checks the found MIME type group matches the provided group.
@@ -130,19 +130,19 @@ export default class HTTPMIMETypesConvenience2 {
      * @example Check if a MIME type is in a specific group
      * 
      * ```typescript
-     * const isInGroup = HTTPMIMETypesConvenience2.inGroup('application/json', MIME_TYPES_GROUPS_BUILTIN.APPLICATION);
+     * const isInGroup = HTTPMIMETypesConvenience.inGroup('application/json', MIME_TYPES_GROUPS_BUILTIN.APPLICATION);
      * console.log(isInGroup); // true or false based on the registry
      * ```
      */
     public static inGroup(typeName: string, group: string): boolean {
-        const found = HTTPMIMETypesConvenience2.findBy(typeName);
+        const found = HTTPMIMETypesConvenience.findBy(typeName);
 
         return found?.group === group;
     }
 
     /**
      * Retrieves the group of a given MIME type from
-     * the MIME Types Registry {@link HTTPMIMETypesConvenience2.types}.
+     * the MIME Types Registry {@link HTTPMIMETypesConvenience.types}.
      * 
      * @static
      * 
@@ -153,12 +153,12 @@ export default class HTTPMIMETypesConvenience2 {
      * @example Retrieve the group for a specific MIME type
      * 
      * ```typescript
-     * const group = HTTPMIMETypesConvenience2.ofGroup('application/json');
+     * const group = HTTPMIMETypesConvenience.ofGroup('application/json');
      * console.log(group); // 'APPLICATION' or null if not found
      * ```
      */
     public static ofGroup(typeName: string): string | null {
-        const found = HTTPMIMETypesConvenience2.findBy(typeName);
+        const found = HTTPMIMETypesConvenience.findBy(typeName);
 
         return found ? found.group : null;
     }
@@ -168,7 +168,7 @@ export default class HTTPMIMETypesConvenience2 {
      * @todo Suggest use cases. TDD implement.
      */
     public static pickBy(value: string): (TMIMETypeObject<TSource>)[] | null {
-        const multiple = Object.values(HTTPMIMETypesConvenience2.types)
+        const multiple = Object.values(HTTPMIMETypesConvenience.types)
             .filter((typeRecord: TMIMETypeObject<TSource>) => { return typeRecord.type === value; });
 
         return multiple ?? null;
@@ -179,7 +179,7 @@ export default class HTTPMIMETypesConvenience2 {
      * @return {TMIMETypeObject<TSource> | null}
      */
     private static findBy(value: string): TMIMETypeObject<TSource> | null {
-        const found = Object.values(HTTPMIMETypesConvenience2.types)
+        const found = Object.values(HTTPMIMETypesConvenience.types)
             .find((typeRecord: TMIMETypeObject<TSource>) => { return typeRecord.type === value; });
 
         return found ?? null;

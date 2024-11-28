@@ -1,6 +1,6 @@
 'use strict';
 
-import { MIMExtensionInapplicable } from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
+import { MIMExtensionInapplicable } from '@src/core/mime/HTTPMIMETypesConvenience.js';
 
 export enum EMIMETypes {
     // TEXT Group

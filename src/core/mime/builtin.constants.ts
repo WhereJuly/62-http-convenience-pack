@@ -1,7 +1,7 @@
 'use strict';
 
-import { MIMEExtensionsFactory, MIMEGroupsFactory, MIMETypesGenericRegistryFactory } from '@src/core/mime2/factories.js';
-import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
+import { MIMEExtensionsFactory, MIMEGroupsFactory, MIMETypesGenericRegistryFactory } from '@src/core/mime/factories.js';
+import { BuiltInMIMETypesSource } from '@src/core/mime/source/builtin.mime.js';
 
 /**
  * The built-in MIME Types Registry `MIME_TYPES_BUILTIN` constant

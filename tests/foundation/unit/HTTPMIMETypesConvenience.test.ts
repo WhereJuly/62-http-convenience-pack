@@ -2,10 +2,10 @@
 
 import { describe, expect, it } from 'vitest';
 
-import HTTPMIMETypesConvenience2, { EIsValidAttributes, MIMExtensionInapplicable } from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
-import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
-import { MIME_TYPES_BUILTIN, MIME_TYPES_EXTENSIONS_BUILTIN, MIME_TYPES_GROUPS_BUILTIN } from '@src/core/mime2/builtin.constants.js';
-import { MIMEExtensionsFactory, MIMEGroupsFactory, MIMETypesGenericRegistryFactory } from '@src/core/mime2/factories.js';
+import HTTPMIMETypesConvenience, { EIsValidAttributes, MIMExtensionInapplicable } from '@src/core/mime/HTTPMIMETypesConvenience.js';
+import { BuiltInMIMETypesSource } from '@src/core/mime/source/builtin.mime.js';
+import { MIME_TYPES_BUILTIN, MIME_TYPES_EXTENSIONS_BUILTIN, MIME_TYPES_GROUPS_BUILTIN } from '@src/core/mime/builtin.constants.js';
+import { MIMEExtensionsFactory, MIMEGroupsFactory, MIMETypesGenericRegistryFactory } from '@src/core/mime/factories.js';
 
 const fixture = [
     ['custom/json', 'CUSTOM', '.json'],
@@ -17,13 +17,13 @@ const MIME_TYPES_EXTENDED = MIMETypesGenericRegistryFactory<typeof fixture>(fixt
 describe('HTTPMIMETypesConvenience2Test', () => {
 
     it.skip('Console output for documentation snippets ', () => {
-        console.dir(HTTPMIMETypesConvenience2.types['application/gzip'].extension);
+        console.dir(HTTPMIMETypesConvenience.types['application/gzip'].extension);
         console.dir(MIME_TYPES_BUILTIN['application/gzip'].group);
         console.dir(MIME_TYPES_BUILTIN['application/gzip'].type);
     });
 
     it('The static HTTPMIMETypesConvenience object should exist', () => {
-        const actual = HTTPMIMETypesConvenience2;
+        const actual = HTTPMIMETypesConvenience;
 
         expect(actual).toBeDefined();
         expect(MIMETypesGenericRegistryFactory).toBeInstanceOf(Function);
@@ -36,7 +36,7 @@ describe('HTTPMIMETypesConvenience2Test', () => {
         const actual = MIMETypesGenericRegistryFactory(BuiltInMIMETypesSource);
 
         expect(Object.keys(actual)).toHaveLength(BuiltInMIMETypesSource.length);
-        expect(HTTPMIMETypesConvenience2.types['application/gzip'].extension).toEqual('.gz');
+        expect(HTTPMIMETypesConvenience.types['application/gzip'].extension).toEqual('.gz');
         expect(MIME_TYPES_BUILTIN['application/json'].extension).toEqual('.json');
     });
 
@@ -56,7 +56,7 @@ describe('HTTPMIMETypesConvenience2Test', () => {
     });
 
     it('+static extend(), +get isExtended: Should add the extended types and check it', () => {
-        const actual = HTTPMIMETypesConvenience2;
+        const actual = HTTPMIMETypesConvenience;
 
         actual.extend(MIME_TYPES_EXTENDED);
 
@@ -65,7 +65,7 @@ describe('HTTPMIMETypesConvenience2Test', () => {
     });
 
     it('+static reset(): check the class is extended ', () => {
-        const actual = HTTPMIMETypesConvenience2;
+        const actual = HTTPMIMETypesConvenience;
         actual.reset();
 
         expect(actual.isExtended).toEqual(false);
@@ -74,7 +74,7 @@ describe('HTTPMIMETypesConvenience2Test', () => {
     describe('+static isValid(): check the provided type is a valid one against built-in and extended ', () => {
 
         it.each(dataProvider_is_valid_method())('Case #%# $name', (data) => {
-            const convenience = HTTPMIMETypesConvenience2;
+            const convenience = HTTPMIMETypesConvenience;
 
             const actual = convenience.isValid(data.fixture, data.attribute);
 
@@ -95,7 +95,7 @@ describe('HTTPMIMETypesConvenience2Test', () => {
     });
 
     it('+static isAmong(): check the provided type is among the default or provided types objects ', () => {
-        const actual = HTTPMIMETypesConvenience2;
+        const actual = HTTPMIMETypesConvenience;
 
         expect(actual.isAmong('application/gzip')).toEqual(true);
         expect(actual.isAmong('application/gzip', ['application/gzip', 'application/json'])).toEqual(true);
@@ -103,7 +103,7 @@ describe('HTTPMIMETypesConvenience2Test', () => {
     });
 
     it('+static inGroup(): Should check the provided type belongs to a given group', () => {
-        const actual = HTTPMIMETypesConvenience2;
+        const actual = HTTPMIMETypesConvenience;
 
         expect(actual.inGroup('application/gzip', MIME_TYPES_GROUPS_BUILTIN.APPLICATION)).toEqual(true);
         expect(actual.inGroup('application/gzip', MIME_TYPES_GROUPS_BUILTIN.AUDIO)).toEqual(false);
@@ -111,7 +111,7 @@ describe('HTTPMIMETypesConvenience2Test', () => {
     });
 
     it('+static ofGroup(): Should return group for the given type', () => {
-        const actual = HTTPMIMETypesConvenience2;
+        const actual = HTTPMIMETypesConvenience;
         actual.extend(MIME_TYPES_EXTENDED);
 
         expect(actual.ofGroup('application/gzip')).toEqual(MIME_TYPES_GROUPS_BUILTIN.APPLICATION);
@@ -122,7 +122,7 @@ describe('HTTPMIMETypesConvenience2Test', () => {
     });
 
     /**
-     * @see {@link HTTPMIMETypesConvenience2.pickBy} method doc block
+     * @see {@link HTTPMIMETypesConvenience.pickBy} method doc block
      */
     it.skip('+static pickBy(): Should return MIME Type objects for the', () => {
     });
