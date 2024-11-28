@@ -5,7 +5,7 @@ import { MIMExtensionInapplicable } from '@src/core/mime2/HTTPMIMETypesConvenien
 /**
  * IMPORTANT: This is the read-only single source of truth for built-in MIME types.
  */
-export const BuiltInMIMETypes = [
+export const BuiltInMIMETypesSource = [
     ['text/plain', 'TEXT', '.txt'],
     ['text/html', 'TEXT', '.html'],
     ['text/css', 'TEXT', '.css'],

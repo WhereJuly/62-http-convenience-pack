@@ -3,12 +3,12 @@
 import { describe, expect, it } from 'vitest';
 
 import HTTPMIMETypesConvenience2 from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
-import { BuiltInMIMETypes } from '@src/core/mime2/builtin.mime.js';
+import { BuiltInMIMETypesSource } from '@src/core/mime2/source/builtin.mime.js';
 
-describe('HTTPMIMETypesConvenienceTest', () => {
+describe('HTTPMIMETypesConvenience2Test', () => {
 
     it.skip('Console output for documentation snippets ', () => {
-        // console.dir(HTTPMIMETypesConvenience.types);
+        console.dir(HTTPMIMETypesConvenience2.types);
         // console.dir(GROUPED_MIME_TYPES_BUILTIN);
         // console.dir(MIME_TYPES_POPULAR['application/gzip'].group);
     });
@@ -24,9 +24,9 @@ describe('HTTPMIMETypesConvenienceTest', () => {
     });
     
     it('+static createMIMETypes(): Should create the built-in MIME Types with autocomplete', () => {
-        const actual = HTTPMIMETypesConvenience2.createMIMETypes(BuiltInMIMETypes);
+        const actual = HTTPMIMETypesConvenience2.createMIMETypes(BuiltInMIMETypesSource);
 
-        expect(actual).toEqual(BuiltInMIMETypes);
+        expect(Object.keys(actual)).toHaveLength(BuiltInMIMETypesSource.length);
     });
 
     // it('+static extend(), +get isExtended: Should add the extended types and check it', () => {

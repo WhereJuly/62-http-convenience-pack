@@ -1,6 +1,6 @@
 'use strict';
 
-import { BuiltInMIMETypes } from '@src/core/mime2/builtin.mime.js';
+import { BuiltInMIMETypes } from '@src/core/mime2/source/builtin.mime.js';
 import HTTPMIMETypesConvenience2 from '@src/core/mime2/HTTPMIMETypesConvenience2.js';
 import { TMIMETypes, TMIMETypeArray } from '@src/core/mime2/types.js';
 
