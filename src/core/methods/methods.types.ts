@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * The HTTP methods enums supertype to define custom HTTP methods.
+ * The HTTP methods enums supertype to type custom HTTP methods enums.
  */
 export type THTTPMethodsConstraint = Record<string, string>;
 
@@ -20,4 +20,5 @@ export enum EHTTPMethods {
     OPTIONS = 'OPTIONS',
     HEAD = 'HEAD',
     TRACE = 'TRACE',
+    CONNECT = 'CONNECT',
 }
