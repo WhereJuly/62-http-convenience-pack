@@ -4,17 +4,13 @@ import { describe, expect, it } from 'vitest';
 
 import HTTPMethodsConvenience from '@src/core/methods/HTTPMethodsConvenience.js';
 import HTTPConveniencePackException from '@src/exceptions/HTTPConveniencePack.exception.js';
-import { EHTTPMethods, TCustomHTTPMethodsConstraint } from '@src/core/methods/methods.types.js';
-
-const custom = { LINK: 'LINK', UNLINK: 'UNLINK' };
+import { EHTTPMethods } from '@src/core/methods/methods.types.js';
 
 // WARNING: This is the type fixture to test adding custom HTTP methods.
 enum ECustomHTTPMethods {
     LINK = 'LINK',
     UNLINK = 'UNLINK',
 }
-
-const ExtendedHTTPMethods = { ...EHTTPMethods, ...ECustomHTTPMethods };
 
 describe('HTTPMethodsConvenienceTest', () => {
 
@@ -43,25 +39,6 @@ describe('HTTPMethodsConvenienceTest', () => {
         convenience.reset();
         expect(convenience.isExtended).toEqual(false);
     });
-
-
-    // it.skip('The HTTPMethodsConvenience object instance should be of expected shape', () => {
-    //     const actual = new HTTPMethodsConvenience({});
-
-    //     expect(actual).toBeInstanceOf(HTTPMethodsConvenience);
-    //     expect(actual.isValid).toBeInstanceOf(Function);
-    //     expect(actual.isAllowed).toBeInstanceOf(Function);
-    //     expect(actual.normalize).toBeInstanceOf(Function);
-    // });
-
-    // it.skip('The HTTPMethodsConvenience object instance should operate on standards and custom HTTP methods', () => {
-    //     const actual = new HTTPMethodsConvenience(ECustomHTTPMethods);
-
-    //     expect(actual.isValid(ExtendedHTTPMethods.GET)).toEqual(true); // Test standard HTTP method autocomplete
-    //     expect(actual.isValid(ExtendedHTTPMethods.LINK)).toEqual(true);
-    //     expect(actual.isAllowed(ECustomHTTPMethods.LINK)).toEqual(true);
-    //     expect(actual.normalize('unlink')).toEqual(ECustomHTTPMethods.UNLINK);
-    // });
 
     describe('+static isValid: Should polymorphically return the expected value for string and array arguments', () => {
 
@@ -116,7 +93,7 @@ describe('HTTPMethodsConvenienceTest', () => {
 
         it.each(dataProvider_normalize())('Case #%# $name', (data) => {
             HTTPMethodsConvenience.extend(ECustomHTTPMethods);
-            
+
             try {
                 const convenience = HTTPMethodsConvenience;
 
@@ -127,7 +104,7 @@ describe('HTTPMethodsConvenienceTest', () => {
                 expect(actual).toBeInstanceOf(HTTPConveniencePackException);
                 expect(actual.message).toContain(data.expected);
             }
-            
+
             HTTPMethodsConvenience.reset();
         });
 

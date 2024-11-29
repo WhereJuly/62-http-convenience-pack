@@ -3,7 +3,7 @@
 /**
  * The HTTP methods enums supertype to define custom HTTP methods.
  */
-export type TCustomHTTPMethodsConstraint = Record<string, string>;
+export type THTTPMethodsConstraint = Record<string, string>;
 
 /**
  * The standard HTTP methods enum.
