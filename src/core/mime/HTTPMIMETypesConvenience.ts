@@ -20,6 +20,7 @@ export enum EIsValidAttributes {
 }
 
 export default class HTTPMIMETypesConvenience {
+    
     private static extended: TMIMETypesRegistryGeneric<any> | null = null;
 
     public static get types(): TMIMETypesRegistryGeneric<typeof BuiltInMIMETypesSource> &
