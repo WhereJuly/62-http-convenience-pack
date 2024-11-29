@@ -1,25 +1,8 @@
 'use strict';
 
+import { EHTTPMethods, TCustomHTTPMethodsConstraint } from '@src/core/methods/methods.types.js';
 import HTTPConveniencePackException from '@src/exceptions/HTTPConveniencePack.exception.js';
 
-export type TCustomHTTPMethodsConstraint = Record<string, string>;
-
-/**
- * The standard HTTP methods enum.
- * 
- * Comply with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#methods)
- * published in June 2022.
- */
-export enum EHTTPMethods {
-    GET = 'GET',
-    POST = 'POST',
-    PUT = 'PUT',
-    DELETE = 'DELETE',
-    PATCH = 'PATCH',
-    OPTIONS = 'OPTIONS',
-    HEAD = 'HEAD',
-    TRACE = 'TRACE',
-}
 
 /**
  * Provide convenient interface to work with  HTTP methods, standard {@link EHTTPMethods} 
@@ -57,10 +40,29 @@ export enum EHTTPMethods {
  */
 export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMethodsConstraint = Record<string, string>> {
 
+    // REFACTOR: Remove with instance methods remove.
     protected methods: EHTTPMethods | GCustomMethods;
+
+    private static extended: TCustomHTTPMethodsConstraint | null = null;
 
     constructor(customMethods: GCustomMethods) {
         this.methods = { ...EHTTPMethods, ...customMethods };
+    }
+
+    public static get methods(): TCustomHTTPMethodsConstraint {
+        return this.extended ? { ...EHTTPMethods, ...this.extended } : EHTTPMethods;
+    }
+
+    public static extend(methods: TCustomHTTPMethodsConstraint): void {
+        this.extended = methods;
+    }
+
+    public static reset(): void {
+        this.extended = null;
+    }
+
+    public static get isExtended(): boolean {
+        return !!this.extended;
     }
 
     /**
@@ -82,13 +84,21 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
     }
 
     /**
+     * WRITE: Update docblock for refactored code.
      * Check if the given standard HTTP method or array of methods is valid.
      * 
      * @static
      * @description Delegates to {@link HTTPMethodsConvenience._isValid}
      */
     public static isValid(maybeMethod: string | string[]): boolean {
-        return HTTPMethodsConvenience._isValid(maybeMethod, EHTTPMethods);
+        const givens = HTTPMethodsConvenience._given(maybeMethod);
+
+        // REFACTOR: Extract this as the method to replace current `isAllowed` and `_isAllowed` methods.
+        const isAllowed = (givens: string[]) => {
+            return givens.every((given: string) => { return Object.values(this.methods).includes(given.toUpperCase()); });
+        };
+
+        return isAllowed(givens);
     }
 
     /**
@@ -153,9 +163,9 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
      * 
      * Delegates to {@link HTTPMethodsConvenience._isValid}
      */
-    public isValid(maybeMethod: string | string[]): boolean {
-        return HTTPMethodsConvenience._isValid(maybeMethod, this.methods);
-    }
+    // public isValid(maybeMethod: string | string[]): boolean {
+    //     return HTTPMethodsConvenience._isValid(maybeMethod, this.methods);
+    // }
 
     /**
      * Check if a given HTTP method is allowed based on a list of allowed methods.
