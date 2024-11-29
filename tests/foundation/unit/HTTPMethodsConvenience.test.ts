@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 import HTTPMethodsConvenience from '@src/core/methods/HTTPMethodsConvenience.js';
 import HTTPConveniencePackException from '@src/exceptions/HTTPConveniencePack.exception.js';
-import { EHTTPMethods } from '@src/core/methods/methods.types.js';
+import { EHTTPMethods, TCustomHTTPMethodsConstraint } from '@src/core/methods/methods.types.js';
 
 const custom = { LINK: 'LINK', UNLINK: 'UNLINK' };
 
@@ -112,30 +112,33 @@ describe('HTTPMethodsConvenienceTest', () => {
 
     });
 
-    describe('+normalize: Static and instance methods should return the expected value or throw', () => {
+    describe('+static normalize: Should return the expected value or throw', () => {
 
-        it.each(dataProvider_normalize_static())('Case #%# $name', (data) => {
+        it.each(dataProvider_normalize())('Case #%# $name', (data) => {
+            HTTPMethodsConvenience.extend(ECustomHTTPMethods);
+            
             try {
-                const actual = data.actual.normalize(data.fixture);
+                const convenience = HTTPMethodsConvenience;
+
+                const actual = convenience.normalize(data.fixture);
                 expect(actual).toEqual(data.expected);
             } catch (error) {
                 const actual = error as Error;
                 expect(actual).toBeInstanceOf(HTTPConveniencePackException);
                 expect(actual.message).toContain(data.expected);
             }
+            
+            HTTPMethodsConvenience.reset();
         });
 
-        function dataProvider_normalize_static() {
-            const _static = HTTPMethodsConvenience;
-            const instance = new HTTPMethodsConvenience(custom);
-
+        function dataProvider_normalize() {
             return [
-                { name: 'Success (standard)', actual: _static, fixture: 'patch', expected: EHTTPMethods.PATCH },
-                { name: 'Throw on invalid (standard)', actual: _static, fixture: 'link', expected: '"maybeMethod" argument when transformed to upper case should be a valid HTTP standard or custom method' },
-                { name: 'Throw on non-string (standard)', actual: _static, fixture: {} as EHTTPMethods, expected: 'should be a string, typeof "object" given' },
-                { name: 'Success (custom)', actual: instance, fixture: 'link', expected: 'LINK' },
-                { name: 'Throw on invalid (custom)', actual: instance, fixture: 'invalid', expected: '"maybeMethod" argument when transformed to upper case should be a valid HTTP standard or custom method' },
-                { name: 'Throw on non-string (custom)', actual: instance, fixture: 123 as unknown as EHTTPMethods, expected: 'should be a string, typeof "number" given' },
+                { name: 'Success (built-in)', fixture: 'patch', expected: EHTTPMethods.PATCH },
+                { name: 'Throw on invalid (built-in)', fixture: 'search', expected: '"maybeMethod" argument when transformed to upper case should be a valid HTTP built-in or extended method' },
+                { name: 'Throw on non-string (built-in)', fixture: {} as string, expected: 'should be a string, typeof "object" given' },
+                { name: 'Success (custom)', fixture: 'link', expected: 'LINK' },
+                { name: 'Throw on invalid (custom)', fixture: 'invalid', expected: '"maybeMethod" argument when transformed to upper case should be a valid HTTP built-in or extended method' },
+                { name: 'Throw on non-string (custom)', fixture: 123 as unknown as string, expected: 'should be a string, typeof "number" given' },
             ];
         }
 
