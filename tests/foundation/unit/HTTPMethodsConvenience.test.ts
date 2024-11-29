@@ -56,7 +56,7 @@ describe('HTTPMethodsConvenienceTest', () => {
             return [
                 { name: 'Valid string', fixture: 'POST', expected: true },
                 { name: 'Valid array', fixture: ['POST', 'OPTIONS'], expected: true },
-                { name: 'Valid custom, string', fixture: 'LINK', expected: true },
+                { name: 'Valid custom, string, normalize', fixture: 'link', expected: true },
                 { name: 'Valid custom, array', fixture: ['LINK', 'UNLINK'], expected: true },
                 { name: 'Invalid string', fixture: 'invalid', expected: false },
                 { name: 'Invalid array', fixture: ['invalid', 'invalid'], expected: false },
