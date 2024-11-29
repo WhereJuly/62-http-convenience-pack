@@ -10,7 +10,7 @@ import {
 describe('HTTPStatusesModuleTest', () => {
 
     it('Assess enum & const usage', () => {
-        console.log(THTTPStatuses[101]);
+        // console.log(THTTPStatuses[101]);
 
         expect((THTTPStatuses[101] as IHTTPStatus).code).toEqual(101);
         expect(EHTTPStatusCodeGroups.CLIENTERR).toEqual('clienterr');

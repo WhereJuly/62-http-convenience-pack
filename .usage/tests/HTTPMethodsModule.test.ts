@@ -7,7 +7,7 @@ import { EHTTPMethods, HCP, HTTPMethodsConvenience, } from '@wherejuly/http-conv
 describe('HTTPMethodsModuleTest', () => {
 
     it('Assess EHTTPMethods enum usage convenience', () => {
-        console.log(EHTTPMethods);
+        // console.log(EHTTPMethods);
 
         const actual = {
             straight: EHTTPMethods.GET,
