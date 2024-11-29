@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="./images/banner-4.jpg" width="100%"/>
+</div>
+
 ## HTTP MIME Types Module
 
 - [HTTP MIME Types Module](#http-mime-types-module)
