@@ -50,11 +50,9 @@ Where applicable for convenience use cases it has functionality (validation, nor
     - [Autocomplete Demo](#autocomplete-demo)
     - [Usage](#usage)
 - [HTTP Methods](#http-methods)
-  - [At a Glance](#at-a-glance)
-  - [Use with HTTP Custom Methods](#use-with-http-custom-methods)
 - [HTTP Statuses](#http-statuses)
 - [HTTP MIME Types Module](#http-mime-types-module)
-  - [At a Glance](#at-a-glance-1)
+  - [At a Glance](#at-a-glance)
   - [The MIME Type Object](#the-mime-type-object)
   - [Extend Built-In MIME Types](#extend-built-in-mime-types)
   - [API Reference](#api-reference)
@@ -163,65 +161,9 @@ const handler = (req: Request, res: Response): void => {
     .send(bodyString);
 };
 ```
-
 ## HTTP Methods
 
-- Ensure the valid ([RFC 9110 Methods](https://www.rfc-editor.org/rfc/rfc9110.html#section-9)) uniform methods values are used across your application;
-- Check if the given method(s) valid;
-- Normalize given method(s) to uniform value (throwing and non-throwing)
-- Check given methods are allowed for your specific use cases ("is in the list");
-
-### At a Glance
-
-Ensure the uniform methods values are used across your application.
-
-```typescript
-import { EHTTPMethods } from './src/methods/methods.ts';
-
-// Browser or Node
-const response = await fetch('https://api.example.com/data', {
- method: EHTTPMethods.GET
-});
-```
-
-Check a method or a list of methods is valid.
-
-```typescript
-import HTTPmethodsConvenience from './src/methods/methods.ts';
-
-HTTPmethodsConvenience.isValid('some'); // false
-HTTPmethodsConvenience.isValid(['some', 'other']); // false
-HTTPmethodsConvenience.isValid('GET'); // true
-HTTPmethodsConvenience.isValid(['GET', 'PUT']); // true
-HTTPmethodsConvenience.isValid(['GET', 'PUT', 'some']); // false
-```
-
-### Use with HTTP Custom Methods
-
-This use case should be pretty rare. Nevertheless the package provides it as the implementation is pretty simple. The usage is very simple: instantiate the package adding an object with custom methods definitions. Then use it.
-
-```typescript
-// -- Instantiate
-export enum ECustomHTTPMethods {
-    LINK = 'LINK',
-    UNLINK = 'UNLINK',
-    // Add more custom methods if needed
-}
-
-export const ExtendedHTTPMethods = { ...EHTTPMethods, ...ECustomHTTPMethods };
-
-const cMethods = new HTTPMethodsConvenience(ECustomHTTPMethods); // Instantiate
-
-// --- Use
-//  `ECustomHTTPMethods.` provides autocomplete for both standard and custom enums.
-console.log(ECustomHTTPMethods.LINK) // LINK;
-
-const cMethods.isValid('LINK') // true
-const cMethods.isAllowed('UNLINK') // true
-const cMethods.normalize('unlink') // 'UNLINK'
-```
-
-To use the single instance across the application you may either extend the original `HTTPMethodsConvenience` class adding the custom methods to the extended one. Or use DI container (e.g. [tsyringe](https://github.com/microsoft/tsyringe) or others) to instantiate the singleton with custom methods centrally then taking it from the DI container.
+- [documentation](.docs/methods.md)
 
 ## HTTP Statuses
 
