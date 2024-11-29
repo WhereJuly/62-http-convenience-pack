@@ -43,64 +43,6 @@ export default class HTTPMethodsConvenience {
     }
 
     /**
-     * Retrieve an array of all HTTP method values from the Methods Registry.
-     * 
-     * @static
-     * 
-     * @returns {string[]} An array ofe the Registry values.
-     * 
-     * @description This method returns all the HTTP method values from the Registry, 
-     * including both the built-in and extended if any.
-     */
-    public static get values(): string[] {
-        return Object.values(this.methods);
-    }
-
-    /**
-     * Extends the HTTP Methods Registry with custom methods.
-     * 
-     * @static
-     * 
-     * @param {THTTPMethodsConstraint} methods - An object representing custom HTTP methods to be added to the registry.
-     * 
-     * @description This method allows you to add custom HTTP methods to the existing registry of standard methods.
-     * Once extended, the registry will include both standard and custom methods, which can be validated and used
-     * throughout the application.
-     * 
-     * @see {@link HTTPMethodsConvenience.isExtended}
-     * @see {@link HTTPMethodsConvenience.reset}
-     * 
-     * @example
-     * ```typescript
-     * enum ECustomHTTPMethods { LINK = 'LINK', UNLINK = 'UNLINK' }
-     * HTTPMethodsConvenience.extend(ECustomHTTPMethods);
-     * console.log(HTTPMethodsConvenience.isValid('LINK')); // true
-     * ```
-     */
-    public static extend(methods: THTTPMethodsConstraint): void {
-        this.extended = methods;
-    }
-
-    /**
-     * Resets the HTTP Methods Registry to its default state.
-     * 
-     * @static
-     * 
-     * @description Remove extended methods from the Registry, restoring to only built-in methods state..
-     * @see {@link HTTPMethodsConvenience.extend}
-     * @see {@link HTTPMethodsConvenience.isExtended}
-     * 
-     * @example Reset the registry to its default state
-     * ```typescript
-     * HTTPMethodsConvenience.reset();
-     * console.log(HTTPMethodsConvenience.isExtended); // false
-     * ```
-     */
-    public static reset(): void {
-        this.extended = null;
-    }
-
-    /**
      * Checks if the HTTP Methods Registry has been extended with custom methods.
      * 
      * @static
@@ -129,13 +71,67 @@ export default class HTTPMethodsConvenience {
     }
 
     /**
+     * Extends the HTTP Methods Registry with custom methods.
+     * 
+     * @static
+     * 
+     * @param {THTTPMethodsConstraint} methods - An object representing custom HTTP methods 
+     * to be added to the registry.
+     * 
+     * @description Once extended, the Registry will include both standard and custom methods
+     * available via {@link HTTPMethodsConvenience.methods} getter.
+     * 
+     * @see {@link HTTPMethodsConvenience.isExtended}
+     * @see {@link HTTPMethodsConvenience.reset}
+     * 
+     * @example
+     * ```typescript
+     * enum ECustomHTTPMethods { LINK = 'LINK', UNLINK = 'UNLINK' }
+     * HTTPMethodsConvenience.extend(ECustomHTTPMethods);
+     * console.log(HTTPMethodsConvenience.isValid('LINK')); // true
+     * ```
+     */
+    public static extend(methods: THTTPMethodsConstraint): void {
+        this.extended = methods;
+    }
+
+    /**
+     * Resets the HTTP Methods Registry to its built-in state.
+     * 
+     * @static
+     * 
+     * @description Remove extended methods from the Registry, restoring to only built-in methods state..
+     * @see {@link HTTPMethodsConvenience.extend}
+     * @see {@link HTTPMethodsConvenience.isExtended}
+     * 
+     * @example Reset the registry to its default state
+     * ```typescript
+     * HTTPMethodsConvenience.reset();
+     * console.log(HTTPMethodsConvenience.isExtended); // false
+     * ```
+     */
+    public static reset(): void {
+        this.extended = null;
+    }
+
+    /**
      * Check if the given HTTP method(s) are valid against the Methods Registry
      * {@link HTTPMethodsConvenience.methods} (either built-in or with extended methods).
      * 
-     * @uses {@link HTTPMethodsConvenience._givens}
-     * @uses {@link HTTPMethodsConvenience.isAmong}
-     * 
      * @param {(string | string[])} maybeMethod
+     * @uses {@link HTTPMethodsConvenience._givens}
+     * 
+     * @example
+     * 
+     * ```typescript
+     * HTTPmethodsConvenience.isValid('GET'); // true
+     * HTTPmethodsConvenience.isValid('UNLINK'); // false
+     * HTTPmethodsConvenience.isValid(['GET', 'POST']); // true; Accept `string[]` as well;
+     * HTTPmethodsConvenience.isValid(['GET', 'post']); // true; Automated normalize before validation 
+     * HTTPmethodsConvenience.isValid(['GET', 'link']); // false; 
+     * ```
+     * 
+     * @uses {@link HTTPMethodsConvenience.isAmong}
      */
     public static isValid(maybeMethod: string | string[]): boolean {
         const givens = HTTPMethodsConvenience._givens(maybeMethod);
@@ -152,14 +148,16 @@ export default class HTTPMethodsConvenience {
      * 
      * @param {string | string[]} given - The HTTP method(s) to check.
      * @param {THTTPMethodsConstraint | string[]} allowed - An optional list of allowed methods. 
-     * If not provided, defaults to all methods in the Registry.
+     * If not provided, defaults to all methods in the Registry 
+     * (same as {@link HTTPMethodsConvenience.isValid}).
      * 
-     * @returns {boolean} `true` if all given methods are in the list of allowed methods, otherwise `false`.
+     * @returns {boolean} `true` if given method(s) is in `allowed` methods, otherwise `false`.
+     * 
+     * @uses {@link HTTPMethodsConvenience._givens}
      * 
      * @example
      * ```typescript
      * // Check if a single method is among the allowed methods
-     * console.log(HTTPMethodsConvenience.isAmong('GET')); // true
      * 
      * // Check if multiple methods are among the allowed methods
      * console.log(HTTPMethodsConvenience.isAmong(['GET', 'POST'])); // true
@@ -167,7 +165,7 @@ export default class HTTPMethodsConvenience {
      * // Check against a custom list of allowed methods
      * console.log(HTTPMethodsConvenience.isAmong('PATCH', ['GET', 'POST'])); // false
      * ```
-     */    
+     */
     public static isAmong(given: string | string[], allowed?: THTTPMethodsConstraint | string[]): boolean {
         const givens = HTTPMethodsConvenience._givens(given);
         const _allowed = allowed ? Object.values(allowed) : this.values;
@@ -200,7 +198,7 @@ export default class HTTPMethodsConvenience {
      *   console.error(e.message); 
      * }
      * ```
-     */    
+     */
     public static normalize(maybeMethod: string): keyof THTTPMethodsConstraint {
         if (typeof maybeMethod !== 'string') {
             throw new HTTPConveniencePackException(`"maybeMethod" argument should be a string, typeof "${typeof maybeMethod}" given.`);
@@ -213,6 +211,20 @@ export default class HTTPMethodsConvenience {
         }
 
         return method;
+    }
+
+    /**
+     * Return the Registry methods as array.
+     * 
+     * @static
+     * 
+     * @returns {string[]} An array ofe the Registry values.
+     * 
+     * @description This method returns all the HTTP method values from the Registry, 
+     * including both the built-in and extended if any.
+     */
+    public static get values(): string[] {
+        return Object.values(this.methods);
     }
 
     /**
