@@ -3,7 +3,6 @@
 import { EHTTPMethods, TCustomHTTPMethodsConstraint } from '@src/core/methods/methods.types.js';
 import HTTPConveniencePackException from '@src/exceptions/HTTPConveniencePack.exception.js';
 
-
 /**
  * Provide convenient interface to work with  HTTP methods, standard {@link EHTTPMethods} 
  * and custom {@link GCustomMethods}.
@@ -53,6 +52,10 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
         return this.extended ? { ...EHTTPMethods, ...this.extended } : EHTTPMethods;
     }
 
+    public static get values(): string[] {
+        return Object.values(this.methods);
+    }
+
     public static extend(methods: TCustomHTTPMethodsConstraint): void {
         this.extended = methods;
     }
@@ -95,7 +98,7 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
 
         // REFACTOR: Extract this as the method to replace current `isAllowed` and `_isAllowed` methods.
         const isAllowed = (givens: string[]) => {
-            return givens.every((given: string) => { return Object.values(this.methods).includes(given.toUpperCase()); });
+            return givens.every((given: string) => { return this.values.includes(given.toUpperCase()); });
         };
 
         return isAllowed(givens);
@@ -119,10 +122,11 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
      * 
      * @returns {boolean} `true` if the given method is in the list of allowed methods, otherwise `false`.
      */
-    public static isAllowed(given: EHTTPMethods, allowed?: EHTTPMethods[]): boolean {
-        const _allowed = allowed ?? HTTPMethodsConvenience.toValues();
+    public static isAmong(given: string | string[], allowed?: TCustomHTTPMethodsConstraint): boolean {
+        const givens = HTTPMethodsConvenience._given(given);
+        const _allowed = allowed ? Object.values(allowed) : this.values;
 
-        return HTTPMethodsConvenience._isAllowed([given], _allowed);
+        return givens.every((given: string) => { return _allowed.includes(given.toUpperCase()); });
     }
 
     /**
@@ -175,11 +179,11 @@ export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMe
      * @param {EHTTPMethods} given - see {@link HTTPMethodsConvenience._isAllowed}.
      * @param {EHTTPMethods[]} [allowed] - see {@link HTTPMethodsConvenience.isAllowed}. 
      */
-    public isAllowed(given: string, allowed?: EHTTPMethods[] | GCustomMethods[]): boolean {
-        const _allowed = allowed ?? this.toValues();
+    // public isAllowed(given: string, allowed?: TCustomHTTPMethodsConstraint[]): boolean {
+    //     const _allowed = allowed ?? this.toValues();
 
-        return HTTPMethodsConvenience._isAllowed([given], _allowed);
-    }
+    //     return HTTPMethodsConvenience._isAllowed([given], _allowed);
+    // }
 
     /**
      * Normalizes a given string to an uppercase standard or custom HTTP method.
