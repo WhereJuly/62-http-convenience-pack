@@ -13,7 +13,7 @@ const _HTTPMethods = {
     CONNECT: ['special_purpose'],
 };
 
-enum _EHTTPMethodsCategories {
+enum _EHTTPMethodsGroups {
     SAFE = "safe",
     IDEMPOTENT = "idempotent",
     NON_IDEMPOTENT = "non_idempotent",
