@@ -49,6 +49,9 @@ type TMIMEGroupRecord<T extends readonly (TSource)[]> = {
     [G in T[number][1]]: G; // Maps group keys to their own value
 };
 
+/**
+ * The basic MIME Types Groups type.
+ */
 export type TMIMEGroups = TMIMEGroupRecord<TMIMETypeArray>;
 
 // WARNING: --- MIME Types extensions types ---
@@ -58,4 +61,7 @@ type TMIMEExtensionsRecord<T extends readonly (TSource)[]> = {
     [E in T[number][2]]: E; // Maps extension keys to their own value
 };
 
+/**
+ * The basic MIME Types Extensions type.
+ */
 export type TMIMEExtensions = TMIMEExtensionsRecord<TMIMETypeArray>;

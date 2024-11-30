@@ -6,23 +6,81 @@ import { MIME_TYPES_BUILTIN } from '@src/core/mime/builtin.constants.js';
 import { BuiltInMIMETypesSource } from '@src/core/mime/source/builtin.mime.js';
 import { TMIMETypeObject, TMIMETypesRegistryGeneric, TSource } from '@src/core/mime/types.js';
 
-enum EMIMETypeRecordAttributes {
+/**
+ * As a constant is used {@link BuiltInMIMETypesSource}.
+ * Can be used as a constant to detect MIME Types with inapplicable extension.
+ * Could be further used in more involved extensions functionality.
+ * Requires use cases description.
+ */
+export const MIMExtensionInapplicable = 'inapplicable';
+
+/**
+ * @internal
+ * 
+ * At least for now it is not published interface.
+ * Created to be used in {@link EIsValidAttributes}
+ */
+export enum EMIMETypeRecordAttributes {
     TYPE = 'type',
     GROUP = 'group',
     EXTENSION = 'extension'
 }
 
-export const MIMExtensionInapplicable = 'inapplicable';
-
+/**
+ * Used in {@link HTTPMIMETypesConvenience.isValid}
+ * 
+ * @example
+ * 
+ * ```typescript
+ * HTTPMIMETypesConvenience.isValid('.json', EIsValidAttributes.EXTENSION);
+ * ```
+ */
 export enum EIsValidAttributes {
     TYPE = EMIMETypeRecordAttributes.TYPE,
     EXTENSION = EMIMETypeRecordAttributes.EXTENSION
 }
 
+/**
+ * Convenience class for HTTP MIME types.
+ *
+ * Provides static methods to manage, validate, and query MIME types and their attributes.
+ * Supports extending the built-in MIME types registry with custom types.
+ *
+ * @example Validate a MIME type
+ * 
+ * ```typescript
+ * const isValid = HTTPMIMETypesConvenience.isValid('application/json');
+ * console.log(isValid); // true
+ * ```
+ *
+ * @example Extend the MIME types registry
+ * 
+ * ```typescript
+ * HTTPMIMETypesConvenience.extend(customMIMETypes);
+ * console.log(HTTPMIMETypesConvenience.isExtended); // true
+ * ```
+ */
 export default class HTTPMIMETypesConvenience {
-    
+
     private static extended: TMIMETypesRegistryGeneric<any> | null = null;
 
+    /**
+     * Returns the MIME Types Registry, either the built-in Types
+     * or combined with extended ones added via {@link HTTPMIMETypesConvenience.extend}. 
+     *
+     * @static
+     * 
+     * @type {see the implementation}
+     *
+     * @returns {TMIMETypesRegistryGeneric} The complete MIME Types Registry.
+     *
+     * @example Retrieve the actual MIME Types Registry
+     * 
+     * ```typescript
+     * const allMIMETypes = HTTPMIMETypesConvenience.types;
+     * console.log(Object.keys(allMIMETypes)); // ['application/json', 'text/html', ...]
+     * ```
+     */
     public static get types(): TMIMETypesRegistryGeneric<typeof BuiltInMIMETypesSource> &
         (typeof HTTPMIMETypesConvenience.extended extends TMIMETypesRegistryGeneric<any>
             ? typeof HTTPMIMETypesConvenience.extended
@@ -32,14 +90,68 @@ export default class HTTPMIMETypesConvenience {
             : MIME_TYPES_BUILTIN;
     }
 
+    /**
+     * Indicates whether the MIME Types Registry has been extended with custom types.
+     *
+     * @static
+     * 
+     * @returns {boolean} `true` if extended with {@link HTTPMIMETypesConvenience.extend}, 
+     * otherwise `false`.
+     * 
+     *
+     * @example
+     * ```typescript
+     * console.log(HTTPMIMETypesConvenience.isExtended); // false
+     * HTTPMIMETypesConvenience.extend(customMIMETypes);
+     * console.log(HTTPMIMETypesConvenience.isExtended); // true
+     * ```
+     * 
+     * @see {@link HTTPMIMETypesConvenience.extend}
+     * @see {@link HTTPMIMETypesConvenience.reset}
+     */
     public static get isExtended(): boolean {
         return !!this.extended;
     }
 
+    /**
+     * Extends the MIME Types Registry with custom MIME types.
+     *
+     * @static
+     * 
+     * @param {TMIMETypesRegistryGeneric<T>} types - The custom MIME types to add.
+     * 
+     * @example
+     * ```typescript
+     * HTTPMIMETypesConvenience.extend(customMIMETypes);
+     * console.log(HTTPMIMETypesConvenience.isExtended); // true
+     * ```
+     * 
+     * @see {@link HTTPMIMETypesConvenience.isExtended}
+     * @see {@link HTTPMIMETypesConvenience.reset}
+     */
     public static extend<T extends readonly TSource[]>(types: TMIMETypesRegistryGeneric<T>): void {
         this.extended = types;
     }
 
+    /**
+     * Resets the MIME Types Registry to its built-in state.
+     *
+     * @static
+     * 
+     * @returns {void}
+     *
+     * @example
+     * 
+     * ```typescript
+     * HTTPMIMETypesConvenience.extend(customMIMETypes);
+     * console.log(HTTPMIMETypesConvenience.isExtended); // true
+     * HTTPMIMETypesConvenience.reset();
+     * console.log(HTTPMIMETypesConvenience.isExtended); // false
+     * ```
+     * 
+     * @see {@link HTTPMIMETypesConvenience.extend}
+     * @see {@link HTTPMIMETypesConvenience.isExtended}
+     */
     public static reset(): void {
         this.extended = null;
     }
@@ -55,17 +167,20 @@ export default class HTTPMIMETypesConvenience {
      * @param {string} value - The MIME Type attribute value to validate.
      * For extensions validation will accept extensions with or without dot (`.json`, `gz`).
      * @param {EIsValidAttributes} attribute - The attribute to validate against.
+     * 
      * @default EIsValidAttributes.TYPE
      * 
      * @returns {boolean} `true` if the value is valid for the provided attribute, otherwise `false`.
      * 
      * @example Implicit attribute validation (defaults to TYPE)
+     * 
      * ```typescript
      * const isValid = HTTPMIMETypesConvenience.isValid('application/json');
      * console.log(isValid); // true
      * ```
      * 
      * @example Explicit `EXTENSION` attribute validation
+     * 
      * ```typescript
      * const isValidExtension = HTTPMIMETypesConvenience.isValid('.json', EIsValidAttributes.EXTENSION);
      * console.log(isValidExtension); // true 
@@ -165,7 +280,9 @@ export default class HTTPMIMETypesConvenience {
     }
 
     /**
-     * This method is undocumented. Not officially available yet.
+     * @internal
+     * 
+     * This method is used internally, undocumented. Not publicly available yet.
      * @todo Suggest use cases. TDD implement.
      */
     public static pickBy(value: string): (TMIMETypeObject<TSource>)[] | null {
@@ -177,6 +294,7 @@ export default class HTTPMIMETypesConvenience {
 
     /**
      * WARNING: So far implement only for Type attribute.
+     * @private
      * @return {TMIMETypeObject<TSource> | null}
      */
     private static findBy(value: string): TMIMETypeObject<TSource> | null {

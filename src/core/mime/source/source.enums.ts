@@ -2,6 +2,11 @@
 
 import { MIMExtensionInapplicable } from '@src/core/mime/HTTPMIMETypesConvenience.js';
 
+/**
+ * The built-in MIME types spare enum.
+ * 
+ * Use via {@link MIME_TYPES_BUILTIN} constant.
+ */
 export enum EMIMETypes {
     // TEXT Group
     TEXT_PLAIN = "text/plain",
@@ -64,6 +69,11 @@ export enum EMIMETypes {
     FONT_WOFF2 = "font/woff2",
 }
 
+/**
+ * The built-in MIME groups spare enum.
+ * 
+ * Use via {@link MIME_TYPES_GROUPS_BUILTIN} constant.
+ */
 export enum EMIMEGroups {
     APPLICATION = "APPLICATION",
     AUDIO = "AUDIO",
@@ -78,6 +88,11 @@ export enum EMIMEGroups {
     VIDEO = "VIDEO"
 }
 
+/**
+ * The built-in MIME extensions spare enum.
+ * 
+ * Use via {@link MIME_TYPES_EXTENSIONS_BUILTIN} constant.
+ */
 export enum EMIMEExtensions {
     // --- Essential MIME types extensions
     JSON = ".json",
