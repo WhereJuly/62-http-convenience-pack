@@ -43,7 +43,7 @@ The pack purpose is to provide uniform standardized RFC-compliant HTTP constants
 
 It adds the type safety and convenience of auto-complete. It allows to avoid string constants ambiguity, ensures you always get the same correct and uniform HTTP header name (or a MIME type, or a status code / message) sent from your one end (e.g. front) to the other (e.g. back) and / or across you services.
 
-On top it has convenience functionality (validation, grouping, normalization, etc.).
+On top it has convenience manipulation functionality.
 
 ---
 
@@ -101,14 +101,14 @@ npm install http-convenience-pack
 
 ## [HTTP Methods](.docs/methods.md)
 
-## [HTTP Statuses](.docs/statuses.md.md)
+## [HTTP Statuses](.docs/statuses.md)
 
 ## [HTTP MIME Types Module](.docs/mime-types.md)
 
 ## HTTP Headers
 
-> See: [Combined Usage Example](.docs/combined-usage-example.md)
-> Development: [readme](src/headers/implement.md)
+> See: [Combined Usage Example](./.docs/combined-usage-example.md)
+> Development: [readme](./src/core/headers/implement.md)
 
 ## Maintenance
 

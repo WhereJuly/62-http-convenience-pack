@@ -2,7 +2,7 @@
 
 > NB: Create all examples in the actual typescript file to check correctness and put here.
 
-Comfortably autocomplete HTTP constants and ensure the uniform HTTP values are used across your application.
+Start on your one end, e.g. front-end. Comfortably autocomplete HTTP constants. Ensure you get the reliable uniform HTTP values across your application.
 
 **Send a request**
 
@@ -24,7 +24,6 @@ const response = await fetch('https://api.example.com/data', {
 import { EHTTPMethods, HTTPMethodsConvenience as Methods } from 'http-convenience-pack';
 
 const allowed = [EHTTPMethods.GET, EHTTPMethods.PATCH];
-// Assume the request came for your service above.
 
 Methods.isValid(request.method); // true
 Methods.isAmong(request.method, allowed); // true
@@ -79,7 +78,9 @@ const handler = (req: Request, res: Response): void => {
       EHTTPHeaders.CONTENT_TYPE: EHTTPMIMETypes.APPLICATION_JSON
     })
     .status(THTTPStatuses[200].code)
-    // Here for brevity. May use it in custom error handler. Here Express would set the default message ('OK').
+
+    // `.statusMessage` used here for brevity as the example appropriate for a custom error handler.
+    // Here Express would set the default message ('OK') itself.
     .statusMessage(THTTPStatuses[200].message)
     .send(bodyString);
 };
