@@ -50,7 +50,9 @@ Methods.isAmong(request.method, allowed); // true
 **Assume** the request came for some unknown service with method `options` (as lower case).
 
 ```typescript
-// Normalize (to upper case) and test against `EHTTPMethods` enum.
+/**
+ * Normalize (to upper case) and test against `EHTTPMethods` enum.
+ */
 Methods.isValid(Methods.normalize(request.method)); // true
 
 /**
