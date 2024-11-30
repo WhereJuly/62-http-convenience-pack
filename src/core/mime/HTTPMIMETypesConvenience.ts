@@ -162,6 +162,8 @@ export default class HTTPMIMETypesConvenience {
      * 
      * The actual attribute to compare against is defined by {@link EIsValidAttributes}.
      * 
+     * Extension is validated with or without the dot.
+     * 
      * @static
      * 
      * @param {string} value - The MIME Type attribute value to validate.
@@ -182,8 +184,12 @@ export default class HTTPMIMETypesConvenience {
      * @example Explicit `EXTENSION` attribute validation
      * 
      * ```typescript
+     * // The '.' in extension is present.
      * const isValidExtension = HTTPMIMETypesConvenience.isValid('.json', EIsValidAttributes.EXTENSION);
      * console.log(isValidExtension); // true 
+     * 
+     * // No '.' in extension.
+     * const isValidExtension = HTTPMIMETypesConvenience.isValid('json', EIsValidAttributes.EXTENSION);
      * ```
      */
     public static isValid(value: string, attribute?: EIsValidAttributes): boolean {
@@ -199,7 +205,7 @@ export default class HTTPMIMETypesConvenience {
     }
 
     /**
-     * Checks if a given MIME type name is among a list of type names.
+     * Checks if a given MIME Type name is among a list of type names.
      * 
      * @static
      * 
@@ -209,7 +215,7 @@ export default class HTTPMIMETypesConvenience {
      * 
      * @returns {boolean} `true` if the type name is found in `typeNames`, otherwise `false`.
      * 
-     * @example Check if a type name is among the default registry
+     * @example Check if a type name is among the Registry types
      * 
      * ```typescript
      * const isAmongDefault = HTTPMIMETypesConvenience.isAmong('application/json');
@@ -230,11 +236,7 @@ export default class HTTPMIMETypesConvenience {
     }
 
     /**
-     * Determines if a given MIME type belongs to a provided group existing in
-     * the MIME Types Registry {@link HTTPMIMETypesConvenience.types}.
-     * 
-     * The method first looks for the given MIME type in the registry. If found,
-     * it checks the found MIME type group matches the provided group.
+     * Determines if a given MIME type exists in the registry and belongs to a provided group.
      * 
      * @static
      * 
