@@ -19,7 +19,7 @@ Use TypeScript type inference and IDE autocomplete functionality for comfort and
 
 **Summary**
 
-The small dependency-free TypeScript HTTP convenience package to expose uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services. Manipulation functionality (validate, normalize etc.) is provided as well.
+The small dependency-free TypeScript HTTP convenience package to expose uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services. Manipulation functionality (validate, normalize, transform, is among, of group, in group etc.) is provided as well.
 
 The new use cases / functionality suggestions are welcome either in [Discussions](https://github.com/WhereJuly/62-http-convenience-pack/discussions) or as [pull requests](#contribution).
 
