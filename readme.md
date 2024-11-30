@@ -68,7 +68,9 @@ On top it has convenience manipulation functionality.
 
 ### Documentation
 
-The package is carefully documented for comfortable developer experience. From the good-named identifiers in code, thought-out autocompletion (see animated GIF [demo](#autocomplete-demo)), hover-popup doc blocks with usage examples on enums, constants classes and methods to the detailed readme with use cases and the modules' API references.
+The package is carefully documented for comfortable developer experience integrated with your IDE (e.g. see [VS Code](https://code.visualstudio.com/Docs/languages/typescript) TypeScript setup).
+
+From the good-named identifiers in code, thought-out autocompletion (see animated GIF [demo](#autocomplete-demo)), hover-popup doc blocks with usage examples on enums, constants classes and methods to the detailed readme with use cases and the modules' API references.
 
 There is a GitHub [Discussion](https://github.com/WhereJuly/62-http-convenience-pack/discussions) available for question, as the usual GitHub [Issues](https://github.com/WhereJuly/62-http-convenience-pack/issues) for bug reporting.
 
