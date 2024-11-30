@@ -4,6 +4,9 @@
 
 ## HTTP MIME Types Module
 
+> Development: see [use cases](.docs/a&cd/mime/use-cases.md)
+> WRITE: The MIME Types values list, RFC 9110, uniform across your application.
+
 - [HTTP MIME Types Module](#http-mime-types-module)
   - [At a Glance](#at-a-glance)
   - [Add Extended MIME Types](#add-extended-mime-types)
