@@ -1,6 +1,10 @@
 'use strict';
 
 // IMPORTANT: For the future if categorizing methods will be needed.
+
+/**
+ * @considered
+ */
 const _HTTPMethods = {
     GET: ['safe', 'idempotent', 'cacheable'],
     HEAD: ['safe', 'idempotent', 'cacheable'],
@@ -13,6 +17,9 @@ const _HTTPMethods = {
     CONNECT: ['special_purpose'],
 };
 
+/**
+ * @considered
+ */
 enum _EHTTPMethodsGroups {
     SAFE = "safe",
     IDEMPOTENT = "idempotent",
