@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="./images/banner-4.jpg" width="100%"/>
+</div>
+
 ## Combined Usage Example
 
 > NB: Create all examples in the actual typescript file to check correctness and put here.
