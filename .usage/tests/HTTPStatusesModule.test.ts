@@ -20,6 +20,10 @@ describe('HTTPStatusesModuleTest', () => {
     it('Assess HTTPStatusesConvenience usage', () => {
         expect(HTTPStatusesConvenience.isValid(200)).toEqual(true);
         expect(HTTPStatusesConvenience.inGroup(200, EHTTPStatusCodeGroups.CLIENTERR)).toEqual(false);
+        expect(HTTPStatusesConvenience.inGroup(200, EHTTPStatusCodeGroups.SUCCESS)).toEqual(true);
+
+        const specific = [THTTPStatuses[200].code, THTTPStatuses[204].code]
+        expect(HTTPStatusesConvenience.isAmong(201, specific)).toEqual(false);
     });
 
 });

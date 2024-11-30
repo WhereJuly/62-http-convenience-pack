@@ -1,10 +1,24 @@
-#### Combined Usage Example
+## Combined Usage Example
 
 > NB: Create all examples in the actual typescript file to check correctness and put here.
 
+- [Combined Usage Example](#combined-usage-example)
+  - [Start on One End](#start-on-one-end)
+    - [Send a request](#send-a-request)
+  - [On the Other End: Request Receive and Process](#on-the-other-end-request-receive-and-process)
+    - [Methods](#methods)
+    - [Headers](#headers)
+    - [Respond](#respond)
+  - [Back to One End: Response Receive and Process](#back-to-one-end-response-receive-and-process)
+  - [Conclusion](#conclusion)
+
+---
+
+### Start on One End
+
 Start on your one end, e.g. front-end. Comfortably autocomplete HTTP constants. Ensure you get the reliable uniform HTTP values across your application.
 
-**Send a request**
+#### Send a request
 
 ```typescript
 import { EHTTPMethods, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
@@ -17,6 +31,10 @@ const response = await fetch('https://api.example.com/data', {
  }
 });
 ```
+
+### On the Other End: Request Receive and Process
+
+#### Methods
 
 **On request receive** (e.g. in route or endpoint middleware) check a method is valid or allowed, normalize the method if the request came from unknown source.
 
@@ -38,8 +56,8 @@ Methods.isValid(Methods.normalize(request.method)); // true
 // Same as preceding but normalize is built-in (as well as exception throw for non-strings or invalid methods, see API description)
 Methods.isAmong(request.method); // true
 
-// Normalize and test against `allowed` methods as inline literal 
-// or constant, defined in advance for each specific endpoint or route  
+// Normalize and test against `allowed` methods as inline literal
+// or constant, defined in advance for each specific endpoint or route
 Methods.isAmong(request.method, ['GET', 'POST']); // false
 ```
 
@@ -47,12 +65,14 @@ Methods.isAmong(request.method, ['GET', 'POST']); // false
 > `Methods.inGroup(request.method, EHTTPMethodsGroups.SAFE)`
 > to avoid manually listing the methods for some standard use cases
 
+#### Headers
+
 Now to **headers**.
 
 This example iterates over keys in `request.headers` object, normalizes each one, finds the desired header and by default extract the token with `Bearer token` value scheme.
 
 ```typescript
-const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION)
+const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION);
 ```
 
 It can extract different standard Authentication schemes and your custom ones.
@@ -65,7 +85,9 @@ const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION,
 // Pass the token further down the middleware chain to use.
 ```
 
-**Conveniently respond** in an endpoint handler (e.g. in Express)
+#### Respond
+
+**Conveniently respond** in an endpoint handler (e.g. in Express) with **headers**, **status codes and messages**.
 
 ```typescript
 import { EHTTPHeaders, EHTTPMIMETypes, THTTPStatuses } from 'http-convenience-pack';
@@ -85,3 +107,25 @@ const handler = (req: Request, res: Response): void => {
     .send(bodyString);
 };
 ```
+
+### Back to One End: Response Receive and Process
+
+**Receive the response** on your end (continue from the [top](#combined-usage-example)) and process it according to the **status code**, **headers**
+
+```typescript
+const response = await fetch(/* see at the beginning */)
+
+const status = response.status;
+
+// Conveniently forward the codes to their respective handlers.
+HTTPStatusesConvenience.inGroup(status, EHTTPStatusCodeGroups.CLIENTERR) && this.processError();
+HTTPStatusesConvenience.inGroup(status, EHTTPStatusCodeGroups.SUCCESS) && this.processSuccess();
+
+// Use convenience methods to accommodate the specific use cases
+const specific = [THTTPStatuses[200].code, THTTPStatuses[204].code]
+HTTPStatusesConvenience.isAmong(status, specific)) && this.processSpecific();
+```
+
+### Conclusion
+
+This is just the basic use cases flow but you can see how expressive, simple and readable the code becomes as well as comfortable autocomplete gets.

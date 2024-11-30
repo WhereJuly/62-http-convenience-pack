@@ -23,33 +23,25 @@ describe('HTTPMethodsModuleTest', () => {
         // NB: Usage tryout.
         // WRITE: Should accept strings as well? 
         // WRITE: Arrays of strings?
-        HTTPMethodsConvenience.isAllowed('get' as EHTTPMethods);
+        HTTPMethodsConvenience.isAmong('get' as EHTTPMethods);
 
         // WRITE: Allow for undefined `customMethods` parameter.
-        const cMethods = new HTTPMethodsConvenience({});
-
         const actual = {
             straight: {
                 isValid: HTTPMethodsConvenience.isValid('get'),
-                isAllowed: HTTPMethodsConvenience.isAllowed('get' as EHTTPMethods),
+                isAmong: HTTPMethodsConvenience.isAmong('get'),
                 normalize: HTTPMethodsConvenience.normalize('get'),
             },
             namespaced: {
                 isValid: HCP.Methods.isValid(HCP.EMethods.GET),
-                isAllowed: HCP.Methods.isAllowed(HCP.EMethods.GET as EHTTPMethods),
-            },
-            instance: {
-                isValid: cMethods.isValid('get'),
-                isAllowed: cMethods.isAllowed('get' as EHTTPMethods),
+                isAllowed: HCP.Methods.isAmong(HCP.EMethods.GET as EHTTPMethods),
             }
         };
-        
+
         expect(actual.straight.isValid).toEqual(true);
-        expect(actual.straight.isAllowed).toEqual(true);
+        expect(actual.straight.isAmong).toEqual(true);
         expect(actual.namespaced.isValid).toEqual(true);
         expect(actual.namespaced.isAllowed).toEqual(true);
-        expect(actual.instance.isValid).toEqual(true);
-        expect(actual.instance.isAllowed).toEqual(true);
         expect(actual.straight.normalize).toEqual(EHTTPMethods.GET);
     });
 
