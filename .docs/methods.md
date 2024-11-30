@@ -13,7 +13,7 @@
     - [`HTTPMethodsConvenience` Class](#httpmethodsconvenience-class)
       - [`HTTPMethodsConvenience.methods` Getter](#httpmethodsconveniencemethods-getter)
       - [`HTTPMethodsConvenience.isValid` Method](#httpmethodsconvenienceisvalid-method)
-      - [`HTTPMethodsConvenience.isValid` Method](#httpmethodsconvenienceisvalid-method-1)
+      - [`HTTPMethodsConvenience.isAmong` Method](#httpmethodsconvenienceisamong-method)
       - [`HTTPMethodsConvenience.normalize` Method](#httpmethodsconveniencenormalize-method)
       - [`HTTPMethodsConvenience.extend` Method](#httpmethodsconvenienceextend-method)
       - [`HTTPMethodsConvenience.reset` Method](#httpmethodsconveniencereset-method)
@@ -109,9 +109,9 @@ HTTPmethodsConvenience.isValid(['GET', 'post']); // true; Automated normalize be
 HTTPmethodsConvenience.isValid(['GET', 'link']); // false;
 ```
 
-##### `HTTPMethodsConvenience.isValid` Method
+##### `HTTPMethodsConvenience.isAmong` Method
 
-Check if a given HTTP method is allowed based on a methods in the Registry or on the optional list of allowed methods either as [`THTTPMethodsConstraint`](#thttpmethodsconstraint-type) object or `string[]`.
+Check if a given HTTP method is among methods in the Registry or on the optional list of methods either as [`THTTPMethodsConstraint`](#thttpmethodsconstraint-type) object or `string[]`.
 
 Signature: `public static isAmong(given: string | string[], allowed?: THTTPMethodsConstraint | string[]): boolean`
 
