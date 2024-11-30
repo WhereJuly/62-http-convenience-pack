@@ -49,7 +49,7 @@
         "enums",
         "helpers",
         "validate",
-        "allow",
+        "group",
         "normalize",
         "standard",
         "uniform",
