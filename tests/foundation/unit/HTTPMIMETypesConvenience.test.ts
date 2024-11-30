@@ -59,9 +59,9 @@ describe('HTTPMIMETypesConvenience2Test', () => {
         const actual = HTTPMIMETypesConvenience;
 
         actual.extend(MIME_TYPES_EXTENDED);
-
         expect(actual.isExtended).toEqual(true);
         expect(actual.types['application/gzip'].extension).toEqual('.gz');
+        expect(MIME_TYPES_EXTENDED['custom/json'].extension).toEqual('.json');
     });
 
     it('+static reset(): check the class is extended ', () => {
