@@ -2,23 +2,23 @@
   <img src="./images/banner-4.jpg" width="100%"/>
 </div>
 
-## HTTP Methods
+## HTTP Methods Module
 
-- [HTTP Methods](#http-methods)
+- [HTTP Methods Module](#http-methods-module)
   - [At a Glance](#at-a-glance)
     - [Documentation](#documentation)
   - [A Basic Use Case](#a-basic-use-case)
   - [API Reference](#api-reference)
     - [`EHTTPMethods` Enum](#ehttpmethods-enum)
     - [`HTTPMethodsConvenience` Class](#httpmethodsconvenience-class)
-      - [`HTTPMethodsConvenience.methods` Getter](#httpmethodsconveniencemethods-getter)
-      - [`HTTPMethodsConvenience.isValid` Method](#httpmethodsconvenienceisvalid-method)
-      - [`HTTPMethodsConvenience.isAmong` Method](#httpmethodsconvenienceisamong-method)
-      - [`HTTPMethodsConvenience.normalize` Method](#httpmethodsconveniencenormalize-method)
-      - [`HTTPMethodsConvenience.extend` Method](#httpmethodsconvenienceextend-method)
-      - [`HTTPMethodsConvenience.reset` Method](#httpmethodsconveniencereset-method)
-      - [`HTTPMethodsConvenience.isExtended` Getter](#httpmethodsconvenienceisextended-getter)
-      - [`HTTPMethodsConvenience.values` Getter](#httpmethodsconveniencevalues-getter)
+      - [`.methods` Getter](#methods-getter)
+      - [`.isValid()` Method](#isvalid-method)
+      - [`.isAmong()` Method](#isamong-method)
+      - [`.normalize()` Method](#normalize-method)
+      - [`.extend()` Method](#extend-method)
+      - [`.reset()` Method](#reset-method)
+      - [`.isExtended` Getter](#isextended-getter)
+      - [`.values` Getter](#values-getter)
     - [`THTTPMethodsConstraint` Type](#thttpmethodsconstraint-type)
     - [`HTTPConveniencePackException` Exception](#httpconveniencepackexception-exception)
   - [Potentially Useful Functionality](#potentially-useful-functionality)
@@ -27,7 +27,7 @@
 
 ### At a Glance
 
-The module contains all the standard HTTP methods according to [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#methods) as built-ins. It allows to type-safely autocomplete, validate, check against the list, normalize, [extend](#httpmethodsconvenienceextend-method) with custom HTTP Methods and manipulate with built-in and extended HTTP Methods (if any) as one.
+The module contains all the standard HTTP methods according to [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#methods) as built-ins. It allows to type-safely autocomplete, validate, check against the list, normalize, [extend](#extend-method) with custom HTTP Methods and manipulate with built-in and extended HTTP Methods (if any) as one.
 
 The module contains the following public [API](#api-reference): the enum `EHTTPMethods` and the class `HTTPMethodsConvenience`. The class allows the access to the HTTP Registry via `HTTPMethodsConvenience.methods`
 
@@ -77,9 +77,9 @@ EHTTPMethods.GET; // 'GET', Autocomplete;
 
 The static class that provides the HTTP Methods Registry and the convenience methods for the methods manipulations.
 
-##### `HTTPMethodsConvenience.methods` Getter
+##### `.methods` Getter
 
-Provides the single point access to the HTTP Methods Registry. The Registry either contains built-in methods or built-in and extended (if [`HTTPMethodsConvenience.extend()`](#httpmethodsconvenienceextend-method) was applied)
+Provides the single point access to the HTTP Methods Registry. The Registry either contains built-in methods or built-in and extended (if [`HTTPMethodsConvenience.extend()`](#extend-method) was applied)
 
 Signature: `public static get methods(): THTTPMethodsConstraint`
 
@@ -91,7 +91,7 @@ import HTTPMethodsConvenience from 'http-convenience-pack';
 const allTheMethodsIncludingExtendedIfAny = HTTPMethodsConvenience.methods;
 ```
 
-##### `HTTPMethodsConvenience.isValid` Method
+##### `.isValid()` Method
 
 Check if the given HTTP method(s) are valid against the Methods Registry (either built-in or extended).
 
@@ -109,7 +109,7 @@ HTTPmethodsConvenience.isValid(['GET', 'post']); // true; Automated normalize be
 HTTPmethodsConvenience.isValid(['GET', 'link']); // false;
 ```
 
-##### `HTTPMethodsConvenience.isAmong` Method
+##### `.isAmong()` Method
 
 Check if a given HTTP method is among methods in the Registry or on the optional list of methods either as [`THTTPMethodsConstraint`](#thttpmethodsconstraint-type) object or `string[]`.
 
@@ -126,7 +126,7 @@ console.log(HTTPMethodsConvenience.isAmong(['GET', 'POST', 'LINK'])); // true fo
 console.log(HTTPMethodsConvenience.isAmong('PATCH', ['GET', 'POST'])); // false
 ```
 
-##### `HTTPMethodsConvenience.normalize` Method
+##### `.normalize()` Method
 
 Normalize a given string to an uppercase standard or custom HTTP method. Throws [`HTTPConveniencePackException`](#httpconveniencepackexception-exception) for `maybeMethod` parameter is either not a string or not a valid HTTP method.
 
@@ -148,7 +148,7 @@ try {
 }
 ```
 
-##### `HTTPMethodsConvenience.extend` Method
+##### `.extend()` Method
 
 Extends the HTTP Methods Registry with custom methods.
 
@@ -186,7 +186,7 @@ console.log(CombinedHTTPMethods.GET); // GET;  Autocomplete;
 console.log(CombinedHTTPMethods.LINK); // LINK;  Autocomplete;
 ```
 
-##### `HTTPMethodsConvenience.reset` Method
+##### `.reset()` Method
 
 Resets the HTTP Methods Registry to its built-in state.
 
@@ -201,7 +201,7 @@ HTTPMethodsConvenience.reset();
 console.log(HTTPMethodsConvenience.isExtended); // true
 ```
 
-##### `HTTPMethodsConvenience.isExtended` Getter
+##### `.isExtended` Getter
 
 Checks if the HTTP Methods Registry has been extended with custom methods.
 
@@ -215,7 +215,7 @@ import HTTPMethodsConvenience from 'http-convenience-pack';
 console.log(HTTPMethodsConvenience.isExtended); // false
 ```
 
-##### `HTTPMethodsConvenience.values` Getter
+##### `.values` Getter
 
 Return the Registry methods as array.
 
