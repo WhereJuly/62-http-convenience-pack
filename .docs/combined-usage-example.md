@@ -53,11 +53,17 @@ Methods.isAmong(request.method, allowed); // true
 // Normalize (to upper case) and test against `EHTTPMethods` enum.
 Methods.isValid(Methods.normalize(request.method)); // true
 
-// Same as preceding but normalize is built-in (as well as exception throw for non-strings or invalid methods, see API description)
+/**
+ * Same as preceding one but `normalize` is built-in into `isAmong`
+ * as well as the custom `HTTPConveniencePackException` exception throw 
+ * for non-strings or invalid methods, see API description
+ */
 Methods.isAmong(request.method); // true
 
-// Normalize and test against `allowed` methods as inline literal
-// or constant, defined in advance for each specific endpoint or route
+/**
+ * Normalize and test against `allowed` methods as inline literal or constant,
+ * defined in advance for each specific endpoint or route
+ */
 Methods.isAmong(request.method, ['GET', 'POST']); // false
 ```
 
@@ -67,9 +73,13 @@ Methods.isAmong(request.method, ['GET', 'POST']); // false
 
 #### Headers
 
+> This functionality has to be implemented
+
 Now to **headers**.
 
-This example iterates over keys in `request.headers` object, normalizes each one, finds the desired header and by default extract the token with `Bearer token` value scheme.
+Extract the header. 
+
+> Implementation notes: This example iterates over keys in `request.headers` object, normalizes each one, finds the desired header and by default extract the token with `Bearer token` value scheme.
 
 ```typescript
 const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION);
@@ -101,8 +111,10 @@ const handler = (req: Request, res: Response): void => {
     })
     .status(THTTPStatuses[200].code)
 
-    // `.statusMessage` used here for brevity as the example appropriate for a custom error handler.
-    // Here Express would set the default message ('OK') itself.
+    /**
+     * `.statusMessage` used here for brevity as the example appropriate for a custom error handler.
+     * Actually here Express would set the default message ('OK') itself.
+     */
     .statusMessage(THTTPStatuses[200].message)
     .send(bodyString);
 };
@@ -117,11 +129,15 @@ const response = await fetch(/* see at the beginning */)
 
 const status = response.status;
 
-// Conveniently forward the codes to their respective handlers.
+/**
+ * Conveniently forward the codes to their respective handlers.
+ */
 HTTPStatusesConvenience.inGroup(status, EHTTPStatusCodeGroups.CLIENTERR) && this.processError();
 HTTPStatusesConvenience.inGroup(status, EHTTPStatusCodeGroups.SUCCESS) && this.processSuccess();
 
-// Use convenience methods to accommodate the specific use cases
+/**
+ * Use convenience method `isAmong` to run the specific use cases handler.
+ */
 const specific = [THTTPStatuses[200].code, THTTPStatuses[204].code]
 HTTPStatusesConvenience.isAmong(status, specific)) && this.processSpecific();
 ```
