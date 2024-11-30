@@ -146,4 +146,4 @@ HTTPStatusesConvenience.isAmong(status, specific)) && this.processSpecific();
 
 ### Conclusion
 
-This is just the basic use cases flow but you can see how expressive, simple and readable the code becomes as well as comfortable autocomplete gets.
+This is just the basic use cases flow but you can see how expressive, simple and readable the code becomes as well as comfortable the autocomplete gets.
