@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * HTTP Convenience Pack custom  exception.
+ * HTTP Convenience Pack custom exception.
  * 
  * @group Convenience
  * @category Exceptions

@@ -27,9 +27,9 @@ describe('HTTPMIMETypesConvenience2Test', () => {
 
         expect(actual).toBeDefined();
         expect(MIMETypesGenericRegistryFactory).toBeInstanceOf(Function);
-        // expect(actual.types).toEqual(MIME_TYPES_BUILTIN);
-        // expect(actual.extend).toBeInstanceOf(Function);
-        // expect(actual.reset).toBeInstanceOf(Function);
+        expect(actual.types).toEqual(MIME_TYPES_BUILTIN);
+        expect(actual.extend).toBeInstanceOf(Function);
+        expect(actual.reset).toBeInstanceOf(Function);
     });
 
     it('MIMETypesRegistryFactory(): Should create the built-in MIME Types Registry with autocomplete', () => {

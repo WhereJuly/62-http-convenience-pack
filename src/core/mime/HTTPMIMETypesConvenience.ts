@@ -6,7 +6,7 @@ import { MIME_TYPES_BUILTIN } from '@src/core/mime/builtin.constants.js';
 import { BuiltInMIMETypesSource } from '@src/core/mime/source/builtin.mime.js';
 import { TMIMETypeObject, TMIMETypesRegistryGeneric, TSource } from '@src/core/mime/types.js';
 
-enum EMimeTypeRecordAttributes {
+enum EMIMETypeRecordAttributes {
     TYPE = 'type',
     GROUP = 'group',
     EXTENSION = 'extension'
@@ -15,11 +15,12 @@ enum EMimeTypeRecordAttributes {
 export const MIMExtensionInapplicable = 'inapplicable';
 
 export enum EIsValidAttributes {
-    TYPE = EMimeTypeRecordAttributes.TYPE,
-    EXTENSION = EMimeTypeRecordAttributes.EXTENSION
+    TYPE = EMIMETypeRecordAttributes.TYPE,
+    EXTENSION = EMIMETypeRecordAttributes.EXTENSION
 }
 
 export default class HTTPMIMETypesConvenience {
+    
     private static extended: TMIMETypesRegistryGeneric<any> | null = null;
 
     public static get types(): TMIMETypesRegistryGeneric<typeof BuiltInMIMETypesSource> &
@@ -71,10 +72,10 @@ export default class HTTPMIMETypesConvenience {
      * ```
      */
     public static isValid(value: string, attribute?: EIsValidAttributes): boolean {
-        const attributeName = attribute || EMimeTypeRecordAttributes.TYPE;
+        const attributeName = attribute || EMIMETypeRecordAttributes.TYPE;
 
         // NB: If attributeName is EXTENSION, normalize the value to include dot (if not present). 
-        const normalized = attributeName === EMimeTypeRecordAttributes.TYPE ? value :
+        const normalized = attributeName === EMIMETypeRecordAttributes.TYPE ? value :
             attributeName === EIsValidAttributes.EXTENSION && value.includes('.') ? value : `.${value}`;
 
         return Object.values(HTTPMIMETypesConvenience.types).some((type: TMIMETypeObject<TSource>) => {

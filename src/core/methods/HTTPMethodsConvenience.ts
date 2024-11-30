@@ -1,35 +1,11 @@
 'use strict';
 
+import { EHTTPMethods, THTTPMethodsConstraint } from '@src/core/methods/methods.types.js';
 import HTTPConveniencePackException from '@src/exceptions/HTTPConveniencePack.exception.js';
 
-export type TCustomHTTPMethodsConstraint = Record<string, string>;
-
 /**
- * The standard HTTP methods enum.
- * 
- * Comply with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#methods)
- * published in June 2022.
- */
-export enum EHTTPMethods {
-    GET = 'GET',
-    POST = 'POST',
-    PUT = 'PUT',
-    DELETE = 'DELETE',
-    PATCH = 'PATCH',
-    OPTIONS = 'OPTIONS',
-    HEAD = 'HEAD',
-    TRACE = 'TRACE',
-}
-
-/**
- * Provide convenient interface to work with  HTTP methods, standard {@link EHTTPMethods} 
- * and custom {@link GCustomMethods}.
- * 
- * Statics methods allow working with standard HTTP methods.
- * The class instance allows to work with custom HTTP methods you define.
- * 
- * 
- * @template GCustomMethods - A generic type extending TCustomHTTPMethodsConstraint, representing custom HTTP methods.
+ * Provide convenient interface to work with HTTP methods, standard {@link EHTTPMethods} 
+ * and extended {@link THTTPMethodsConstraint}.
  * 
  * @example
  * 
@@ -40,237 +16,221 @@ export enum EHTTPMethods {
  * ```
  * @example
  * 
- * Add custom HTTP methods at instantiation and work with both standard and custom HTTP methods
+ * Extend custom HTTP methods at instantiation and work with both standard and custom HTTP methods
  * via the instance. 
  * 
  * ```typescript
- * enum ECustomHTTPMethods { LINK = 'LINK', UNLINK = 'UNLINK' }
- * const ExtendedHTTPMethods = { ...EHTTPMethods, ...ECustomHTTPMethods }; 
- * 
- * // Will-provide-autocomplete for standard and custom HTTP methods -
- * console.log(ECustomHTTPMethods.LINK);
- * 
- * // Use the instance
- * const httpMethodsConvenience = new HTTPMethodsConvenience(ECustomHTTPMethods);
- * console.log(HTTPMethodsConvenience.isValid(['LINK', 'GET'])); // true;
+ * enum ECustomHTTPMethods = { LINK = 'LINK', UNLINK = 'UNLINK' }
+ * HTTPMethodsConvenience.extend(ECustomHTTPMethods);
+ * console.log(HTTPMethodsConvenience.isValid([ECustomHTTPMethods.LINK, 'GET'])); // true; Provides autocomplete.
  * ```
  */
-export default class HTTPMethodsConvenience<GCustomMethods extends TCustomHTTPMethodsConstraint = Record<string, string>> {
+export default class HTTPMethodsConvenience {
 
-    protected methods: EHTTPMethods | GCustomMethods;
-
-    constructor(customMethods: GCustomMethods) {
-        this.methods = { ...EHTTPMethods, ...customMethods };
-    }
+    private static extended: THTTPMethodsConstraint | null = null;
 
     /**
-     * ---
-     * IMPORTANT: Here come static methods to process standard HTTP methods.
-     * --- 
-     */
-
-    /**
-     * Retrieves the values of the standard HTTP methods.
+     * Return the HTTP Methods Registry.
+     * 
+     * The Registry can contains either built-in
+     * HTTP methods {@link EHTTPMethods} or both built-in and extended methods
+     * if the Registry was extended with {@link HTTPMethodsConvenience.extend} method.
      * 
      * @static
-     * @description Delegates to {@link HTTPMethodsConvenience._toValues}
-     * 
-     * @returns {EHTTPMethods[]} The array of EHTTPMethods enum values.
      */
-    public static toValues(): EHTTPMethods[] {
-        return HTTPMethodsConvenience._toValues(EHTTPMethods) as EHTTPMethods[];
+    public static get methods(): THTTPMethodsConstraint {
+        return this.extended ? { ...EHTTPMethods, ...this.extended } : EHTTPMethods;
     }
 
     /**
-     * Check if the given standard HTTP method or array of methods is valid.
-     * 
-     * @static
-     * @description Delegates to {@link HTTPMethodsConvenience._isValid}
-     */
-    public static isValid(maybeMethod: string | string[]): boolean {
-        return HTTPMethodsConvenience._isValid(maybeMethod, EHTTPMethods);
-    }
-
-    /**
-     * Check if a given HTTP method is allowed based on a list of allowed methods.
+     * Checks if the HTTP Methods Registry has been extended with custom methods.
      * 
      * @static
      * 
-     * @description Delegates to {@link HTTPMethodsConvenience._isAllowed}
+     * @returns {boolean} `true` if the registry includes custom methods, otherwise `false`.
      * 
-     * @param {EHTTPMethods} given - see {@link HTTPMethodsConvenience._isAllowed}.
-     * @param {EHTTPMethods[]} [allowed] - An optional array of allowed HTTP methods. 
-     * If not provided, defaults to all standard HTTP methods.
+     * @see {@link HTTPMethodsConvenience.extend}
+     * @see {@link HTTPMethodsConvenience.reset}
      * 
-     * With `allowed` undefined it is convenient to replace additional `isValid` method call
-     * as it basically resorts to checking the same result.
+     * @example 
+     * // Initially, the registry is not extended
+     * ```typescript
+     * console.log(HTTPMethodsConvenience.isExtended); // false
      * 
-     * NB: Describe the use case in the documentation.
-     * 
-     * @returns {boolean} `true` if the given method is in the list of allowed methods, otherwise `false`.
+     * // Extend the registry with custom methods
+     * enum ECustomHTTPMethods { LINK = 'LINK', UNLINK = 'UNLINK' }
+     * HTTPMethodsConvenience.extend(ECustomHTTPMethods);
+     * console.log(HTTPMethodsConvenience.isExtended); // true
+     * // Reset to the built-in state.
+     * HTTPMethodsConvenience.reset();
+     * console.log(HTTPMethodsConvenience.isExtended); // false
+     * ```
      */
-    public static isAllowed(given: EHTTPMethods, allowed?: EHTTPMethods[]): boolean {
-        const _allowed = allowed ?? HTTPMethodsConvenience.toValues();
-
-        return HTTPMethodsConvenience._isAllowed([given], _allowed);
+    public static get isExtended(): boolean {
+        return !!this.extended;
     }
 
     /**
-     * Normalizes a given string to an uppercase standard or custom HTTP method.
+     * Extends the HTTP Methods Registry with custom methods.
      * 
      * @static
      * 
-     * @description Delegates to {@link HTTPMethodsConvenience._normalize}
+     * @param {THTTPMethodsConstraint} methods - An object representing custom HTTP methods 
+     * to be added to the registry.
      * 
-     * @param {unknown} maybeMethod - See {@link HTTPMethodsConvenience._normalize}
-     * @returns {EHTTPMethods | GCustomMethods} See {@link HTTPMethodsConvenience._normalize}.
+     * @description Once extended, the Registry will include both standard and custom methods
+     * available via {@link HTTPMethodsConvenience.methods} getter.
      * 
-     * @throws {HTTPConveniencePackException} See {@link HTTPMethodsConvenience._normalize}
+     * @see {@link HTTPMethodsConvenience.isExtended}
+     * @see {@link HTTPMethodsConvenience.reset}
+     * 
+     * @example
+     * ```typescript
+     * enum ECustomHTTPMethods { LINK = 'LINK', UNLINK = 'UNLINK' }
+     * HTTPMethodsConvenience.extend(ECustomHTTPMethods);
+     * console.log(HTTPMethodsConvenience.isValid('LINK')); // true
+     * ```
      */
-    public static normalize(maybeMethod: string): EHTTPMethods {
-        return HTTPMethodsConvenience._normalize(maybeMethod, EHTTPMethods) as EHTTPMethods;
+    public static extend(methods: THTTPMethodsConstraint): void {
+        this.extended = methods;
     }
 
     /**
-     * ---
-     * IMPORTANT: Here come instance methods to process standard and custom HTTP methods.
-     * --- 
-     */
-
-    /**
-     * Retrieves the values of both standard and custom methods HTTP methods.
+     * Resets the HTTP Methods Registry to its built-in state.
      * 
-     * @description Delegates to {@link HTTPMethodsConvenience._toValues}
+     * @static
      * 
-     * @returns {EHTTPMethods[] | GCustomMethods[]} An array containing the values of the HTTP methods.
+     * @description Remove extended methods from the Registry, restoring to only built-in methods state..
+     * @see {@link HTTPMethodsConvenience.extend}
+     * @see {@link HTTPMethodsConvenience.isExtended}
+     * 
+     * @example Reset the registry to its default state
+     * ```typescript
+     * HTTPMethodsConvenience.reset();
+     * console.log(HTTPMethodsConvenience.isExtended); // false
+     * ```
      */
-    public toValues(): EHTTPMethods[] | GCustomMethods[] {
-        return HTTPMethodsConvenience._toValues(this.methods);
+    public static reset(): void {
+        this.extended = null;
     }
 
     /**
-     * Check if the given standard HTTP or custom method or array of methods is valid.
-     * 
-     * Delegates to {@link HTTPMethodsConvenience._isValid}
-     */
-    public isValid(maybeMethod: string | string[]): boolean {
-        return HTTPMethodsConvenience._isValid(maybeMethod, this.methods);
-    }
-
-    /**
-     * Check if a given HTTP method is allowed based on a list of allowed methods.
-     * 
-     * @description Delegates to {@link HTTPMethodsConvenience._isAllowed}
-     * 
-     * @param {EHTTPMethods} given - see {@link HTTPMethodsConvenience._isAllowed}.
-     * @param {EHTTPMethods[]} [allowed] - see {@link HTTPMethodsConvenience.isAllowed}. 
-     */
-    public isAllowed(given: string, allowed?: EHTTPMethods[] | GCustomMethods[]): boolean {
-        const _allowed = allowed ?? this.toValues();
-
-        return HTTPMethodsConvenience._isAllowed([given], _allowed);
-    }
-
-    /**
-     * Normalizes a given string to an uppercase standard or custom HTTP method.
-     * 
-     * @description Delegates to {@link HTTPMethodsConvenience._normalize}
-     * 
-     * @param {unknown} maybeMethod - See {@link HTTPMethodsConvenience._normalize}
-     * @returns {EHTTPMethods | GCustomMethods} See {@link HTTPMethodsConvenience._normalize}.
-     * 
-     * @throws {HTTPConveniencePackException} See {@link HTTPMethodsConvenience._normalize}
-     */
-    public normalize(maybeMethod: string): EHTTPMethods | GCustomMethods {
-        return HTTPMethodsConvenience._normalize(maybeMethod, this.methods) as EHTTPMethods;
-    }
-
-    /**
-     * ---
-     * IMPORTANT: Here come private static methods that universally process both standard and custom HTTP methods.
-     * --- 
-     */
-
-    /**
-     * Retrieves the values of the standard `EHTTPMethods` enum or `GCustomMethods` object.
-     * 
-     * @description A delegate to process either solely standard EHTTPMethods or including `GCustomMethods`.
-     *
-     * @template GCustomMethods - A generic type extending TCustomHTTPMethodsConstraint, representing custom HTTP methods.
-     * @param {EHTTPMethods | GCustomMethods} methods - The standard HTTP methods enum or a custom methods object.
-     * @returns {EHTTPMethods[] | GCustomMethods[]} An array containing the values of the provided HTTP methods.
-     */
-    private static _toValues<GCustomMethods extends TCustomHTTPMethodsConstraint = Record<string, string>>(methods: EHTTPMethods | GCustomMethods): EHTTPMethods[] | GCustomMethods[] {
-        return Object.values(methods) as EHTTPMethods[] | GCustomMethods[];
-    }
-
-    /**
-     * Check if the given HTTP method(s) are valid.
-     * 
-     * A delegate to process either solely standard EHTTPMethods or including `GCustomMethods`.
-     * 
-     * @template GCustomMethods Forced to repeat same {@link GCustomMethods} generic as 
-     * in {@link HTTPMethodsConvenience} due to inability to share the generic defined in
-     * the class instance.
+     * Check if the given HTTP method(s) are valid against the Methods Registry
+     * {@link HTTPMethodsConvenience.methods} (either built-in or with extended methods).
      * 
      * @param {(string | string[])} maybeMethod
-     * @param {EHTTPMethods | GCustomMethods} expected The standard HTTP methods enum or optionally
-     * its union with a custom methods object.
+     * @uses {@link HTTPMethodsConvenience._givens}
      * 
-     * @return {boolean} Whether the given `maybeMethod` method(s) are valid.
+     * @example
+     * 
+     * ```typescript
+     * HTTPmethodsConvenience.isValid('GET'); // true
+     * HTTPmethodsConvenience.isValid('UNLINK'); // false
+     * HTTPmethodsConvenience.isValid(['GET', 'POST']); // true; Accept `string[]` as well;
+     * HTTPmethodsConvenience.isValid(['GET', 'post']); // true; Automated normalize before validation 
+     * HTTPmethodsConvenience.isValid(['GET', 'link']); // false; 
+     * ```
+     * 
+     * @uses {@link HTTPMethodsConvenience.isAmong}
      */
-    private static _isValid<GCustomMethods extends TCustomHTTPMethodsConstraint = Record<string, string>>(maybeMethod: string | string[], valid: EHTTPMethods | GCustomMethods): boolean {
-        const given = HTTPMethodsConvenience._given(maybeMethod);
-        return HTTPMethodsConvenience._isAllowed(given, Object.values(valid) as EHTTPMethods[] | GCustomMethods[]);
+    public static isValid(maybeMethod: string | string[]): boolean {
+        const givens = HTTPMethodsConvenience._givens(maybeMethod);
+
+        return this.isAmong(givens);
     }
 
     /**
-     * Check if a given HTTP method is allowed based on a list of allowed methods.
-     *
-     * @param {EHTTPMethods} given - The HTTP method to check.
-     * @param {EHTTPMethods[]} [allowed] - An array of allowed HTTP methods. 
+     * Check if a given HTTP method is allowed based on a methods in the Registry
+     * or on the optional list of allowed methods either as {@link THTTPMethodsConstraint}
+     * object or `string[]`.
      * 
-     * @returns {boolean} `true` if the given method is in the list of allowed methods, otherwise `false`.
+     * @static
+     * 
+     * @param {string | string[]} given - The HTTP method(s) to check.
+     * @param {THTTPMethodsConstraint | string[]} allowed - An optional list of allowed methods. 
+     * If not provided, defaults to all methods in the Registry 
+     * (same as {@link HTTPMethodsConvenience.isValid}).
+     * 
+     * @returns {boolean} `true` if given method(s) is in `allowed` methods, otherwise `false`.
+     * 
+     * @uses {@link HTTPMethodsConvenience._givens}
+     * 
+     * @example
+     * ```typescript
+     * // Check if a single method is among the allowed methods
+     * 
+     * // Check if multiple methods are among the allowed methods
+     * console.log(HTTPMethodsConvenience.isAmong(['GET', 'POST'])); // true
+     * 
+     * // Check against a custom list of allowed methods
+     * console.log(HTTPMethodsConvenience.isAmong('PATCH', ['GET', 'POST'])); // false
+     * ```
      */
-    private static _isAllowed<GCustomMethods extends TCustomHTTPMethodsConstraint = Record<string, string>>(givens: string[], allowed: EHTTPMethods[] | GCustomMethods[]): boolean {
-        // NB: Translate standard `EHTTPMethods` enum and `GCustomMethods` object to array of values.
-        return givens.every((given: string) => { return allowed.includes(given.toUpperCase() as EHTTPMethods & GCustomMethods); });
+    public static isAmong(given: string | string[], allowed?: THTTPMethodsConstraint | string[]): boolean {
+        const givens = HTTPMethodsConvenience._givens(given);
+        const _allowed = allowed ? Object.values(allowed) : this.values;
+
+        return givens.every((given: string) => { return _allowed.includes(given.toUpperCase()); });
     }
 
     /**
-     * Normalizes a given string to an uppercase standard or custom HTTP method.
+     * Normalize a given string to an uppercase standard or custom HTTP method.
      * 
-     * For this validates it against standard or custom methods at first.
+     * @static
      * 
-     * @template GCustomMethods - A generic type extending TCustomHTTPMethodsConstraint, representing custom HTTP methods.
+     * @param {string} maybeMethod - The HTTP method to normalize and validate.
      * 
-     * @param {unknown} maybeMethod - The HTTP method to normalize and validate. It should be a string.
-     * @param {EHTTPMethods | GCustomMethods} valid - The set of valid HTTP methods, either standard or custom.
+     * @returns {keyof THTTPMethodsConstraint} The normalized HTTP method in uppercase if valid.
      * 
-     * @returns {EHTTPMethods | GCustomMethods} The normalized HTTP method in uppercase if valid.
+     * @throws {HTTPConveniencePackException} If the `maybeMethod` is not a string or
+     * is not a valid HTTP method.
      * 
-     * @throws {HTTPConveniencePackException} If the maybeMethod is not a string or is not a valid HTTP method.
+     * @example
+     * ```typescript
+     * // Normalize a valid HTTP method
+     * console.log(HTTPMethodsConvenience.normalize('get')); // 'GET'
+     * 
+     * // Attempt to normalize an invalid HTTP method
+     * try {
+     *   HTTPMethodsConvenience.normalize('invalidMethod');
+     * } catch (e) {
+     *   // "maybeMethod" argument when transformed to upper case should be a valid HTTP built-in or extended method, "invalidMethod" given.
+     *   console.error(e.message); 
+     * }
+     * ```
      */
-    private static _normalize<GCustomMethods extends TCustomHTTPMethodsConstraint = Record<string, string>>(maybeMethod: unknown, valid: EHTTPMethods | GCustomMethods): EHTTPMethods | GCustomMethods {
+    public static normalize(maybeMethod: string): keyof THTTPMethodsConstraint {
         if (typeof maybeMethod !== 'string') {
-            // REFACTOR: To the domain exception class.
             throw new HTTPConveniencePackException(`"maybeMethod" argument should be a string, typeof "${typeof maybeMethod}" given.`);
         }
 
         const method = maybeMethod.toUpperCase();
 
-        if (!HTTPMethodsConvenience._isValid(maybeMethod, valid)) {
-            // REFACTOR: To the domain exception class.
-            throw new HTTPConveniencePackException(`"maybeMethod" argument when transformed to upper case should be a valid HTTP standard or custom method, "${maybeMethod}" given.`);
+        if (!this.isValid(maybeMethod)) {
+            throw new HTTPConveniencePackException(`"maybeMethod" argument when transformed to upper case should be a valid HTTP built-in or extended method, "${maybeMethod}" given.`);
         }
 
-        return method as EHTTPMethods;
+        return method;
     }
 
     /**
-     * Standardize given method(s) input into an array.
+     * Return the Registry methods as array.
+     * 
+     * @static
+     * 
+     * @returns {string[]} An array ofe the Registry values.
+     * 
+     * @description This method returns all the HTTP method values from the Registry, 
+     * including both the built-in and extended if any.
      */
-    private static _given(maybeMethod: string | string[]): string[] {
+    public static get values(): string[] {
+        return Object.values(this.methods);
+    }
+
+    /**
+     * Standardize given string input into an array.
+     */
+    private static _givens(maybeMethod: string | string[]): string[] {
         return Array.isArray(maybeMethod) ? maybeMethod : [maybeMethod];
     }
 
