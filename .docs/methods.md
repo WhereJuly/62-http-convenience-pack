@@ -6,7 +6,6 @@
 
 - [HTTP Methods Module](#http-methods-module)
   - [At a Glance](#at-a-glance)
-    - [Documentation](#documentation)
   - [A Basic Use Case](#a-basic-use-case)
   - [API Reference](#api-reference)
     - [`EHTTPMethods` Enum](#ehttpmethods-enum)
@@ -30,10 +29,6 @@
 The module contains all the standard HTTP methods according to [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#methods) as built-ins. It allows to type-safely autocomplete, validate, check against the list, normalize, [extend](#extend-method) with custom HTTP Methods and manipulate with built-in and extended HTTP Methods (if any) as one.
 
 The module contains the following public [API](#api-reference): the enum `EHTTPMethods` and the class `HTTPMethodsConvenience`. The class allows the access to the HTTP Registry via `HTTPMethodsConvenience.methods`
-
-#### Documentation
-
-On top of the [readme](/readme.md) and the dedicated documentation (you are reading) the codebase is carefully documented with doc blocks. It contains usage examples accessible with hover-over or `Ctrl-Left-click` ('Goto Definition') [^1].
 
 ### A Basic Use Case
 
@@ -255,5 +250,4 @@ console.log(HTTPMethodsConvenience.inGroup('GET', EHTTPGroups.SAFE)); // true
 console.log(HTTPMethodsConvenience.ofGroup('GET') === EHTTPGroups.SAFE); // true
 ```
 
-[^1]: As for VS Code. Depends on your IDE.
 [^2]: As opposed to the value that is already returned combined;

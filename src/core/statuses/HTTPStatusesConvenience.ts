@@ -1,21 +1,28 @@
 'use strict';
 
-import { EHTTPStatusCodeGroups, GROUPED_STATUS_CODES, THTTPStatuses } from '@src/core/statuses/statuses.types.js';
+import { EHTTPStatusCodeGroups, GROUPED_STATUS_CODES, HTTP_STATUSES } from '@src/core/statuses/statuses.types.js';
 
 /**
- * A utility class for handling HTTP status codes.
+ * Type a group of status codes from the `GROUPED_STATUS_CODES` enum.
+ * 
+ * Used as {@link HTTPStatusesConvenience.isAmong} `list` parameter type
+ */
+type TGroupsList = typeof GROUPED_STATUS_CODES[keyof typeof GROUPED_STATUS_CODES];
+
+/**
+ * A convenience class for handling HTTP status codes.
  * 
  * This class provides methods to determine the group of a status code,
  * validate status codes, check if a status code belongs to a specific group,
  * retrieve the group of a status code, check if a status code is among a list,
- * and get the message associated with a status code.
+ * get the message associated with a status code and normalize a code value.
  */
 export default class HTTPStatusesConvenience {
 
     /**
-     * Validates if the given status code is a recognized HTTP status code.
+     * Checks if the given status code is a valid HTTP status code.
      *
-     * @param {number | string} given - The status code to check against {@link THTTPStatuses}.
+     * @param {number | string} given - The status code to check against {@link HTTP_STATUSES}.
      * @return {boolean} `true` if `given` is in the specified group.
      *
      * @example
@@ -24,9 +31,9 @@ export default class HTTPStatusesConvenience {
      * ```
      */
     public static isValid(given: number | string): boolean {
-        const code = HTTPStatusesConvenience.normalizeCodeInput(given);
+        const code = this.normalize(given);
 
-        return Object.keys(THTTPStatuses).includes(code.toString());
+        return Object.keys(HTTP_STATUSES).includes(code.toString());
     }
 
     /**
@@ -42,9 +49,9 @@ export default class HTTPStatusesConvenience {
      * ```
      */
     public static inGroup(given: number | string, group: EHTTPStatusCodeGroups): boolean {
-        const code = HTTPStatusesConvenience.normalizeCodeInput(given);
+        const code = this.normalize(given);
 
-        return HTTPStatusesConvenience.isAmong(code, GROUPED_STATUS_CODES[group] as unknown as number[]);
+        return this.isAmong(code, GROUPED_STATUS_CODES[group] as unknown as number[]);
     }
 
     /**
@@ -59,7 +66,7 @@ export default class HTTPStatusesConvenience {
      * ```
      */
     public static ofGroup(given: number): EHTTPStatusCodeGroups | null {
-        const code = HTTPStatusesConvenience.normalizeCodeInput(given);
+        const code = this.normalize(given);
         const entries = Object.entries(GROUPED_STATUS_CODES) as [EHTTPStatusCodeGroups, readonly number[]][];
         const found = entries.find(([_type, codes]) => { return codes.includes(code); });
 
@@ -80,10 +87,10 @@ export default class HTTPStatusesConvenience {
      * const isAmongList = HTTPStatusesConvenience.isAmong(200, [200, 201, 202]); // true
      * ```
      */
-    public static isAmong(given: number | string, list: number[]): boolean {
-        const code = HTTPStatusesConvenience.normalizeCodeInput(given);
+    public static isAmong(given: number | string, list: number[] | TGroupsList): boolean {
+        const code = this.normalize(given);
 
-        return list.includes(code);
+        return (list as number[]).includes(code);
     }
 
     /**
@@ -98,24 +105,22 @@ export default class HTTPStatusesConvenience {
      * ```
      */
     public static message(code: number): string | undefined {
-        return THTTPStatuses[code as keyof typeof THTTPStatuses]?.message;
+        return HTTP_STATUSES[code as keyof typeof HTTP_STATUSES]?.message;
     }
 
     /**
-     * Normalizes the input to ensure it is a number.
+     * Normalizes the code input to a numeric value.
      * 
-     * @private
-     *
      * @param {number | string} input - The input value to normalize, which can be a number or a string.
      * @return {number} The normalized number.
      *
      * @example
      * ```typescript
-     * const normalized = HTTPStatusesConvenience.normalizeCodeInput("404"); // 404
-     * const alreadyNormalized = HTTPStatusesConvenience.normalizeCodeInput(200); // 200
+     * const normalized = HTTPStatusesConvenience.normalize("404"); // 404
+     * const alreadyNormalized = HTTPStatusesConvenience.normalize(200); // 200
      * ```
      */
-    private static normalizeCodeInput(input: number | string): number {
+    public static normalize(input: number | string): number {
         return typeof input === 'string' ? parseInt(input, 10) : input;
     }
 

@@ -291,3 +291,4 @@ Note the *extended* files' extensions will be available at the Registry but not 
 
 Alternatively if you feel your extension use case looks widespread, feel free to request me to put te entire new MIME Type into built-ins via GitHub Issues or Discussions, or make a pull request. In either case provide the use case description and your reasoning on the changes value.
 
+---

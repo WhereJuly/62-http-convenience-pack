@@ -3,7 +3,7 @@
 import { describe, expect, it } from 'vitest';
 
 import HTTPStatusesConvenience from '../../../src/core/statuses/HTTPStatusesConvenience.js';
-import { EHTTPStatusCodeGroups, THTTPStatuses } from '../../../src/core/statuses/statuses.types.js';
+import { EHTTPStatusCodeGroups, GROUPED_STATUS_CODES, HTTP_STATUSES } from '../../../src/core/statuses/statuses.types.js';
 
 describe('HTTPStatusesConvenienceTest', () => {
 
@@ -13,7 +13,7 @@ describe('HTTPStatusesConvenienceTest', () => {
         expect(actual).toBeDefined();
         expect(actual.isValid).toBeInstanceOf(Function);
         expect(actual.message).toBeInstanceOf(Function);
-        expect(actual.message(THTTPStatuses[101].code)).toEqual(THTTPStatuses[101].message);
+        expect(actual.message(HTTP_STATUSES[101].code)).toEqual(HTTP_STATUSES[101].message);
     });
 
     describe('+isValid: Should check if the given code is valid', () => {
@@ -77,6 +77,7 @@ describe('HTTPStatusesConvenienceTest', () => {
             return [
                 { name: 'Is among', fixture: { code: 201, list: [201, 204] }, expected: true },
                 { name: 'Is not among', fixture: { code: 100, list: [201, 204] }, expected: false },
+                { name: 'Is not among (status codes group)', fixture: { code: 100, list: GROUPED_STATUS_CODES[EHTTPStatusCodeGroups.CLIENTERR] }, expected: false },
             ];
         }
     });
