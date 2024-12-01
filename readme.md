@@ -1,7 +1,7 @@
 <hr>
 
 <div align="center">
-  <img src="./.docs/images/banner-6.jpg" width="100%"/>
+  <img src="./.docs/images/banner-6-w1200.jpg" width="100%"/>
 </div>
 
 Type-safe, RFC-compliant, auto-completable HTTP constants and convenience functions to ensure standardized uniform values conveniently manipulated across your applications and services.
