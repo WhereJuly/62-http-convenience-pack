@@ -28,11 +28,19 @@ Start on your one end, e.g. front-end. Comfortably autocomplete HTTP constants. 
 import { EHTTPMethods, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
 
 const response = await fetch('https://api.example.com/data', {
- method: EHTTPMethods.GET,
- headers: {
-  EHTTPHeaders.AUTHORIZATION: 'Bearer <required-token-here>',
-  EHTTPHeaders.CONTENT_TYPE: EHTTPMIMETypes.APPLICATION_JSON
- }
+  
+  /**
+   * Conveniently and reliably autocomplete the method, no need to use string literals.
+   */
+  method: EHTTPMethods.GET,
+
+  /**
+   * Autocomplete the correct headers and mime types from the list provided.
+   */
+  headers: {
+    EHTTPHeaders.AUTHORIZATION: 'Bearer <required-token-here>',
+    EHTTPHeaders.CONTENT_TYPE: EHTTPMIMETypes.APPLICATION_JSON
+  }
 });
 ```
 
@@ -45,6 +53,9 @@ const response = await fetch('https://api.example.com/data', {
 ```typescript
 import { EHTTPMethods, HTTPMethodsConvenience as Methods } from 'http-convenience-pack';
 
+/**
+ * Receive requests and validate the methods, ensure same values are used on both ends.
+ */
 const allowed = [EHTTPMethods.GET, EHTTPMethods.PATCH];
 
 Methods.isValid(request.method); // true
@@ -111,15 +122,22 @@ import { EHTTPHeaders, EHTTPMIMETypes, THTTPStatuses } from 'http-convenience-pa
 const handler = (req: Request, res: Response): void => {
   const body = JSON.stringify({ message: 'Hello, world!' });
 
+  /**
+   * Conveniently set the auto-completable headers on response.
+   */
   res.set({
       EHTTPHeaders.CONTENT_LENGTH: Buffer.byteLength(body).toString(),
       EHTTPHeaders.CONTENT_TYPE: EHTTPMIMETypes.APPLICATION_JSON
     })
+
+    /**
+     * Set the desired status from the auto-completable list.
+     */
     .status(THTTPStatuses[200].code)
 
     /**
-     * `.statusMessage` used here for brevity as the example appropriate for a custom error handler.
-     * Actually here Express would set the default message ('OK') itself.
+     * Set the status message. Used here for brevity as the example appropriate for a custom error
+     * handler. Actually here Express would set the default message ('OK') itself.
      */
     .statusMessage(THTTPStatuses[200].message)
     .send(bodyString);
