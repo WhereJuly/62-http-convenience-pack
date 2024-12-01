@@ -34,8 +34,8 @@ jobs:
 
       - name: Install dependencies for .usages subfolder
         working-directory: ./.usage
-        run: npm install
-
+        run: npm install        
+        
       - name: Run tests and collect coverage
         # NB: See https://app.codecov.io/gh/WhereJuly/62-http-convenience-pack/tests/new
         # NB: See https://app.codecov.io/gh/WhereJuly/62-http-convenience-pack/new
