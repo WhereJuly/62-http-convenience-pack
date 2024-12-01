@@ -21,12 +21,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      
       - name: Set up Node 18
         uses: actions/setup-node@v3
         with:
           node-version: 18
+          
       - name: Install dependencies
         run: npm install
+        
+      - name: Install dependencies for .usages subfolder
+        working-directory: ./.usages
+        run: npm install        
+        
       - name: Run tests and collect coverage
         # NB: See https://app.codecov.io/gh/WhereJuly/62-http-convenience-pack/tests/new
         # NB: See https://app.codecov.io/gh/WhereJuly/62-http-convenience-pack/new
