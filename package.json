@@ -1,6 +1,6 @@
 {
     "name": "@wherejuly/http-convenience-pack",
-    "version": "0.0.13",
+    "version": "0.0.16",
     "description": "HTTP Convenience Pack",
     "author": "valentineshi.dev@gmail.com",
     "type": "module",
@@ -16,7 +16,7 @@
     "scripts": {
         "test:foundation": "npm run types:check && cross-env NODE_ENV=test vitest run --config tests/foundation/.ancillary/config/vitest.config.ts",
         "types:check": "npx tsc --noEmit --project .",
-        "lint": "npx eslint ./src",
+        "lint": "npx eslint ./src && npx eslint ./.usage",
         "commitlint": "commitlint --config ./.ci/.config/commitlint/commitlint.config.cjs --edit",
         "pre-push": "npm run test:foundation",
         "package:build": "npm run test:foundation && npm run lint && rimraf ./.delivery/.builds/package && tsc -p ./.delivery/configuration/tsconfig.json && npm run package:de-alias && npm run package:bundle:copy",

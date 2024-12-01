@@ -5,7 +5,11 @@ export { default as HTTPMethodsConvenience } from './core/methods/HTTPMethodsCon
 export { EHTTPMethods, type THTTPMethodsConstraint } from './core/methods/methods.types.js';
 
 // NB: HTTP Statuses Module
-export { IHTTPStatus, EHTTPStatusCodeGroups, GROUPED_STATUS_CODES, StatusCodeGroups, THTTPStatuses } from './core/statuses/statuses.types.js';
+export {
+    IHTTPStatus, EHTTPStatusCodeGroups, GROUPED_STATUS_CODES, TStatusCodeGroups,
+    HTTP_STATUSES
+} from './core/statuses/statuses.types.js';
+
 export { default as HTTPStatusesConvenience } from './core/statuses/HTTPStatusesConvenience.js';
 
 /**

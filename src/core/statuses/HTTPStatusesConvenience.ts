@@ -1,21 +1,28 @@
 'use strict';
 
-import { EHTTPStatusCodeGroups, GROUPED_STATUS_CODES, THTTPStatuses } from '@src/core/statuses/statuses.types.js';
+import { EHTTPStatusCodeGroups, GROUPED_STATUS_CODES, HTTP_STATUSES } from '@src/core/statuses/statuses.types.js';
 
 /**
- * A utility class for handling HTTP status codes.
+ * Type a group of status codes from the `GROUPED_STATUS_CODES` enum.
+ * 
+ * Used as {@link HTTPStatusesConvenience.isAmong} `list` parameter type
+ */
+type TGroupsList = typeof GROUPED_STATUS_CODES[keyof typeof GROUPED_STATUS_CODES];
+
+/**
+ * A convenience class for handling HTTP status codes.
  * 
  * This class provides methods to determine the group of a status code,
  * validate status codes, check if a status code belongs to a specific group,
  * retrieve the group of a status code, check if a status code is among a list,
- * and get the message associated with a status code.
+ * get the message associated with a status code and normalize a code value.
  */
 export default class HTTPStatusesConvenience {
 
     /**
-     * Validates if the given status code is a recognized HTTP status code.
+     * Checks if the given status code is a valid HTTP status code.
      *
-     * @param {number | string} given - The status code to check against {@link THTTPStatuses}.
+     * @param {number | string} given - The status code to check against {@link HTTP_STATUSES}.
      * @return {boolean} `true` if `given` is in the specified group.
      *
      * @example
@@ -26,7 +33,7 @@ export default class HTTPStatusesConvenience {
     public static isValid(given: number | string): boolean {
         const code = this.normalize(given);
 
-        return Object.keys(THTTPStatuses).includes(code.toString());
+        return Object.keys(HTTP_STATUSES).includes(code.toString());
     }
 
     /**
@@ -80,10 +87,10 @@ export default class HTTPStatusesConvenience {
      * const isAmongList = HTTPStatusesConvenience.isAmong(200, [200, 201, 202]); // true
      * ```
      */
-    public static isAmong(given: number | string, list: number[]): boolean {
+    public static isAmong(given: number | string, list: number[] | TGroupsList): boolean {
         const code = this.normalize(given);
 
-        return list.includes(code);
+        return (list as number[]).includes(code);
     }
 
     /**
@@ -98,7 +105,7 @@ export default class HTTPStatusesConvenience {
      * ```
      */
     public static message(code: number): string | undefined {
-        return THTTPStatuses[code as keyof typeof THTTPStatuses]?.message;
+        return HTTP_STATUSES[code as keyof typeof HTTP_STATUSES]?.message;
     }
 
     /**
