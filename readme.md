@@ -50,7 +50,7 @@ On top it has convenience manipulation functionality.
     - [Combined Usage Example](#combined-usage-example)
 - [HTTP Methods](#http-methods)
 - [HTTP Statuses](#http-statuses)
-- [HTTP MIME Types Module](#http-mime-types-module)
+- [HTTP MIME Types](#http-mime-types)
 - [HTTP Headers](#http-headers)
 - [Maintenance](#maintenance)
   - [Changelog](#changelog)
@@ -98,7 +98,7 @@ npm install http-convenience-pack
 
 ## [HTTP Statuses](.docs/statuses.md)
 
-## [HTTP MIME Types Module](.docs/mime-types.md)
+## [HTTP MIME Types](.docs/mime-types.md)
 
 ## HTTP Headers
 

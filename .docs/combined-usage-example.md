@@ -81,7 +81,7 @@ Methods.isAmong(request.method); // true
  * Normalize and test against `allowed` methods as inline literal or constant,
  * defined in advance for each specific endpoint or route
  */
-Methods.isAmong(request.method, ['GET', 'POST']); // false
+Methods.isAmong(request.method, [EHTTPMethods.GET, EHTTPMethods.POST]); // false
 ```
 
 > Here I could implement the groups functionality like
