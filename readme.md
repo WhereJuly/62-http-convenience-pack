@@ -6,7 +6,7 @@
 
 Type-safe, RFC-compliant, auto-completable HTTP constants and convenience functions to ensure standardized uniform values conveniently manipulated across your applications and services.
 
-Use TypeScript type inference and IDE autocomplete functionality for comfort and type safety in HTTP constants manipulations.
+Use TypeScript type inference and IDE autocomplete for comfort and type safety in HTTP constants manipulations.
 
 **Summary**
 
