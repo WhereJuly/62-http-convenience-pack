@@ -22,7 +22,7 @@
         "package:build": "npm run test:foundation && npm run lint && rimraf ./.delivery/.builds/package && tsc -p ./.delivery/configuration/tsconfig.json && npm run package:de-alias && npm run package:bundle:copy",
         "package:lint:readme": "npx markdown-link-check --progress --quiet ./readme.md ./.docs",
         "package:de-alias": "npx tsc-alias -p ./.delivery/configuration/tsconfig.json --verbose",
-        "package:changelog:generate": "bash .ci/generate-merge-release-notes.sh > ./.delivery/.builds/dist/changelog.md",
+        "package:changelog:generate": "bash .ci/generate-merge-release-notes.sh > ./.docs/changelog/changelog.md",
         "package:bundle:copy": "cpy ./package.json ./LICENSE ./readme.md ./.docs ./.delivery/.builds/dist",
         "package:publish": "cd ./.delivery/.builds/dist && npm publish"
     },

@@ -107,7 +107,7 @@ npm install http-convenience-pack
 
 ## Maintenance
 
-### Changelog
+### [Changelog](./.docs/changelog/changelog.md)
 
 ### Contribution
 
