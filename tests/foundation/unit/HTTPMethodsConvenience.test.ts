@@ -81,6 +81,7 @@ describe('HTTPMethodsConvenienceTest', () => {
                 { name: '[allowed is undefined] Standard `given` is allowed', fixture: { given: EHTTPMethods.OPTIONS, allowed: undefined }, expected: true },
                 { name: '[allowed is undefined] `given` is not allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: undefined }, expected: false },
                 { name: '[allowed is defined] Custom `given` is allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: ECustomHTTPMethods }, expected: true },
+                { name: '[allowed is defined, string] Custom `given` is allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: ECustomHTTPMethods.LINK  }, expected: true },
                 { name: '[allowed is defined] Custom `given` is not allowed', fixture: { given: 'not-allowed' as EHTTPMethods, allowed: ECustomHTTPMethods }, expected: false },
                 { name: '[allowed is undefined] Custom `given` is allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: undefined }, expected: false },
                 { name: '[allowed is undefined] Custom `given` is not allowed', fixture: { given: 'not-allowed' as EHTTPMethods, allowed: undefined }, expected: false },

@@ -111,9 +111,9 @@ HTTPmethodsConvenience.isValid(['GET', 'link']); // false;
 
 ##### `.isAmong()` Method
 
-Check if a given HTTP method is among methods in the Registry or on the optional list of methods either as [`THTTPMethodsConstraint`](#thttpmethodsconstraint-type) object or `string[]`.
+Check if a given HTTP method is among methods in the Registry or on the optional list of methods either as as string,  [`THTTPMethodsConstraint`](#thttpmethodsconstraint-type) object or `string[]`.
 
-Signature: `public static isAmong(given: string | string[], allowed?: THTTPMethodsConstraint | string[]): boolean`
+Signature: `public static isAmong(given: string | string[], allowed?: string | THTTPMethodsConstraint | string[]): boolean`
 
 **Usage**
 
@@ -121,6 +121,7 @@ Signature: `public static isAmong(given: string | string[], allowed?: THTTPMetho
 import HTTPMethodsConvenience from 'http-convenience-pack';
 
 console.log(HTTPMethodsConvenience.isAmong('GET')); // true
+console.log(HTTPMethodsConvenience.isAmong('GET', EHTTPMethods.GET)); // true
 console.log(HTTPMethodsConvenience.isAmong(['GET', 'POST'])); // true
 console.log(HTTPMethodsConvenience.isAmong(['GET', 'POST', 'LINK'])); // true for the Registry extended with 'LINK' method;
 console.log(HTTPMethodsConvenience.isAmong('PATCH', ['GET', 'POST'])); // false

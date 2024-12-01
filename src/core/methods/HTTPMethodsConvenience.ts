@@ -157,7 +157,11 @@ export default class HTTPMethodsConvenience {
      * 
      * @example
      * ```typescript
-     * // Check if a single method is among the allowed methods
+     * // Check if a single method is among the methods in the Registry
+     * console.log(HTTPMethodsConvenience.isAmong('GET')); // true
+     * 
+     * // Check if a single method is equal to the exact one allowed method
+     * console.log(HTTPMethodsConvenience.isAmong('GET', EHTTPMethods.GET)); // true
      * 
      * // Check if multiple methods are among the allowed methods
      * console.log(HTTPMethodsConvenience.isAmong(['GET', 'POST'])); // true
@@ -166,9 +170,15 @@ export default class HTTPMethodsConvenience {
      * console.log(HTTPMethodsConvenience.isAmong('PATCH', ['GET', 'POST'])); // false
      * ```
      */
-    public static isAmong(given: string | string[], allowed?: THTTPMethodsConstraint | string[]): boolean {
+    public static isAmong(given: string | string[], allowed?: string | THTTPMethodsConstraint | string[]): boolean {
         const givens = HTTPMethodsConvenience._givens(given);
-        const _allowed = allowed ? Object.values(allowed) : this.values;
+        const is = [
+            (allowed: unknown) => { return !allowed ? this.values : null; },
+            (allowed: unknown) => { return typeof allowed === 'string' ? [allowed] : null; },
+            (allowed: unknown) => { return typeof allowed === 'object' ? Object.values(allowed as THTTPMethodsConstraint) : null; },
+        ];
+
+        const _allowed = is.find(fn => fn(allowed) !== null)?.(allowed) || this.values;  // Apply the first valid function
 
         return givens.every((given: string) => { return _allowed.includes(given.toUpperCase()); });
     }
