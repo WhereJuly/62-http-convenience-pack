@@ -24,7 +24,7 @@ export default class HTTPStatusesConvenience {
      * ```
      */
     public static isValid(given: number | string): boolean {
-        const code = HTTPStatusesConvenience.normalizeCodeInput(given);
+        const code = this.normalize(given);
 
         return Object.keys(THTTPStatuses).includes(code.toString());
     }
@@ -42,9 +42,9 @@ export default class HTTPStatusesConvenience {
      * ```
      */
     public static inGroup(given: number | string, group: EHTTPStatusCodeGroups): boolean {
-        const code = HTTPStatusesConvenience.normalizeCodeInput(given);
+        const code = this.normalize(given);
 
-        return HTTPStatusesConvenience.isAmong(code, GROUPED_STATUS_CODES[group] as unknown as number[]);
+        return this.isAmong(code, GROUPED_STATUS_CODES[group] as unknown as number[]);
     }
 
     /**
@@ -59,7 +59,7 @@ export default class HTTPStatusesConvenience {
      * ```
      */
     public static ofGroup(given: number): EHTTPStatusCodeGroups | null {
-        const code = HTTPStatusesConvenience.normalizeCodeInput(given);
+        const code = this.normalize(given);
         const entries = Object.entries(GROUPED_STATUS_CODES) as [EHTTPStatusCodeGroups, readonly number[]][];
         const found = entries.find(([_type, codes]) => { return codes.includes(code); });
 
@@ -81,7 +81,7 @@ export default class HTTPStatusesConvenience {
      * ```
      */
     public static isAmong(given: number | string, list: number[]): boolean {
-        const code = HTTPStatusesConvenience.normalizeCodeInput(given);
+        const code = this.normalize(given);
 
         return list.includes(code);
     }
@@ -102,20 +102,18 @@ export default class HTTPStatusesConvenience {
     }
 
     /**
-     * Normalizes the input to ensure it is a number.
+     * Normalizes the code input to a numeric value.
      * 
-     * @private
-     *
      * @param {number | string} input - The input value to normalize, which can be a number or a string.
      * @return {number} The normalized number.
      *
      * @example
      * ```typescript
-     * const normalized = HTTPStatusesConvenience.normalizeCodeInput("404"); // 404
-     * const alreadyNormalized = HTTPStatusesConvenience.normalizeCodeInput(200); // 200
+     * const normalized = HTTPStatusesConvenience.normalize("404"); // 404
+     * const alreadyNormalized = HTTPStatusesConvenience.normalize(200); // 200
      * ```
      */
-    private static normalizeCodeInput(input: number | string): number {
+    public static normalize(input: number | string): number {
         return typeof input === 'string' ? parseInt(input, 10) : input;
     }
 
