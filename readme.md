@@ -1,19 +1,10 @@
-/
-
----
+<hr>
 
 <div align="center">
-  <img src="./.docs/images/banner-4.jpg" width="100%"/>
+  <img src="./.docs/images/banner-5.jpg" width="100%"/>
 </div>
 
-<div align="center">
-  <img src="./.docs/images/banner.jpg" width="100%"/>
-</div>
-
-> Make the banner as narrow as the initial version.
-> Reflect actual list of the pack's modules (methods, statuses, MIME Types, headers) in the sub-line.
-
-Type-safe, RFC-compliant, auto-completable HTTP constants and convenience functions to ensure standardized uniform values with convenient manipulations across the stack.
+Type-safe, RFC-compliant, auto-completable HTTP constants and convenience functions to ensure standardized uniform values conveniently manipulated across your applications and services.
 
 Use TypeScript type inference and IDE autocomplete functionality for comfort and type safety in HTTP constants manipulations.
 
