@@ -28,6 +28,7 @@ The new use cases / functionality suggestions are welcome either in [Discussions
 ![Build Status](https://img.shields.io/github/workflow/status/WhereJuly/62-http-convenience-pack/CI)
 ![npm version](https://img.shields.io/npm/v/http-convenience-pack.svg)
 ![npm downloads](https://img.shields.io/npm/dm/http-convenience-pack.svg)
+[![codecov](https://codecov.io/gh/WhereJuly/62-http-convenience-pack/graph/badge.svg?token=N7W0Q11DRL)](https://codecov.io/gh/WhereJuly/62-http-convenience-pack)
 ![Coverage](https://img.shields.io/codecov/c/github/your-username/your-repo)
 ![Coverage](https://img.shields.io/coveralls/your-username/your-repo.svg)
 ![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/your-username/your-repo.svg)
