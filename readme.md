@@ -25,15 +25,16 @@ The new use cases / functionality suggestions are welcome either in [Discussions
 
 **Package Status**
 
-![npm version](https://img.shields.io/npm/v/your-package-name.svg)
 ![Build Status](https://img.shields.io/github/workflow/status/WhereJuly/62-http-convenience-pack/CI)
+![npm version](https://img.shields.io/npm/v/http-convenience-pack.svg)
+![npm downloads](https://img.shields.io/npm/dm/http-convenience-pack.svg)
 ![Coverage](https://img.shields.io/codecov/c/github/your-username/your-repo)
 ![Coverage](https://img.shields.io/coveralls/your-username/your-repo.svg)
-![npm downloads](https://img.shields.io/npm/dm/your-package-name.svg)
-![License](https://img.shields.io/npm/l/your-package-name.svg)
 ![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/your-username/your-repo.svg)
-![Maintainability](https://img.shields.io/codeclimate/maintainability/your-username/your-repo.svg)
-![Last Commit](https://img.shields.io/github/last-commit/your-username/your-repo.svg)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fusername%2Frepo.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fusername%2Frepo?ref=badge_shield)
+![Maintainability](https://img.shields.io/codeclimate/maintainability/WhereJuly/62-http-convenience-pack.svg)
+![Last Commit](https://img.shields.io/github/last-commit/WhereJuly/62-http-convenience-pack.svg)
+![License](https://img.shields.io/npm/l/http-convenience-pack.svg)
 
 The package is in final state, no pending functionality. It is actively maintained. It moves to production-ready `>= v1.0.0` as the initial usage feedback confirms it has no major missing use cases.
 
