@@ -111,7 +111,7 @@ HTTPmethodsConvenience.isValid(['GET', 'link']); // false;
 
 ##### `.isAmong()` Method
 
-Check if a given HTTP method is among methods in the Registry or on the optional list of methods either as as string,  [`THTTPMethodsConstraint`](#thttpmethodsconstraint-type) object or `string[]`.
+Check if a given HTTP method is among methods in the Registry, or on the optional list of methods either as as string, `string`,  [`THTTPMethodsConstraint`](#thttpmethodsconstraint-type) object or `string[]`.
 
 Signature: `public static isAmong(given: string | string[], allowed?: string | THTTPMethodsConstraint | string[]): boolean`
 
