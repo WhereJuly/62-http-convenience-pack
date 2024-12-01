@@ -27,7 +27,9 @@ The new use cases / functionality suggestions are welcome either in [Discussions
 
 ![Build Status](https://github.com/WhereJuly/62-http-convenience-pack/actions/workflows/deliver.yml/badge.svg)
 [![codecov](https://codecov.io/gh/WhereJuly/62-http-convenience-pack/graph/badge.svg?token=N7W0Q11DRL)](https://codecov.io/gh/WhereJuly/62-http-convenience-pack)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/WhereJuly/62-http-convenience-pack/.github/workflows/deliver.yml?label=build)
 
+[![Dependencies](https://img.shields.io/librariesio/release/npm/package-name)](https://libraries.io/npm/package-name)
 ![Build Status](https://img.shields.io/github/workflow/status/WhereJuly/62-http-convenience-pack/CI)
 ![npm version](https://img.shields.io/npm/v/http-convenience-pack.svg)
 ![npm downloads](https://img.shields.io/npm/dm/http-convenience-pack.svg)

@@ -1,4 +1,4 @@
-name: Deliver the Pack
+name: Pack Build
 
 on:
   push:
