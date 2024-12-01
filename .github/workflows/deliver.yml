@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install dependencies for .usages subfolder
+      - name: Install dependencies for .usage subfolder
         working-directory: ./.usage
         run: npm install        
         
