@@ -9,10 +9,14 @@
   - [A Basic Use Case](#a-basic-use-case)
   - [API Reference](#api-reference)
     - [`EHTTPMethods` Enum](#ehttpmethods-enum)
+    - [`EHTTPMethodsGroupsList` Enum](#ehttpmethodsgroupslist-enum)
+    - [`HTTPMethodInGroups` Typed Constant](#httpmethodingroups-typed-constant)
     - [`HTTPMethodsConvenience` Class](#httpmethodsconvenience-class)
       - [`.methods` Getter](#methods-getter)
       - [`.isValid()` Method](#isvalid-method)
       - [`.isAmong()` Method](#isamong-method)
+      - [`.inGroup()` Method](#ingroup-method)
+      - [`.ofGroups()` Method](#ofgroups-method)
       - [`.normalize()` Method](#normalize-method)
       - [`.extend()` Method](#extend-method)
       - [`.reset()` Method](#reset-method)
@@ -41,16 +45,29 @@ import { EHTTPMethods } from 'http-convenience-pack';
 const response = await fetch('https://api.example.com/data', { method: EHTTPMethods.GET });
 ```
 
-Check a method or a list of methods is valid, check against the list, normalize a method.
+Check a method or a list of methods is valid, check against the list, group, normalize a method.
 
 ```typescript
 import HTTPmethodsConvenience from 'http-convenience-pack';
 
-// Validate
+/**
+ * Validate
+ */
 HTTPmethodsConvenience.isValid('GET'); // true; Accept `string[]` as well;
-// Check against the optional list (resorts to the HTTP Registry if omitted)
+
+/**
+ * Check against the optional list (resorts to the HTTP Registry if omitted)
+ */
 HTTPmethodsConvenience.isAmong('GET', [EHTTPMethods.PUT, EHTTPMethods.POST]); // false; Autocomplete;
-// Normalize
+
+/**
+ * Check against the specific method group
+ */
+HTTPmethodsConvenience.inGroup('GET', EHTTPMethodsGroupsList.NON_IDEMPOTENT); // false; Autocomplete;
+
+/**
+ * Normalize
+ */
 HTTPmethodsConvenience.normalize('get'); // 'GET'; Throws for non-strings and invalid methods;
 ```
 
@@ -58,7 +75,7 @@ HTTPmethodsConvenience.normalize('get'); // 'GET'; Throws for non-strings and in
 
 #### `EHTTPMethods` Enum
 
-The standard HTTP methods enum that is the module built-in. Complies with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#methods) published in June 2022. Contains methods `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `OPTIONS`, `HEAD`, `TRACE`, `CONNECT`. Type-safe, autocomplete-able.
+The standard HTTP methods built-in enum that is the module built-in. Complies with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#methods) published in June 2022. Contains HTTP methods `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `OPTIONS`, `HEAD`, `TRACE`, `CONNECT`. Type-safe, autocomplete-able.
 
 **Usage**
 
@@ -66,6 +83,30 @@ The standard HTTP methods enum that is the module built-in. Complies with [RFC 9
 import { EHTTPMethods } from 'http-convenience-pack';
 
 EHTTPMethods.GET; // 'GET', Autocomplete;
+```
+
+#### `EHTTPMethodsGroupsList` Enum
+
+The standard HTTP methods groups built-in enum. Complies with the [RFC](https://www.rfc-editor.org/rfc/rfc9110#methods). Contains `SAFE`, `IDEMPOTENT`, `NON_IDEMPOTENT`, `CACHEABLE`, `PREFLIGHT`, `SPECIAL`. Type-safe, autocomplete-able.
+
+**Usage**
+
+```typescript
+import { EHTTPMethodsGroupsList } from 'http-convenience-pack';
+
+console.log(EHTTPMethodsGroupsList.CACHEABLE); // 'cacheable'; As EHTTPMethodsGroupsList enum member. Autocomplete;
+```
+
+#### `HTTPMethodInGroups` Typed Constant
+
+The list of methods with their respective groups. Type-safe, autocomplete-able.
+
+**Usage**
+
+```typescript
+import { HTTPMethodInGroups } from 'http-convenience-pack';
+
+console.log(HTTPMethodInGroups[EHTTPMethods.GET]); // readonly [EHTTPMethodsGroupsList.SAFE, EHTTPMethodsGroupsList.IDEMPOTENT, ...]
 ```
 
 #### `HTTPMethodsConvenience` Class
@@ -106,7 +147,7 @@ HTTPmethodsConvenience.isValid(['GET', 'link']); // false;
 
 ##### `.isAmong()` Method
 
-Check if a given HTTP method is among methods in the Registry, or on the optional list of methods either as as string, `string`,  [`THTTPMethodsConstraint`](#thttpmethodsconstraint-type) object or `string[]`.
+Check if a given HTTP method is among methods in the Registry, or on the optional list of methods either as as string, `string`, [`THTTPMethodsConstraint`](#thttpmethodsconstraint-type) object or `string[]`.
 
 Signature: `public static isAmong(given: string | string[], allowed?: string | THTTPMethodsConstraint | string[]): boolean`
 
@@ -120,6 +161,61 @@ console.log(HTTPMethodsConvenience.isAmong('GET', EHTTPMethods.GET)); // true
 console.log(HTTPMethodsConvenience.isAmong(['GET', 'POST'])); // true
 console.log(HTTPMethodsConvenience.isAmong(['GET', 'POST', 'LINK'])); // true for the Registry extended with 'LINK' method;
 console.log(HTTPMethodsConvenience.isAmong('PATCH', ['GET', 'POST'])); // false
+```
+
+##### `.inGroup()` Method
+
+Checks if a given HTTP method belongs to a specified single [`EHTTPMethodsGroupsList`](#ehttpmethodsgroupslist-enum)
+or multiple `EHTTPMethodsGroupsList[]` groups. Checks against [`HTTPMethodInGroups`](#httpmethodingroups-typed-constant) typed constant(s).
+
+By default, it checks if the method belongs to **at least one** of the groups (logical OR). Passing `false` for the optional `all` parameter, will make it check the method belongs to **every** group (logical AND).
+
+Signature: `public static inGroup(given: string, groups: EHTTPMethodsGroupsList | EHTTPMethodsGroupsList[], all: boolean = false): boolean`
+
+**Usage**
+
+```typescript
+import HTTPMethodsConvenience from 'http-convenience-pack';
+
+console.log(HTTPMethodsConvenience.inGroup('GET', EHTTPMethodsGroupsList.CACHEABLE)); // true
+console.log(HTTPMethodsConvenience.inGroup('GET', [EHTTPMethodsGroupsList.CACHEABLE, EHTTPMethodsGroupsList.SAFE])); // true
+console.log(HTTPMethodsConvenience.inGroup('CONNECT', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE])); // false
+console.log(HTTPMethodsConvenience.inGroup('GET', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], true)); // true
+console.log(HTTPMethodsConvenience.inGroup('POST', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], true)); // false
+```
+
+**Use Cases**
+
+```typescript
+/**
+ * Permit some operations for admins only.
+ */
+HTTPMethodsConvenience.inGroup(request.method, EHTTPMethodsGroupsList.NON_IDEMPOTENT) && isAdmin && this.processAdminTasks();
+
+/**
+ * Process cache only for cacheable methods.
+ */
+HTTPMethodsConvenience.inGroup(request.method, EHTTPMethodsGroupsList.CACHEABLE) && this.processCache();
+
+/**
+ * Monitor only non-idempotent requests.
+ */
+HTTPMethodsConvenience.inGroup(request.method, EHTTPMethodsGroupsList.NON_IDEMPOTENT) && this.logRequest();
+```
+
+##### `.ofGroups()` Method
+
+Retrieves the groups associated with a given HTTP method from [`HTTPMethodInGroups`](#httpmethodingroups-typed-constant) for the valid method, otherwise  returns an empty array.
+
+Signature: `public static ofGroups(maybeMethod: string): readonly EHTTPMethodsGroupsList[]`
+
+**Usage**
+
+```typescript
+import HTTPMethodsConvenience from 'http-convenience-pack';
+
+console.log(HTTPMethodsConvenience.ofGroups('GET')); // HTTPMethodInGroups[EHTTPMethods.GET] as array;
+console.log(HTTPMethodsConvenience.ofGroups('unknown')); // []
 ```
 
 ##### `.normalize()` Method
@@ -139,7 +235,7 @@ console.log(HTTPMethodsConvenience.normalize('link')); // Uncaught throw for non
 try {
   HTTPMethodsConvenience.normalize('invalidMethod');
 } catch (e) {
-  // "maybeMethod" argument when transformed to upper case should be a valid HTTP built-in or extended method, "invalidMethod" given.`
+  // "maybeMethod" argument when transformed to upper case should be a valid HTTP built-in or extended  method, "invalidMethod" given.`
   console.error(e.message);
 }
 ```
@@ -240,14 +336,5 @@ These are the potentially useful features. To justify the implementation I yet h
 **Return autocomplete-able type from `HTTPMethodsConvenience.methods`.**
 
 It could be possible to make `HTTPMethodsConvenience.methods` to return **the type** [^2] that allows for autocomplete from assigned constants (e.g. const `methods = HTTPMethodsConvenience.methods; console.log(methods.LINK); // 'LINK'`). But the extension use case looks very rare to me to justify add complexity to the existing implementation.
-
-**Provide "group" manipulations for methods**
-
-The methods could be grouped into some logical groups like `safe`, `idempotent` etc. Like
-
-```typescript
-console.log(HTTPMethodsConvenience.inGroup('GET', EHTTPGroups.SAFE)); // true
-console.log(HTTPMethodsConvenience.ofGroup('GET') === EHTTPGroups.SAFE); // true
-```
 
 [^2]: As opposed to the value that is already returned combined;

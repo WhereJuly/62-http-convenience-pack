@@ -1,6 +1,6 @@
 'use strict';
 
-import { EHTTPMethods, THTTPMethodsConstraint } from '@src/core/methods/methods.types.js';
+import { EHTTPMethods, EHTTPMethodsGroupsList, HTTPMethodInGroups, THTTPMethodsConstraint } from '@src/core/methods/methods.types.js';
 import HTTPConveniencePackException from '@src/exceptions/HTTPConveniencePack.exception.js';
 
 /**
@@ -172,15 +172,94 @@ export default class HTTPMethodsConvenience {
      */
     public static isAmong(given: string | string[], allowed?: string | THTTPMethodsConstraint | string[]): boolean {
         const givens = HTTPMethodsConvenience._givens(given);
-        const is = [
-            (allowed: unknown) => { return !allowed ? this.values : null; },
-            (allowed: unknown) => { return typeof allowed === 'string' ? [allowed] : null; },
-            (allowed: unknown) => { return typeof allowed === 'object' ? Object.values(allowed as THTTPMethodsConstraint) : null; },
+
+        const allowedArgValues = [
+            !allowed ? this.values : null,
+            typeof allowed === 'string' ? [allowed] : null,
+            typeof allowed === 'object' ? Object.values(allowed as THTTPMethodsConstraint) : null
         ];
 
-        const _allowed = is.find(fn => fn(allowed) !== null)?.(allowed) || this.values;  // Apply the first valid function
+        const _allowed = allowedArgValues.find((value: string[] | null) => { return value; }) as string[];
 
         return givens.every((given: string) => { return _allowed.includes(given.toUpperCase()); });
+    }
+
+    /**
+     * Checks if the given HTTP method belongs to the specified group(s).
+     * 
+     * Checks against {@link HTTPMethodInGroups} typed constant(s).
+     * 
+     * This method can accept either a single group or an array of groups. 
+     * By default, it checks if the method belongs to **at least one** of the groups (logical OR).
+     * 
+     * If you pass `false` for the optional `all` parameter, the method will check 
+     * if it belongs to **every** group (logical AND).
+     * 
+     * More specific that {@link HTTPMethodsConvenience.isAmong}.
+     * 
+     * @param {string} given - The HTTP method.
+     * @param {EHTTPMethodsGroupsList | EHTTPMethodsGroupsList[]} groups - The group(s) to check against.
+     * Either single or multiple items from `EHTTPMethodsGroupsList`.
+     * @param {boolean} all - A boolean flag;
+     * - false (default): check if the method belongs to **at list one** group (logical OR);
+     * - true: check if the method belongs to **all** groups (logical AND).
+     * 
+     * @returns 
+     * - `true` if the method is in the group(s): by default **at least in one** group;
+     *   when `all` === true the method should belong to **all** given groups;
+     * - otherwise `false`.
+     * 
+     * @uses {@link HTTPMethodsConvenience.ofGroups}
+     * 
+     * @example
+     * ```typescript
+     * HTTPMethodsConvenience.inGroup('GET', EHTTPMethodsGroupsList.SAFE); // true
+     * HTTPMethodsConvenience.inGroup('POST', EHTTPMethodsGroupsList.IDEMPOTENT); // false
+     * HTTPMethodsConvenience.inGroup('GET', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE]); // true
+     * HTTPMethodsConvenience.inGroup('CONNECT', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE]); // false
+     * HTTPMethodsConvenience.inGroup('GET', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], true); // true
+     * HTTPMethodsConvenience.inGroup('POST', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], true); // false
+     * ```
+     * 
+     */
+    public static inGroup(given: string, groups: EHTTPMethodsGroupsList | EHTTPMethodsGroupsList[], all: boolean = false): boolean {
+        const maybeMethod = this.normalize(given);
+        const _groups = Array.isArray(groups) ? groups : [groups];
+
+        const comparator = all ? 'every' : 'some';
+
+        return _groups[comparator]((group: EHTTPMethodsGroupsList) => {
+            return this.ofGroups(maybeMethod)?.includes(group);
+        });
+    }
+
+    /**
+     * Retrieves the groups associated with a given HTTP method from {@link HTTPMethodInGroups}
+     * for the valid method, otherwise  returns an empty array.
+     * 
+     * @param maybeMethod - The valid HTTP method
+     * 
+     * @see {@link HTTPMethodsConvenience.isValid}
+     * 
+     * Case sensitivity should match {@link EHTTPMethods} enum.
+     * 
+     * @returns An array of groups {@link EHTTPMethodsGroupsList} from {@link HTTPMethodInGroups}
+     * or an empty.
+     * 
+     * @example
+     * 
+     * ```typescript
+     * console.log(HTTPMethodsConvenience.ofGroups('GET')); // HTTPMethodInGroups[EHTTPMethods.GET] as array;
+     * ```
+     * 
+     * @example
+     * 
+     * ```typescript
+     * console.log(HTTPMethodsConvenience.ofGroups('unknown')); // []
+     * ```
+     */
+    public static ofGroups(maybeMethod: string): readonly EHTTPMethodsGroupsList[] {
+        return HTTPMethodInGroups[maybeMethod as EHTTPMethods] || [];
     }
 
     /**
