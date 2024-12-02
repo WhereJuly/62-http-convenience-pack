@@ -337,13 +337,4 @@ These are the potentially useful features. To justify the implementation I yet h
 
 It could be possible to make `HTTPMethodsConvenience.methods` to return **the type** [^2] that allows for autocomplete from assigned constants (e.g. const `methods = HTTPMethodsConvenience.methods; console.log(methods.LINK); // 'LINK'`). But the extension use case looks very rare to me to justify add complexity to the existing implementation.
 
-**Provide "group" manipulations for methods**
-
-The methods could be grouped into some logical groups like `safe`, `idempotent` etc. Like
-
-```typescript
-console.log(HTTPMethodsConvenience.inGroup('GET', EHTTPGroups.SAFE)); // true
-console.log(HTTPMethodsConvenience.ofGroup('GET') === EHTTPGroups.SAFE); // true
-```
-
 [^2]: As opposed to the value that is already returned combined;
