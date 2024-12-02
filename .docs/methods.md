@@ -16,6 +16,7 @@
       - [`.isValid()` Method](#isvalid-method)
       - [`.isAmong()` Method](#isamong-method)
       - [`.inGroup()` Method](#ingroup-method)
+      - [`.ofGroups()` Method](#ofgroups-method)
       - [`.normalize()` Method](#normalize-method)
       - [`.extend()` Method](#extend-method)
       - [`.reset()` Method](#reset-method)
@@ -202,6 +203,21 @@ HTTPMethodsConvenience.inGroup(request.method, EHTTPMethodsGroupsList.CACHEABLE)
 HTTPMethodsConvenience.inGroup(request.method, EHTTPMethodsGroupsList.NON_IDEMPOTENT) && this.logRequest();
 ```
 
+##### `.ofGroups()` Method
+
+Retrieves the groups associated with a given HTTP method from [`HTTPMethodInGroups`](#httpmethodingroups-typed-constant) for the valid method, otherwise  returns an empty array.
+
+Signature: `public static ofGroups(maybeMethod: string): readonly EHTTPMethodsGroupsList[]`
+
+**Usage**
+
+```typescript
+import HTTPMethodsConvenience from 'http-convenience-pack';
+
+console.log(HTTPMethodsConvenience.ofGroups('GET')); // HTTPMethodInGroups[EHTTPMethods.GET] as array;
+console.log(HTTPMethodsConvenience.ofGroups('unknown')); // []
+```
+
 ##### `.normalize()` Method
 
 Normalize a given string to an uppercase standard or custom HTTP method. Throws [`HTTPConveniencePackException`](#httpconveniencepackexception-exception) for `maybeMethod` parameter is either not a string or not a valid HTTP method.
@@ -217,10 +233,10 @@ console.log(HTTPMethodsConvenience.normalize('link')); // Uncaught throw for non
 
 // Attempt to normalize an invalid HTTP method, catch the throw
 try {
- HTTPMethodsConvenience.normalize('invalidMethod');
+  HTTPMethodsConvenience.normalize('invalidMethod');
 } catch (e) {
- // "maybeMethod" argument when transformed to upper case should be a valid HTTP built-in or extended method, "invalidMethod" given.`
- console.error(e.message);
+  // "maybeMethod" argument when transformed to upper case should be a valid HTTP built-in or extended  method, "invalidMethod" given.`
+  console.error(e.message);
 }
 ```
 
