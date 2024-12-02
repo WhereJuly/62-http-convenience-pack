@@ -9,10 +9,13 @@
   - [A Basic Use Case](#a-basic-use-case)
   - [API Reference](#api-reference)
     - [`EHTTPMethods` Enum](#ehttpmethods-enum)
+    - [`EHTTPMethodsGroupsList` Enum](#ehttpmethodsgroupslist-enum)
+    - [`HTTPMethodInGroups` Typed Constant](#httpmethodingroups-typed-constant)
     - [`HTTPMethodsConvenience` Class](#httpmethodsconvenience-class)
       - [`.methods` Getter](#methods-getter)
       - [`.isValid()` Method](#isvalid-method)
       - [`.isAmong()` Method](#isamong-method)
+      - [`.inGroup()` Method](#ingroup-method)
       - [`.normalize()` Method](#normalize-method)
       - [`.extend()` Method](#extend-method)
       - [`.reset()` Method](#reset-method)
@@ -41,16 +44,29 @@ import { EHTTPMethods } from 'http-convenience-pack';
 const response = await fetch('https://api.example.com/data', { method: EHTTPMethods.GET });
 ```
 
-Check a method or a list of methods is valid, check against the list, normalize a method.
+Check a method or a list of methods is valid, check against the list, group, normalize a method.
 
 ```typescript
 import HTTPmethodsConvenience from 'http-convenience-pack';
 
-// Validate
+/**
+ * Validate
+ */
 HTTPmethodsConvenience.isValid('GET'); // true; Accept `string[]` as well;
-// Check against the optional list (resorts to the HTTP Registry if omitted)
+
+/**
+ * Check against the optional list (resorts to the HTTP Registry if omitted)
+ */
 HTTPmethodsConvenience.isAmong('GET', [EHTTPMethods.PUT, EHTTPMethods.POST]); // false; Autocomplete;
-// Normalize
+
+/**
+ * Check against the specific method group
+ */
+HTTPmethodsConvenience.inGroup('GET', EHTTPMethodsGroupsList.NON_IDEMPOTENT); // false; Autocomplete;
+
+/**
+ * Normalize
+ */
 HTTPmethodsConvenience.normalize('get'); // 'GET'; Throws for non-strings and invalid methods;
 ```
 
@@ -58,7 +74,7 @@ HTTPmethodsConvenience.normalize('get'); // 'GET'; Throws for non-strings and in
 
 #### `EHTTPMethods` Enum
 
-The standard HTTP methods enum that is the module built-in. Complies with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#methods) published in June 2022. Contains methods `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `OPTIONS`, `HEAD`, `TRACE`, `CONNECT`. Type-safe, autocomplete-able.
+The standard HTTP methods built-in enum that is the module built-in. Complies with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#methods) published in June 2022. Contains HTTP methods `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `OPTIONS`, `HEAD`, `TRACE`, `CONNECT`. Type-safe, autocomplete-able.
 
 **Usage**
 
@@ -66,6 +82,31 @@ The standard HTTP methods enum that is the module built-in. Complies with [RFC 9
 import { EHTTPMethods } from 'http-convenience-pack';
 
 EHTTPMethods.GET; // 'GET', Autocomplete;
+```
+
+#### `EHTTPMethodsGroupsList` Enum
+
+The standard HTTP methods groups built-in enum. Complies with the [RFC](https://www.rfc-editor.org/rfc/rfc9110#methods). Contains `SAFE`, `IDEMPOTENT`, `NON_IDEMPOTENT`, `CACHEABLE`, `PREFLIGHT`, `SPECIAL`. Type-safe, autocomplete-able.
+
+**Usage**
+
+```typescript
+import { EHTTPMethodsGroupsList } from 'http-convenience-pack';
+
+console.log(EHTTPMethodsGroupsList.CACHEABLE); // 'cacheable'; As EHTTPMethodsGroupsList enum member. Autocomplete;
+```
+
+
+#### `HTTPMethodInGroups` Typed Constant
+
+The list of methods with their respective groups. Type-safe, autocomplete-able.
+
+**Usage**
+
+```typescript
+import { HTTPMethodInGroups } from 'http-convenience-pack';
+
+console.log(HTTPMethodInGroups[EHTTPMethods.GET]); // readonly [EHTTPMethodsGroupsList.SAFE, EHTTPMethodsGroupsList.IDEMPOTENT, ...]
 ```
 
 #### `HTTPMethodsConvenience` Class
@@ -120,6 +161,20 @@ console.log(HTTPMethodsConvenience.isAmong('GET', EHTTPMethods.GET)); // true
 console.log(HTTPMethodsConvenience.isAmong(['GET', 'POST'])); // true
 console.log(HTTPMethodsConvenience.isAmong(['GET', 'POST', 'LINK'])); // true for the Registry extended with 'LINK' method;
 console.log(HTTPMethodsConvenience.isAmong('PATCH', ['GET', 'POST'])); // false
+```
+
+##### `.inGroup()` Method
+
+Checks if a given HTTP method belongs to a specified `EHTTPMethodsGroupsList` group.
+
+Signature: `public static (given: string, group: EHTTPMethodsGroupsList): boolean`
+
+**Usage**
+
+```typescript
+import HTTPMethodsConvenience from 'http-convenience-pack';
+
+console.log(HTTPMethodsConvenience.inGroup('GET', EHTTPMethodsGroupsList.CACHEABLE)); // true
 ```
 
 ##### `.normalize()` Method
