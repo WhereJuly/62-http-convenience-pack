@@ -90,7 +90,7 @@ describe('HTTPMethodsConvenienceTest', () => {
 
     });
 
-    describe.only('+static inGroup: Should return the respective boolean value', () => {
+    describe('+static inGroup: Should return the respective boolean value', () => {
 
         it.each(dataProvider_in_group_method())('Case #%# $name', (data) => {
             const actual = HTTPMethodsConvenience.inGroup(data.fixture.method, data.fixture.group);
