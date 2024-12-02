@@ -193,14 +193,16 @@ export default class HTTPMethodsConvenience {
      * @param {string} given - The HTTP method as a string.
      * @param {EHTTPMethodsGroupsList} group - The group to check, from EHTTPMethodsGroupsList.
      * 
+     * @example
+     * ```typescript
+     * HTTPMethodsConvenience.inGroup('GET', EHTTPMethodsGroupsList.SAFE); // true
+     * HTTPMethodsConvenience.inGroup('POST', EHTTPMethodsGroupsList.IDEMPOTENT); // false
+     * ```     * 
      * @returns `true` if the method is in the group; otherwise, `false`.
      */
     public static inGroup(given: string, group: EHTTPMethodsGroupsList): boolean {
         const maybeMethod = this.normalize(given);
         const methodInGroups = HTTPMethodInGroups[maybeMethod as EHTTPMethods];
-
-        // WRITE: Add docs for HTTPMethodInGroups and EHTTPMethodsGroupsList.
-        console.log(HTTPMethodInGroups[EHTTPMethods.CONNECT]);
 
         return Array.isArray(methodInGroups) && methodInGroups.includes(group);
     }
