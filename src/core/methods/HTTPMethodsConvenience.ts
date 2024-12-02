@@ -233,8 +233,33 @@ export default class HTTPMethodsConvenience {
         });
     }
 
-    private static ofGroups(maybeMethod: string): readonly EHTTPMethodsGroupsList[] | null {
-        return HTTPMethodInGroups[maybeMethod as EHTTPMethods] || null;
+    /**
+     * Retrieves the groups associated with a given HTTP method from {@link HTTPMethodInGroups}
+     * for the valid method, otherwise  returns an empty array.
+     * 
+     * @param maybeMethod - The valid HTTP method
+     * 
+     * @see {@link HTTPMethodsConvenience.isValid}
+     * 
+     * Case sensitivity should match {@link EHTTPMethods} enum.
+     * 
+     * @returns An array of groups {@link EHTTPMethodsGroupsList} from {@link HTTPMethodInGroups}
+     * or an empty.
+     * 
+     * @example
+     * 
+     * ```typescript
+     * console.log(HTTPMethodsConvenience.ofGroups('GET')); // HTTPMethodInGroups[EHTTPMethods.GET] as array;
+     * ```
+     * 
+     * @example
+     * 
+     * ```typescript
+     * console.log(HTTPMethodsConvenience.ofGroups('unknown')); // []
+     * ```
+     */
+    public static ofGroups(maybeMethod: string): readonly EHTTPMethodsGroupsList[] {
+        return HTTPMethodInGroups[maybeMethod as EHTTPMethods] || [];
     }
 
     /**

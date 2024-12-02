@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 import HTTPMethodsConvenience from '@src/core/methods/HTTPMethodsConvenience.js';
 import HTTPConveniencePackException from '@src/exceptions/HTTPConveniencePack.exception.js';
-import { EHTTPMethods, EHTTPMethodsGroupsList } from '@src/core/methods/methods.types.js';
+import { EHTTPMethods, EHTTPMethodsGroupsList, HTTPMethodInGroups } from '@src/core/methods/methods.types.js';
 
 // WARNING: This is the type fixture to test adding custom HTTP methods.
 enum ECustomHTTPMethods {
@@ -111,8 +111,20 @@ describe('HTTPMethodsConvenienceTest', () => {
 
     });
 
-    // describe('+static ofGroups: Should return the groups given method belongs to', () => {
-    // });
+    describe('+static ofGroups: Should return the groups given method belongs to', () => {
+        it.each(dataProvider_of_groups_method())('Case #%# $name', (data) => {
+            const actual = HTTPMethodsConvenience.ofGroups(data.fixture);
+
+            expect(actual).toEqual(data.expected);
+        });
+
+        function dataProvider_of_groups_method() {
+            return [
+                { name: 'Belongs to groups', fixture: 'POST', expected: HTTPMethodInGroups[EHTTPMethods.POST] },
+                { name: 'Does not belong to any group (invalid)', fixture: 'invalid', expected: [] },
+            ];
+        }
+    });
 
     describe('+static normalize: Should return the expected value or throw', () => {
 
