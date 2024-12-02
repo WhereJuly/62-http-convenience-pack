@@ -14,7 +14,7 @@ const fixture = [
 
 const MIME_TYPES_EXTENDED = MIMETypesGenericRegistryFactory<typeof fixture>(fixture);
 
-describe('HTTPMIMETypesConvenience2Test', () => {
+describe('HTTPMIMETypesConvenienceTest', () => {
 
     it.skip('Console output for documentation snippets ', () => {
         console.dir(HTTPMIMETypesConvenience.types['application/gzip'].extension);
