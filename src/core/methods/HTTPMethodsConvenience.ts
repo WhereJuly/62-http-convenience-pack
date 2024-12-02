@@ -172,6 +172,11 @@ export default class HTTPMethodsConvenience {
      */
     public static isAmong(given: string | string[], allowed?: string | THTTPMethodsConstraint | string[]): boolean {
         const givens = HTTPMethodsConvenience._givens(given);
+        /**
+         * REFACTOR: Calculate array of values at once, no functions. Filter out the actual (non-null) value then.
+         * NB: Put to Chronicles as great replacement of conditionals. 
+         * Ask cgpt if that reminds him some pattern or what an refer to it in Chromiles.
+         */
         const is = [
             (allowed: unknown) => { return !allowed ? this.values : null; },
             (allowed: unknown) => { return typeof allowed === 'string' ? [allowed] : null; },
