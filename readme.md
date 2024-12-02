@@ -54,6 +54,7 @@ On top it has convenience manipulation functionality.
 - [HTTP Headers](#http-headers)
 - [Maintenance](#maintenance)
   - [Changelog](#changelog)
+  - [Roadmap](#roadmap)
   - [Contribution](#contribution)
   - [License](#license)
 
@@ -108,6 +109,12 @@ npm install http-convenience-pack
 ## Maintenance
 
 ### [Changelog](./.docs/changelog/changelog.md)
+
+### Roadmap
+
+Potentially valuable use cases / functionality suggestions are welcome either in [Discussions](https://github.com/WhereJuly/62-http-convenience-pack/discussions) or as [pull requests](#contribution).
+
+Will appear here when available.
 
 ### Contribution
 
