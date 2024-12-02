@@ -93,7 +93,7 @@ describe('HTTPMethodsConvenienceTest', () => {
     describe('+static inGroup: Should return the respective boolean value', () => {
 
         it.each(dataProvider_in_group_method())('Case #%# $name', (data) => {
-            const actual = HTTPMethodsConvenience.inGroup(data.fixture.method, data.fixture.group);
+            const actual = HTTPMethodsConvenience.inGroup(data.fixture.method, data.fixture.group, data.fixture.and);
 
             expect(actual).toEqual(data.expected);
         });
@@ -102,10 +102,17 @@ describe('HTTPMethodsConvenienceTest', () => {
             return [
                 { name: 'Is in group', fixture: { method: 'POST', group: EHTTPMethodsGroupsList.CACHEABLE }, expected: true },
                 { name: 'Is not in group', fixture: { method: 'POST', group: EHTTPMethodsGroupsList.IDEMPOTENT }, expected: false },
+                { name: 'Is in one of multiple groups (OR)', fixture: { method: 'GET', group: [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE] }, expected: true },
+                { name: 'Is not in multiple groups (OR)', fixture: { method: 'CONNECT', group: [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE] }, expected: false },
+                { name: 'Is in all multiple groups (AND)', fixture: { method: 'GET', group: [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], and: true }, expected: true },
+                { name: 'Is not in multiple groups (AND)', fixture: { method: 'POST', group: [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], and: true }, expected: false },
             ];
         }
 
     });
+
+    // describe('+static ofGroups: Should return the groups given method belongs to', () => {
+    // });
 
     describe('+static normalize: Should return the expected value or throw', () => {
 

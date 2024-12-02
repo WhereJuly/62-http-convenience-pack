@@ -185,26 +185,56 @@ export default class HTTPMethodsConvenience {
     }
 
     /**
-     * Checks if a given HTTP method belongs to a specified group.
+     * Checks if the given HTTP method belongs to the specified group(s).
+     * 
+     * Checks against {@link HTTPMethodInGroups} typed constant(s).
+     * 
+     * This method can accept either a single group or an array of groups. 
+     * By default, it checks if the method belongs to **at least one** of the groups (logical OR).
+     * 
+     * If you pass `false` for the optional `all` parameter, the method will check 
+     * if it belongs to **every** group (logical AND).
      * 
      * More specific that {@link HTTPMethodsConvenience.isAmong}.
-     * Makes a check against {@link HTTPMethodInGroups} typed constant.
      * 
-     * @param {string} given - The HTTP method as a string.
-     * @param {EHTTPMethodsGroupsList} group - The group to check, from EHTTPMethodsGroupsList.
+     * @param {string} given - The HTTP method.
+     * @param {EHTTPMethodsGroupsList | EHTTPMethodsGroupsList[]} groups - The group(s) to check against.
+     * Either single or multiple items from `EHTTPMethodsGroupsList`.
+     * @param {boolean} all - A boolean flag;
+     * - false (default): check if the method belongs to **at list one** group (logical OR);
+     * - true: check if the method belongs to **all** groups (logical AND).
+     * 
+     * @returns 
+     * - `true` if the method is in the group(s): by default **at least in one** group;
+     *   when `all` === true the method should belong to **all** given groups;
+     * - otherwise `false`.
+     * 
+     * @uses {@link HTTPMethodsConvenience.ofGroups}
      * 
      * @example
      * ```typescript
      * HTTPMethodsConvenience.inGroup('GET', EHTTPMethodsGroupsList.SAFE); // true
      * HTTPMethodsConvenience.inGroup('POST', EHTTPMethodsGroupsList.IDEMPOTENT); // false
-     * ```     * 
-     * @returns `true` if the method is in the group; otherwise, `false`.
+     * HTTPMethodsConvenience.inGroup('GET', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE]); // true
+     * HTTPMethodsConvenience.inGroup('CONNECT', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE]); // false
+     * HTTPMethodsConvenience.inGroup('GET', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], true); // true
+     * HTTPMethodsConvenience.inGroup('POST', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], true); // false
+     * ```
+     * 
      */
-    public static inGroup(given: string, group: EHTTPMethodsGroupsList): boolean {
+    public static inGroup(given: string, groups: EHTTPMethodsGroupsList | EHTTPMethodsGroupsList[], all: boolean = false): boolean {
         const maybeMethod = this.normalize(given);
-        const methodInGroups = HTTPMethodInGroups[maybeMethod as EHTTPMethods];
+        const _groups = Array.isArray(groups) ? groups : [groups];
 
-        return Array.isArray(methodInGroups) && methodInGroups.includes(group);
+        const comparator = all ? 'every' : 'some';
+
+        return _groups[comparator]((group: EHTTPMethodsGroupsList) => {
+            return this.ofGroups(maybeMethod)?.includes(group);
+        });
+    }
+
+    private static ofGroups(maybeMethod: string): readonly EHTTPMethodsGroupsList[] | null {
+        return HTTPMethodInGroups[maybeMethod as EHTTPMethods] || null;
     }
 
     /**
