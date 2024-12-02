@@ -22,3 +22,39 @@ export enum EHTTPMethods {
     TRACE = 'TRACE',
     CONNECT = 'CONNECT',
 }
+
+/**
+ * The HTTP methods groups list enum.
+ * 
+ * @see {@link HTTPMethodInGroups}
+ * 
+ * REFACTOR: This is the initial implementation of grouping functionality.
+ * See the analysis for potential refactoring to less repetitive implementation
+ * in {@link .a&cd/methods/methods-in-groups.md}.
+ * 
+ */
+export enum EHTTPMethodsGroupsList {
+    SAFE = 'safe',
+    IDEMPOTENT = 'idempotent',
+    NON_IDEMPOTENT = 'non-idempotent',
+    CACHEABLE = 'cacheable',
+    PREFLIGHT = 'preflight',
+    SPECIAL_PURPOSE = 'special_purpose',
+}
+
+/**
+ * The HTTP method belonging to groups enum.
+ * 
+ * @see {@link EHTTPMethodsGroupsList}
+ */
+export const HTTPMethodInGroups = {
+    [EHTTPMethods.GET]: [EHTTPMethodsGroupsList.SAFE, EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE],
+    [EHTTPMethods.HEAD]: [EHTTPMethodsGroupsList.SAFE, EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE],
+    [EHTTPMethods.POST]: [EHTTPMethodsGroupsList.NON_IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], // Cacheable if explicitly stated
+    [EHTTPMethods.PUT]: [EHTTPMethodsGroupsList.IDEMPOTENT],
+    [EHTTPMethods.DELETE]: [EHTTPMethodsGroupsList.IDEMPOTENT],
+    [EHTTPMethods.PATCH]: [EHTTPMethodsGroupsList.NON_IDEMPOTENT],
+    [EHTTPMethods.OPTIONS]: [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.PREFLIGHT],
+    [EHTTPMethods.TRACE]: [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.PREFLIGHT, EHTTPMethodsGroupsList.SPECIAL_PURPOSE],
+    [EHTTPMethods.CONNECT]: [EHTTPMethodsGroupsList.SPECIAL_PURPOSE],
+};
