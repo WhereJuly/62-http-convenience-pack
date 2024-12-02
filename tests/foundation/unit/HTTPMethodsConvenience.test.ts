@@ -24,6 +24,8 @@ describe('HTTPMethodsConvenienceTest', () => {
         expect(actual.reset).toBeInstanceOf(Function);
         expect(actual.isValid).toBeInstanceOf(Function);
         expect(actual.isAmong).toBeInstanceOf(Function);
+        expect(actual.inGroup).toBeInstanceOf(Function);
+        expect(actual.ofGroups).toBeInstanceOf(Function);
         expect(actual.normalize).toBeInstanceOf(Function);
     });
 
