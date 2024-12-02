@@ -7,10 +7,11 @@
     "private": true,
     "scripts": {
         "test:consumption": "npm run types:check && vitest run --config tests/vitest.config.ts",
-        "types:check": "npx tsc --noEmit --project ."
+        "types:check": "npx tsc --noEmit --project .",
+        "pre-push": "npm run test:consumption"
     },
     "license": "UNLICENSED",
     "dependencies": {
-        "@wherejuly/http-convenience-pack": "^0.0.11"
+        "@wherejuly/http-convenience-pack": "^0.0.16"
     }
 }

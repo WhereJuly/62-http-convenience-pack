@@ -21,3 +21,8 @@ HTTPHeadersConvenience.isValid(request, {EHTTPHeaders.AUTHORIZATION: expected}) 
 response.set(EHTTPHeaders.CONTENT_TYPE, EMIMETypes.APPLICATION_JSON)
 
 ```
+
+> See [combined usage example](.docs/combined-usage-example.md)
+> Here I could implement the groups functionality like
+> `Methods.inGroup(request.method, EHTTPMethodsGroups.SAFE)`
+> to avoid manually listing the methods for some standard use cases

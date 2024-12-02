@@ -9,7 +9,7 @@ export interface IHTTPStatus {
 }
 
 /**
- * Enum representing groups of HTTP status codes.
+ * Enum contains groups of HTTP status codes.
  * 
  * Comply with [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#section-15) as of June 2022.
  * The groups are named 'classes' there. Here resort to 'groups' to avoid messing with usual 'class'. 
@@ -52,7 +52,7 @@ export const GROUPED_STATUS_CODES = {
     [EHTTPStatusCodeGroups.SERVERERR]: [500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511] as const,
 } as const;
 
-export type StatusCodeGroups = {
+export type TStatusCodeGroups = {
     [key in EHTTPStatusCodeGroups]: typeof GROUPED_STATUS_CODES[key][number];
 };
 
@@ -71,7 +71,7 @@ export type StatusCodeGroups = {
  * console.log(HTTPStatuses[404].code)' // 404
  * ```
  */
-export const THTTPStatuses: { [key in StatusCodeGroups[EHTTPStatusCodeGroups]]: IHTTPStatus } = {
+export const HTTP_STATUSES: { [key in TStatusCodeGroups[EHTTPStatusCodeGroups]]: IHTTPStatus } = {
     100: { code: 100, message: 'Continue' },
     101: { code: 101, message: 'Switching Protocols' },
     102: { code: 102, message: 'Processing' },
