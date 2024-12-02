@@ -1,6 +1,6 @@
 'use strict';
 
-import { EHTTPMethods, THTTPMethodsConstraint } from '@src/core/methods/methods.types.js';
+import { EHTTPMethods, EHTTPMethodsGroupsList, HTTPMethodInGroups, THTTPMethodsConstraint } from '@src/core/methods/methods.types.js';
 import HTTPConveniencePackException from '@src/exceptions/HTTPConveniencePack.exception.js';
 
 /**
@@ -186,6 +186,27 @@ export default class HTTPMethodsConvenience {
         const _allowed = is.find(fn => fn(allowed) !== null)?.(allowed) || this.values;  // Apply the first valid function
 
         return givens.every((given: string) => { return _allowed.includes(given.toUpperCase()); });
+    }
+
+    /**
+     * Checks if a given HTTP method belongs to a specified group.
+     * 
+     * More specific that {@link HTTPMethodsConvenience.isAmong}.
+     * Makes a check against {@link HTTPMethodInGroups} typed constant.
+     * 
+     * @param {string} given - The HTTP method as a string.
+     * @param {EHTTPMethodsGroupsList} group - The group to check, from EHTTPMethodsGroupsList.
+     * 
+     * @returns `true` if the method is in the group; otherwise, `false`.
+     */
+    public static inGroup(given: string, group: EHTTPMethodsGroupsList): boolean {
+        const maybeMethod = this.normalize(given);
+        const methodInGroups = HTTPMethodInGroups[maybeMethod as EHTTPMethods];
+
+        // WRITE: Add docs for HTTPMethodInGroups and EHTTPMethodsGroupsList.
+        console.log(HTTPMethodInGroups[EHTTPMethods.CONNECT]);
+
+        return Array.isArray(methodInGroups) && methodInGroups.includes(group);
     }
 
     /**
