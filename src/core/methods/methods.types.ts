@@ -39,7 +39,7 @@ export enum EHTTPMethodsGroupsList {
     NON_IDEMPOTENT = 'non-idempotent',
     CACHEABLE = 'cacheable',
     PREFLIGHT = 'preflight',
-    SPECIAL_PURPOSE = 'special_purpose',
+    SPECIAL = 'special',
 }
 
 /**
@@ -55,6 +55,6 @@ export const HTTPMethodInGroups = {
     [EHTTPMethods.DELETE]: [EHTTPMethodsGroupsList.IDEMPOTENT],
     [EHTTPMethods.PATCH]: [EHTTPMethodsGroupsList.NON_IDEMPOTENT],
     [EHTTPMethods.OPTIONS]: [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.PREFLIGHT],
-    [EHTTPMethods.TRACE]: [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.PREFLIGHT, EHTTPMethodsGroupsList.SPECIAL_PURPOSE],
-    [EHTTPMethods.CONNECT]: [EHTTPMethodsGroupsList.SPECIAL_PURPOSE],
-};
+    [EHTTPMethods.TRACE]: [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.PREFLIGHT, EHTTPMethodsGroupsList.SPECIAL],
+    [EHTTPMethods.CONNECT]: [EHTTPMethodsGroupsList.SPECIAL],
+} as const;
