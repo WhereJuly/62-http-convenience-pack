@@ -96,7 +96,6 @@ import { EHTTPMethodsGroupsList } from 'http-convenience-pack';
 console.log(EHTTPMethodsGroupsList.CACHEABLE); // 'cacheable'; As EHTTPMethodsGroupsList enum member. Autocomplete;
 ```
 
-
 #### `HTTPMethodInGroups` Typed Constant
 
 The list of methods with their respective groups. Type-safe, autocomplete-able.
@@ -147,7 +146,7 @@ HTTPmethodsConvenience.isValid(['GET', 'link']); // false;
 
 ##### `.isAmong()` Method
 
-Check if a given HTTP method is among methods in the Registry, or on the optional list of methods either as as string, `string`,  [`THTTPMethodsConstraint`](#thttpmethodsconstraint-type) object or `string[]`.
+Check if a given HTTP method is among methods in the Registry, or on the optional list of methods either as as string, `string`, [`THTTPMethodsConstraint`](#thttpmethodsconstraint-type) object or `string[]`.
 
 Signature: `public static isAmong(given: string | string[], allowed?: string | THTTPMethodsConstraint | string[]): boolean`
 
@@ -165,9 +164,12 @@ console.log(HTTPMethodsConvenience.isAmong('PATCH', ['GET', 'POST'])); // false
 
 ##### `.inGroup()` Method
 
-Checks if a given HTTP method belongs to a specified `EHTTPMethodsGroupsList` group.
+Checks if a given HTTP method belongs to a specified single [`EHTTPMethodsGroupsList`](#ehttpmethodsgroupslist-enum)
+or multiple `EHTTPMethodsGroupsList[]` groups. Checks against [`HTTPMethodInGroups`](#httpmethodingroups-typed-constant) typed constant(s).
 
-Signature: `public static (given: string, group: EHTTPMethodsGroupsList): boolean`
+By default, it checks if the method belongs to **at least one** of the groups (logical OR). Passing `false` for the optional `all` parameter, will make it check the method belongs to **every** group (logical AND).
+
+Signature: `public static inGroup(given: string, groups: EHTTPMethodsGroupsList | EHTTPMethodsGroupsList[], all: boolean = false): boolean`
 
 **Usage**
 
@@ -175,6 +177,29 @@ Signature: `public static (given: string, group: EHTTPMethodsGroupsList): boolea
 import HTTPMethodsConvenience from 'http-convenience-pack';
 
 console.log(HTTPMethodsConvenience.inGroup('GET', EHTTPMethodsGroupsList.CACHEABLE)); // true
+console.log(HTTPMethodsConvenience.inGroup('GET', [EHTTPMethodsGroupsList.CACHEABLE, EHTTPMethodsGroupsList.SAFE])); // true
+console.log(HTTPMethodsConvenience.inGroup('CONNECT', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE])); // false
+console.log(HTTPMethodsConvenience.inGroup('GET', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], true)); // true
+console.log(HTTPMethodsConvenience.inGroup('POST', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], true)); // false
+```
+
+**Use Cases**
+
+```typescript
+/**
+ * Permit some operations for admins only.
+ */
+HTTPMethodsConvenience.inGroup(request.method, EHTTPMethodsGroupsList.NON_IDEMPOTENT) && isAdmin && this.processAdminTasks();
+
+/**
+ * Process cache only for cacheable methods.
+ */
+HTTPMethodsConvenience.inGroup(request.method, EHTTPMethodsGroupsList.CACHEABLE) && this.processCache();
+
+/**
+ * Monitor only non-idempotent requests.
+ */
+HTTPMethodsConvenience.inGroup(request.method, EHTTPMethodsGroupsList.NON_IDEMPOTENT) && this.logRequest();
 ```
 
 ##### `.normalize()` Method
@@ -192,10 +217,10 @@ console.log(HTTPMethodsConvenience.normalize('link')); // Uncaught throw for non
 
 // Attempt to normalize an invalid HTTP method, catch the throw
 try {
-  HTTPMethodsConvenience.normalize('invalidMethod');
+ HTTPMethodsConvenience.normalize('invalidMethod');
 } catch (e) {
-  // "maybeMethod" argument when transformed to upper case should be a valid HTTP built-in or extended method, "invalidMethod" given.`
-  console.error(e.message);
+ // "maybeMethod" argument when transformed to upper case should be a valid HTTP built-in or extended method, "invalidMethod" given.`
+ console.error(e.message);
 }
 ```
 
