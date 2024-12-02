@@ -12,6 +12,6 @@
     },
     "license": "UNLICENSED",
     "dependencies": {
-        "@wherejuly/http-convenience-pack": "^0.0.16"
+        "@wherejuly/http-convenience-pack": "^0.0.17"
     }
 }
