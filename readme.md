@@ -10,7 +10,7 @@ Use TypeScript type inference and IDE autocomplete for comfort and type safety i
 
 **Summary**
 
-The small dependency-free, TypeScript HTTP convenience package. Exposes uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services along with the convenience functionality (validate, normalize, transform, is among, of group, in group, make, extract etc.).
+The small dependency-free, TypeScript HTTP convenience package. Exposes uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services along with the convenience functionality (validate, normalize, , is among, of group, in group, make, extract, transform etc.).
 
 The new use cases / functionality suggestions are welcome either in [Discussions](https://github.com/WhereJuly/62-http-convenience-pack/discussions) or as [pull requests](#contribution).
 
@@ -62,7 +62,7 @@ On top it has convenience manipulation functionality.
 
 ### Documentation
 
-The package is carefully documented for comfortable developer experience. 
+The package is carefully documented for comfortable developer experience.
 
 From the good-named identifiers in code, thought-out autocompletion (see animated GIF [demo](#autocomplete-demo)), hover-popup doc blocks with usage examples on enums, constants classes and methods accessible with on-hover or `Ctrl-Left-click` when integrated with your IDE TypeScript setup (e.g. see [VS Code](https://code.visualstudio.com/Docs/languages/typescript)) to the detailed readme with use cases and the dedicated modules' API references.
 
