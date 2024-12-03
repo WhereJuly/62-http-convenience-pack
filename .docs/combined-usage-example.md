@@ -24,6 +24,9 @@ Start on your one end, e.g. front-end. Comfortably autocomplete HTTP constants. 
 
 #### Send a request
 
+<!-- WARNING: Update headers when implemented. -->
+<!-- WARNING: Update MIME Types example from dedicated docs. -->
+
 ```typescript
 import { EHTTPMethods, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
 
@@ -39,7 +42,7 @@ const response = await fetch('https://api.example.com/data', {
    */
   headers: {
     EHTTPHeaders.AUTHORIZATION: 'Bearer <required-token-here>',
-    EHTTPHeaders.CONTENT_TYPE: EHTTPMIMETypes.APPLICATION_JSON
+    EHTTPHeaders.CONTENT_TYPE: MIME_TYPES_BUILTIN['image/png'].type
   }
 });
 ```
@@ -51,6 +54,9 @@ const response = await fetch('https://api.example.com/data', {
 **On request receive** (e.g. in route or endpoint middleware) check a method is valid or allowed, normalize the method if the request came from unknown source.
 
 ```typescript
+/**
+ * Use aliased imports to make long identifiers shorter.
+ */
 import { EHTTPMethods, HTTPMethodsConvenience as Methods } from 'http-convenience-pack';
 
 /**
@@ -79,14 +85,12 @@ Methods.isAmong(request.method); // true
 
 /**
  * Normalize and test against `allowed` methods as inline literal or constant,
- * defined in advance for each specific endpoint or route
+ * defined in advance for each specific endpoint or route with either `isAmong`
+ * or `inGroup` method.
  */
 Methods.isAmong(request.method, [EHTTPMethods.GET, EHTTPMethods.POST]); // false
+Methods.inGroup(request.method, EHTTPMethodsGroupsList.CACHEABLE) // true; For cacheable methods;
 ```
-
-> Here I could implement the groups functionality like
-> `Methods.inGroup(request.method, EHTTPMethodsGroups.SAFE)`
-> to avoid manually listing the methods for some standard use cases
 
 #### Headers
 
