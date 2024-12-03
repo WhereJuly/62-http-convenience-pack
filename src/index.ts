@@ -12,6 +12,10 @@ export {
 
 export { default as HTTPStatusesConvenience } from './core/statuses/HTTPStatusesConvenience.js';
 
+// NB: HTTP Headers Module
+
+export { EHTTPHeaders, EHTTPHeaderGroups } from './core/headers/headers.types.js';
+
 /**
  * NB: MIME Types Module
  * 
