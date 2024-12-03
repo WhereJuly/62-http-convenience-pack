@@ -57,6 +57,9 @@ export default class HTTPHeadersConvenience {
     // That makers Set could be manually extended with more makers by a consumer.
     public static make(_header: EHTTPHeaders.Authorization, _value: unknown, _scheme: EHTTPAuthenticationScheme): THeader {
         // WRITE: Implementation
+
+        // NB: Here should be probably one standard maker function - JSON.stringify() - or similar.
+        // To transform different values to string. Well maybe an optional custom maker function.
         return {} as any;
     }
 
