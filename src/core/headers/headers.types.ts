@@ -2,11 +2,13 @@
 
 /**
  * The HTTP Headers enum.
+ * 
+ * @note The separation into request and response headers is informal, just for partial clarity.
  */
 export enum EHTTPHeaders {
     // Request Headers
     Authorization = 'Authorization',
-    ContentType = 'Content-Type',
+    ContentType = 'Content-Type', // Can be both request and response header
     Accept = 'Accept',
     AcceptEncoding = 'Accept-Encoding',
     Cookie = 'Cookie',
@@ -27,6 +29,22 @@ export enum EHTTPHeaders {
 export enum EHTTPHeaderGroups {
     Request = 'request',
     Response = 'response',
+}
+
+/**
+ * @redundant This seems redundant.
+ * 
+ * The HTTP Authentication Scheme enum.
+ * 
+ * NB: For the beginning only basic and Bearer authentication schemes support is standardized.
+ * The rest can be accustomed for by Custom scheme, that is user defined.
+ * 
+ * @see {@link HTTPHeadersConvenience.make}
+ */
+export enum EHTTPAuthenticationScheme {
+    Basic = 'Basic', // NB: these two could be used as values to prepend a token value.
+    Bearer = 'Bearer',
+    Custom = 'custom',
 }
 
 /**

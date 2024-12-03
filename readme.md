@@ -10,7 +10,7 @@ Use TypeScript type inference and IDE autocomplete for comfort and type safety i
 
 **Summary**
 
-The small dependency-free TypeScript HTTP convenience package to expose uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services. Manipulation functionality (validate, normalize, transform, is among, of group, in group etc.) is provided as well.
+The small dependency-free, TypeScript HTTP convenience package. Exposes uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services along with the convenience functionality (validate, normalize, transform, is among, of group, in group, make, extract etc.).
 
 The new use cases / functionality suggestions are welcome either in [Discussions](https://github.com/WhereJuly/62-http-convenience-pack/discussions) or as [pull requests](#contribution).
 
@@ -70,7 +70,7 @@ As well there is a GitHub [Discussion](https://github.com/WhereJuly/62-http-conv
 
 **Code Conventions**
 
-To easy the readability and autocomplete I apply the following conventions: start interface names with `I`, enums with `E`, type aliases with `T`, generics with `G`. Abbreviations are always in caps (satisfactory comfort). The domain-respective public API contain `HTTP` prefix to namespace the package members, constants contain the module name like `Statuses`, `Methods`, `MIME` etc.
+To ease the readability and autocomplete I apply the following conventions: start interface names with `I`, enums with `E`, type aliases with `T`, generics with `G`. Abbreviations are always in caps (satisfactory comfort). The domain-respective public API contains `HTTP` prefix to namespace the package members, the module name like `Statuses`, `Methods`, `MIME` etc.
 
 As the names may feel rather long you can apply the imports aliasing like this:
 
