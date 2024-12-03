@@ -12,5 +12,6 @@
     "Referer": "https://example.com/page",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
     "X-Requested-With": "XMLHttpRequest",
-    "Cookie": "sessionid=abc123; path=/; domain=example.com"
+    "Cookie": "sessionid=abc123; path=/; domain=example.com",
+    "Last-Modified": "Fri, 01 Dec 2024 10:00:00 GMT"
 }

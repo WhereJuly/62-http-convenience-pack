@@ -1,14 +1,17 @@
 'use strict';
 
 import general from './general.json' assert {type: 'json'};
-import name_cases from './name-cases.json' assert {type: 'json'};
+import b64 from './b64.json' assert {type: 'json'};
+import authentication_schemes from './authentication-schemes.json' assert {type: 'json'};
 
 export default {
     general,
-    name_cases
+    b64,
+    authentication_schemes
 };
 
 export {
     general,
-    name_cases
+    b64,
+    authentication_schemes
 };

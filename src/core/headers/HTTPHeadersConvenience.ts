@@ -1,53 +1,15 @@
 'use strict';
 
+import { TExtractorFunction } from '@src/core/headers/BuiltInExtractors.js';
 import { EHTTPAuthenticationScheme, EHTTPHeaders } from '@src/core/headers/headers.types.js';
 
 type THeader = { [EHTTPHeaders.Authorization]: string; };
 type THeadersObject = { [key in EHTTPHeaders | string]: string; };
-type TExtractorFunction<GExtractorReturns = string> = (value: string) => GExtractorReturns;
 
 export default class HTTPHeadersConvenience {
 
-    private static builtin: typeof EHTTPHeaders = EHTTPHeaders;
-
-    /**
-     * WRITE: This is rough description. Re-write.
-     * 
-     * Extractors property: Set with built-in extractors for numbers, booleans, arrays, dates, objects,
-     * @see {@link .a&cd/headers/built-in-extractors.md}
-     * Consumer can add extractors with `public static set extractors`. 
-     * Will need extractors getter;
-     * 
-     * WRITE: What to do when the key=extractor already exists. 
-     * What to do if the key is among built-in extractors.
-     * 
-     * WRITE: The `token` extractor that automatically detects token scheme
-     * from the built-in ones (like Bearer, Basic, etc., may include a lot of them)
-     * and extracts the value.
-     */
-    private static _extractors: Map<string, TExtractorFunction> = new Map();
-
-    /**
-     * Extractors getter.
-     * 
-     * WRITE: doc block.
-     *
-     * @static
-     */
-    public static get extractors(): Map<string, TExtractorFunction> {
-        return this._extractors;
-    }
-
-    /**
-     * Extractors setter.
-     * 
-     * WRITE: doc block.
-     *
-     * @static
-     */
-    public static set extractors(descriptor: { name: string, extractor: TExtractorFunction; }) {
-        this._extractors.set(descriptor.name, descriptor.extractor);
-    }
+    // NB: Will see if it is needed.
+    private static headers: typeof EHTTPHeaders = EHTTPHeaders;
 
     // NB: For the initial implementation restrict with Authorization header only
     // Could make any header object with a custom maker function.
