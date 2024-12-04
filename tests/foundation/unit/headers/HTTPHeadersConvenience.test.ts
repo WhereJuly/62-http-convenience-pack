@@ -41,7 +41,7 @@ describe('HTTPHeadersConvenienceTest', () => {
 
     });
 
-    describe.only('+static extract: Should use BuiltInExtractors extractors', () => {
+    describe('+static extract: Should use BuiltInExtractors extractors', () => {
 
         it.each(dataProvider_extract())('Case #%# $name', (data) => {
             const actual = HTTPHeadersConvenience.extract(data.fixture.headers, data.fixture.extract, data.fixture.extractor);

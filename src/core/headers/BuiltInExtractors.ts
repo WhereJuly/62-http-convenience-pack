@@ -15,45 +15,6 @@ export enum ETokenSchemes {
 export default class BuiltInExtractors {
 
     /**
-     * WRITE: This is rough description. Re-write.
-     * 
-     * Extractors property: Set with built-in extractors for numbers, booleans, arrays, dates, objects,
-     * @see {@link .a&cd/headers/built-in-extractors.md}
-     * Consumer can add extractors with `public static set extractors`. 
-     * Will need extractors getter;
-     * 
-     * WRITE: What to do when the key=extractor already exists. 
-     * What to do if the key is among built-in extractors.
-     * 
-     * WRITE: The `token` extractor that automatically detects token scheme
-     * from the built-in ones (like Bearer, Basic, etc., may include a lot of them)
-     * and extracts the value.
-     */
-    private static _extractors: Map<string, TExtractorFunction> = new Map();
-
-    /**
-     * Extractors getter.
-     * 
-     * WRITE: doc block.
-     *
-     * @static
-     */
-    public static get extractors(): Map<string, TExtractorFunction> {
-        return this._extractors;
-    }
-
-    /**
-     * Extractors setter.
-     * 
-     * WRITE: doc block.
-     *
-     * @static
-     */
-    public static set extractors(descriptor: { name: string, extractor: TExtractorFunction; }) {
-        this._extractors.set(descriptor.name, descriptor.extractor);
-    }
-
-    /**
      * Splits a string into an array of substrings.
      * By default uses `,` delimiter, optionally using a specified delimiter.
      * 
@@ -160,7 +121,7 @@ export default class BuiltInExtractors {
             [ETokenSchemes.APIKey]: valueExtractor,
         };
 
-        // const regex = /^(Bearer|Basic|Digest|APIKey)\s+(.+)$/;
+        // const regex = /^(Bearer|Basic|APIKey)\s+(.+)$/;
         const regex = new RegExp(`^(${Object.values(ETokenSchemes).join('|')})\\s+(.+)$`);
         const match = maybeToken.match(regex);
 

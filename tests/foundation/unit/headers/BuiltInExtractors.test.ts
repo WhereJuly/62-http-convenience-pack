@@ -80,9 +80,6 @@ describe('BuiltInExtractorsTest', () => {
         it.each(dataProvider_token())('Case #%# $name', (data) => {
             const actual = BuiltInExtractors.token(data.fixture);
 
-            console.log(data.fixture);
-            console.log(actual);
-
             expect(actual).toEqual(data.expected);
         });
 
@@ -96,12 +93,10 @@ describe('BuiltInExtractorsTest', () => {
                 { name: 'OAuth1', fixture: fixture.oauth1, expected: fixture.oauth1 },
                 { name: 'OAuth2', fixture: fixture.oauth2, expected: 'ya29.a0AfH6SMCzX6S3g0prEb1KfkIuJ4v9t9gFsKfP_Sp4QI2JpEjjGp4P7p-4lRwrG5' },
                 { name: 'Unknown', fixture: fixture.unknown, expected: fixture.unknown },
+                { name: 'Empty string', fixture: '', expected: '' },
             ];
         }
 
     });
-
-    // WRITE: Assert: BuiltInExtractors class with various extractors: assert each extractor returns expected value;
-    // WRITE: Assert: BuiltInExtractors to have set method to add all or the selected built-in extractors at once on HTTPHeadersConvenience.
 
 });
