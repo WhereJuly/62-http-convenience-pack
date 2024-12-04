@@ -37,7 +37,8 @@ export default class HTTPHeadersConvenience {
      * @param {EHTTPHeaders | string} toExtract - The *case-insensitive* header name to extract.
      * 
      * @param {TExtractorFunction<GExtractorReturns>} extractor_ - Optional function to process
-     * the extracted value. May return a desired generic type value.
+     * the extracted value. May return a desired generic type value `GExtractorReturns` 
+     * (default `string`).
      * 
      * @returns The extracted value optionally processed by the extractor or `null` if
      * the `toExtract` is not found in `headersObject`.
@@ -88,6 +89,16 @@ export default class HTTPHeadersConvenience {
         return false;
     }
 
+    /**
+     * Normalizes the given HTTP header name by converting it to lowercase.
+     * 
+     * @param {EHTTPHeaders | string} header The HTTP header name to normalize.
+     * @returns The normalized header name as a lowercase string.
+     * 
+     * @example
+     * normalize('Content-Type'); // 'content-type'
+     * normalize(EHTTPHeaders.Authorization); // 'authorization'
+     */
     public static normalize(header: EHTTPHeaders | string): string {
         return header.toLowerCase();
     }
