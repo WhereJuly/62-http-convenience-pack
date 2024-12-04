@@ -103,8 +103,8 @@ npm install http-convenience-pack
 
 ## HTTP Headers
 
-> See: [Combined Usage Example](./.docs/combined-usage-example.md)
-> Development: [readme](./src/core/headers/implement.md)
+> See: [Combined Usage Example](./.docs/combined-usage-example.md/#headers)
+> Development: [readme](./.a&cd/headers/implement.md)
 
 ## Maintenance
 
