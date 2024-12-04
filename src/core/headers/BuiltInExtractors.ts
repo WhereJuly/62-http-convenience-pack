@@ -1,7 +1,10 @@
 'use strict';
 
-export type TExtractorFunction<GExtractorReturns = string> = (value: string) => GExtractorReturns;
+import { TExtractorFunction } from '@src/core/headers/HTTPHeadersConvenience.js';
 
+/**
+ * The built-in Authorization header token value schemes for auto-detected value extraction.
+ */
 export enum ETokenSchemes {
     Bearer = "Bearer",
     Basic = "Basic",
@@ -12,11 +15,14 @@ export enum ETokenSchemes {
     // Digest = "Digest", 
 }
 
+/**
+ * The service class for the built-in header token values extraction.
+ */
 export default class BuiltInExtractors {
 
     /**
-     * Splits a string into an array of substrings.
-     * By default uses `,` delimiter, optionally using a specified delimiter.
+     * Extracts the array from a string.
+     * By default uses `,` delimiter, optionally allows using a specified delimiter.
      * 
      * @param {string} maybeString - The string to split.
      * @param {string} by - The delimiter to use for splitting. Defaults to ','.
@@ -37,7 +43,7 @@ export default class BuiltInExtractors {
     }
 
     /**
-     * Attempts to parse a string into a `Date` object.
+     * Parses a string into a `Date` object.
      * If the string is invalid, returns `null`.
      * 
      * @param {string} maybeDateString - The string to be parsed into a `Date` object.
@@ -87,12 +93,13 @@ export default class BuiltInExtractors {
         return decoded;
     }
 
-    // NB: [string, string] for Basic scheme: [login, password]
-
     /**
-     * Extracts and returns the Authorization header token **value**
+     * Extracts and returns the Authorization header token value
+     * 
      * Automatically detects the token data scheme among built-in schemes
      * @see {@link ETokenSchemes}.
+     * 
+     * NB: [string, string] for Basic scheme: [login, password]
      * 
      * @param {string} maybeToken The token string, potentially including a scheme.
      * @returns A string or a tuple containing the scheme and the extracted token value.

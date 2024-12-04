@@ -24,9 +24,12 @@ export enum EHTTPHeaders {
 }
 
 /**
- * The HTTP Header Groups enum.
+ * @internal
+ * 
+ * The HTTP Header Groups enum. Probably redundant for now.
+ * @see {@link _HTTP_HEADERS_GROUPED}
  */
-export enum EHTTPHeaderGroups {
+enum _EHTTPHeaderGroups {
     Request = 'request',
     Response = 'response',
 }
@@ -40,10 +43,10 @@ export enum EHTTPHeaderGroups {
  * Will see if any useful grouping idea appears in the future.
  */
 const _HTTP_HEADERS_GROUPED = {
-    [EHTTPHeaderGroups.Request]:
+    [_EHTTPHeaderGroups.Request]:
         [EHTTPHeaders.Authorization, EHTTPHeaders.ContentType, EHTTPHeaders.XRequestedWith,
         EHTTPHeaders.Accept, EHTTPHeaders.AcceptEncoding, EHTTPHeaders.Cookie],
-    [EHTTPHeaderGroups.Response]:
+    [_EHTTPHeaderGroups.Response]:
         [EHTTPHeaders.ContentType, EHTTPHeaders.ContentLength, EHTTPHeaders.SetCookie,
         EHTTPHeaders.CacheControl, EHTTPHeaders.ETag, EHTTPHeaders.Location,
         EHTTPHeaders.AccessControlAllowOrigin]

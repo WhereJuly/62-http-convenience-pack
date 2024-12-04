@@ -1,14 +1,49 @@
 'use strict';
 
-import { ETokenSchemes, TExtractorFunction } from '@src/core/headers/BuiltInExtractors.js';
+import { ETokenSchemes } from '@src/core/headers/BuiltInExtractors.js';
 import { EHTTPHeaders } from '@src/core/headers/headers.types.js';
 
-type TAuthorizationHeaderObject = { [EHTTPHeaders.Authorization]: string; };
-type THeadersObject = { [key in EHTTPHeaders | string]: string; };
-
-type TAuthorizationTokenValue = string | string[];
+/**
+ * @internal
+ * 
+ * The internal type for {@link HTTPHeadersConvenience.make} method.
+ * Could be probably unified fir the method `_maker` parameter type in the future.
+ */
 type TTokenValueMakerFunction = (token: TAuthorizationTokenValue) => string;
 
+/**
+ * Represents the general kind of HTTP request headers object.
+ * 
+ * Used in multiple methods in {@link HTTPHeadersConvenience} class.
+ * 
+ * @example
+ * 
+ * ```json
+ * {
+ *   "Accept-Encoding": "gzip, deflate, br",
+ *   "Accept-Language": "en-US,en;q=0.9"
+ * }
+ */
+export type THeadersObject = { [key in EHTTPHeaders | string]: string; };
+
+/**
+ * The specific type used as a return type for  {@link HTTPHeadersConvenience.make} method.
+ * 
+ * @example
+ * ```typescript
+ * { "Authorization": "Bearer the-bearer-token" }
+ * ```
+ */
+export type TAuthorizationHeaderObject = { [EHTTPHeaders.Authorization]: string; };
+
+/**
+ * The value type used as `token` parameter type for {@link HTTPHeadersConvenience.make} method.
+ */
+export type TAuthorizationTokenValue = string | string[];
+
+/**
+ * Authorization token schemes implemented for for {@link HTTPHeadersConvenience.make} method.
+ */
 export enum EMakerTokenSchemes {
     Basic = ETokenSchemes.Basic,
     Bearer = ETokenSchemes.Bearer,
@@ -17,9 +52,30 @@ export enum EMakerTokenSchemes {
 /**
  * The constant included in {@link HTTPHeadersConvenience.make} methods return value for
  * unknown token schemes.
+ * 
+ * @example
+ * ```typescript
+ * 
+ * const authorizationHeader = HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, "InvalidScheme", "someToken");
+ * if authorizationHeader.Authorization.includes(TokenSchemeUnknown)
+ *   throw new Error('Cannot make the Authorization header with an invalid scheme.'); 
+ * ```
  */
 export const TokenSchemeUnknown = 'Error: token scheme unknown.';
 
+/**
+ * The header value extraction / transformer function type.
+ * 
+ * @see {@link HTTPHeadersConvenience.extract} method.
+ * Used internally in {@link BuiltInExtractors.token} method.
+ * 
+ * WRITE: Usage example for custom extractors.
+ */
+export type TExtractorFunction<GExtractorReturns = string> = (value: string) => GExtractorReturns;
+
+/**
+ * The convenience class for manipulating HTTP headers.
+ */
 export default class HTTPHeadersConvenience {
 
     /**
@@ -57,7 +113,7 @@ export default class HTTPHeadersConvenience {
      * @see {@link TokenSchemeUnknown}
      * 
      * ```typescript
-     * HTTPHeadersConvenience.make("Authorization", "InvalidScheme", "someToken"); // { Authorization: "InvalidScheme TokenSchemeUnknown" }
+     * HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, "InvalidScheme", "someToken"); // { Authorization: "InvalidScheme TokenSchemeUnknown" }
      * ```
      */
     public static make(header: EHTTPHeaders.Authorization, scheme: EMakerTokenSchemes, token: TAuthorizationTokenValue, _maker?: unknown): TAuthorizationHeaderObject {
@@ -197,8 +253,8 @@ export default class HTTPHeadersConvenience {
      * @returns The normalized header name as a lowercase string.
      * 
      * @example
-     * normalize('Content-Type'); // 'content-type'
-     * normalize(EHTTPHeaders.Authorization); // 'authorization'
+     * HTTPHeadersConvenience.normalize('Content-Type'); // 'content-type'
+     * HTTPHeadersConvenience.normalize(EHTTPHeaders.Authorization); // 'authorization'
      */
     public static normalize(header: EHTTPHeaders | string): string {
         return header.toLowerCase();
@@ -215,7 +271,6 @@ export default class HTTPHeadersConvenience {
      * @example
      * HTTPHeadersConvenience.makerToBasicToken(['username', 'password']); // 'dXNlcm5hbWU6cGFzc3dvcmQ='
      */
-
     private static makerToBasicToken(token: [string, string]): string {
         return Buffer.from(token.join(':')).toString('base64');
     }
