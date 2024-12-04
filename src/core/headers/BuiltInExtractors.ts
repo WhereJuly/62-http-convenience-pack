@@ -114,7 +114,7 @@ export default class BuiltInExtractors {
      */
     public static token(maybeToken: string): string | string[] {
         const valueExtractor = (value: any) => value;
-        const basic = (value: string) => { return this.array(this.b64(value), ':'); };
+        const basic = (value: string) => { return BuiltInExtractors.array(BuiltInExtractors.b64(value), ':'); };
         const tokenExtractors: { [key in ETokenSchemes]: TExtractorFunction<string | string[]> } = {
             [ETokenSchemes.Basic]: basic,
             [ETokenSchemes.Bearer]: valueExtractor,
