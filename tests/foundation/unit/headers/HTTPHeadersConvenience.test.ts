@@ -75,4 +75,27 @@ describe('HTTPHeadersConvenienceTest', () => {
 
     });
 
+    describe('+static hasValue: Should check if the extracted header value equals the expected one', () => {
+
+        it.each(dataProvider_has_value())('Case #%# $name', (data) => {
+            const actual = HTTPHeadersConvenience.hasValue(data.fixture.headers, data.fixture.header, data.fixture.contains, data.fixture.extractor);
+
+            expect(actual).toEqual(data.expected);
+        });
+
+        function dataProvider_has_value() {
+            const fixture = {
+                general: fixtures.general,
+                basic: { [EHTTPHeaders.Authorization]: `${fixtures.authentication_schemes.basic}` }
+            };
+
+            return [
+                { name: 'Accept', fixture: { headers: fixture.general, header: EHTTPHeaders.Accept, contains: fixture.general[EHTTPHeaders.Accept] }, expected: true },
+                { name: 'Bearer auth', fixture: { headers: fixture.general, header: EHTTPHeaders.Authorization, contains: 'the-bearer-token' }, expected: true },
+                { name: 'Basic auth', fixture: { headers: fixture.basic, header: EHTTPHeaders.Authorization, contains: ['username', 'password'], extractor: BuiltInExtractors.token }, expected: true },
+            ];
+        }
+
+    });
+
 });

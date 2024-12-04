@@ -64,7 +64,7 @@ export default class HTTPHeadersConvenience {
         const unchanged = (token: TAuthorizationTokenValue) => { return token as string; };
         const valueMakers: { [key in EMakerTokenSchemes]: TTokenValueMakerFunction } = {
             [EMakerTokenSchemes.Bearer]: unchanged,
-            [EMakerTokenSchemes.Basic]: this.makerToBasicToken as TTokenValueMakerFunction
+            [EMakerTokenSchemes.Basic]: HTTPHeadersConvenience.makerToBasicToken as TTokenValueMakerFunction
         };
 
         const valueMaker = valueMakers[scheme];
@@ -101,40 +101,93 @@ export default class HTTPHeadersConvenience {
      * ```typescript
      * const headers = { 'Content-Type': 'application/json' };
      * const extractor = (value) => value.toUpperCase()
-     * console.log(HTTPHeadersConvenience.extract(headers, 'Content-Type', extractor)); // 'APPLICATION/JSON'
+     * console.log(HTTPHeadersConvenience.extract(headers, EHTTPHeaders.ContentType, extractor)); // 'APPLICATION/JSON'
      * ```
      * 
      * @example Custom extractor with custom return value type.
      * ```typescript
      * const headers = { 'Content-Type': 'application/json', 'Accept-Language': 'en-US,fr-CA' };
      * const extractor = (value) => value.split(',')
-     * console.log(HTTPHeadersConvenience.extract<string[]>(headers, 'Accept-Language', extractor)); // ['en-US', 'fr-CA']
+     * console.log(HTTPHeadersConvenience.extract<string[]>(headers, EHTTPHeaders.AcceptLanguage, extractor)); // ['en-US', 'fr-CA']
      * ```
-     * 
-     * WRITE: The example with built-in `token` extractor usage.
+     * @example Built-in `Basic` auth token extractor.
+     * ```typescript
+     * const headers = { 'Authorization': 'Basic dXNlcm5hbWU6cGFzc3dvcmQ=', 'Accept-Language': 'en-US,fr-CA' };
+     * const extractor = BuiltInExtractors.token
+     * console.log(HTTPHeadersConvenience.extract<string[]>(headers, EHTTPHeaders.Authorization, extractor)); // ['username', 'password']
+     * ```
      */
-    public static extract<GExtractorReturns>(headersObject: THeadersObject, toExtract: EHTTPHeaders | string, extractor_?: TExtractorFunction<GExtractorReturns>): string | GExtractorReturns | null {
+    public static extract<GExtractorReturns = string>(headersObject: THeadersObject, headerName: EHTTPHeaders | string, extractor_?: TExtractorFunction<GExtractorReturns>): string | GExtractorReturns | null {
         const extractor = extractor_ ?? ((value: string) => value);
+        const keyValue = HTTPHeadersConvenience.toKeyValue(headersObject, headerName);
 
-        const found = Object.entries(headersObject).find((entry: [string, string]) => {
-            const [key, value] = [this.normalize(entry[0]), entry[1]];
-            return key === this.normalize(toExtract) ? value : null;
-        });
-
-        return found ? extractor(found[1]) : null;
+        return keyValue ? extractor(keyValue[1]) : null;
     }
 
     /**
-     * Checks if the header is present and its value matches the expected value.
+     * Checks if the value of a specific header contains the `expected` content.
      * 
-     * For this extract the header value with {@link HTTPHeadersConvenience.extract}
-     * applying the `_extractor` if provided. Then compares the extracted value with `expected` argument.
+     * Uses {@link HTTPHeadersConvenience.extract} under the hood to extract the
+     * header value.
      * 
-     * @returns {boolean} - `true` if the header is present and its value matches the expected value, otherwise `false`.
+     * The `expected` should match extracted and transformed value.
+     * 
+     * @see {@link HTTPHeadersConvenience.extract} for extracting the header value.
+     * @see {@link BuiltInExtractors} for built-in extractors.
+     * 
+     * @param {THeadersObject} headersObject - The object containing headers as key-value pairs.
+     * @param {EHTTPHeaders | string} headerName - The header name to search for.
+     * @param {string | string[]} contains - The content to search for in the header's value.
+     * @param {TExtractorFunction<GExtractorReturns>} extractor - Optional custom extractor function
+     * to retrieve the header value.
+     * 
+     * @returns True if the value contains the specified string(s), otherwise false.
+     *
+     * @example
+     * const headers = { 'Content-Type': 'application/json' };
+     * HTTPHeadersConvenience.hasValue(headers, EHTTPHeaders.ContentType, 'json'); // true
+     * 
+     * @example
+     * const headers = { 'Authorization': 'Basic dXNlcm5hbWU6cGFzc3dvcmQ=', 'Accept-Language': 'en-US,fr-CA' };
+     * const extractor = BuiltInExtractors.token
+     * HTTPHeadersConvenience.hasValue<string[]>(headers, EHTTPHeaders.Authorization, ['username', 'password'], extractor); // true
      */
-    public static hasValue(_headersObject: THeadersObject, _toExtract: EHTTPHeaders, _expected: unknown, _extractor?: TExtractorFunction<any>): boolean {
-        // WRITE: Implementation
-        return false;
+    public static hasValue<GExtractorReturns = string>(headersObject: THeadersObject, headerName: EHTTPHeaders | string, contains: string | string[], extractor?: TExtractorFunction<GExtractorReturns>): boolean {
+        const value = this.extract<GExtractorReturns>(headersObject, headerName, extractor);
+
+        // WARNING: The implementation seems not as clear as desired. 
+        // Is it convenient to compare extracted values?
+        // Besides the actual value of the method still TBC. Will keep as is for now.
+        // Will decide after usage.
+        const comparators = [
+            typeof value === 'string' ? (value: string, contains: string) => value.includes(contains) : null,
+            Array.isArray(value) && typeof contains === 'string' ? (value: string[], contains: string) => value.includes(contains) : null,
+            Array.isArray(value) && Array.isArray(contains) ? (value: string[], contains: string[]) => value.toString().includes(contains.toString()) : null
+        ];
+
+        const comparator = comparators.find((cmp) => cmp);
+
+        return value && comparator ? comparator(value as string & string[], contains as string & string[]) : false;
+    }
+
+    /**
+     * Finds the key-value pair in a headers object where the key matches the normalized header name.
+     *
+     * @param {THeadersObject} headersObject - The object containing headers as key-value pairs.
+     * @param {EHTTPHeaders | string} headerName - The header name to search for
+     * 
+     * @returns A tuple of the key and value if found, otherwise null.
+     *
+     * @example
+     * const headers = { 'Content-Type': 'application/json' };
+     * HTTPHeadersConvenience.toKeyValue(headers, EHTTPHeaders.ContentType); // ['Content-Type', 'application/json']
+     */
+    public static toKeyValue(headersObject: THeadersObject, headerName: EHTTPHeaders | string): [string, string] | null {
+        const keyValue = Object.entries(headersObject).find(([key, _]: [string, string]) => {
+            return HTTPHeadersConvenience.normalize(key) === this.normalize(headerName);
+        });
+
+        return keyValue ?? null;
     }
 
     /**
