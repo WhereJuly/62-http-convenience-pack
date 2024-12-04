@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 
 import HTTPHeadersConvenience from '@src/core/headers/HTTPHeadersConvenience.js';
 import { EHTTPHeaders } from '@src/index.js';
+import BuiltInExtractors from '@src/core/headers/BuiltInExtractors.js';
 
 describe('HTTPHeadersConvenienceTest', () => {
 
@@ -39,6 +40,24 @@ describe('HTTPHeadersConvenienceTest', () => {
         }
 
     });
+
+    describe.only('+static extract: Should use BuiltInExtractors extractors', () => {
+
+        it.each(dataProvider_extract())('Case #%# $name', (data) => {
+            const actual = HTTPHeadersConvenience.extract(data.fixture.headers, data.fixture.extract, data.fixture.extractor);
+
+            expect(actual).toEqual(data.expected);
+        });
+
+        function dataProvider_extract() {
+
+            return [
+                { name: 'Bearer', fixture: { headers: fixtures.general, extract: EHTTPHeaders.Authorization, extractor: BuiltInExtractors.token }, expected: 'the-bearer-token' },
+            ];
+        }
+
+    });
+
 
     // WRITE: Assert: normalize returns lowercase;
     // WRITE: Assert: static extract with built-in extractor function;

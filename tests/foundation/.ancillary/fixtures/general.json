@@ -2,7 +2,7 @@
     "Accept": "application/json, text/plain, */*",
     "Accept-Encoding": "gzip, deflate, br",
     "Accept-Language": "en-US,en;q=0.9",
-    "Authorization": "Bearer <token>",
+    "Authorization": "Bearer the-bearer-token",
     "Cache-Control": "no-cache",
     "Connection": "keep-alive",
     "Content-Length": "123",
