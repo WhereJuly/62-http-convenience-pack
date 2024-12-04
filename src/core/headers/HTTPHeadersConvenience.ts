@@ -1,28 +1,76 @@
 'use strict';
 
-import { TExtractorFunction } from '@src/core/headers/BuiltInExtractors.js';
-import { EHTTPAuthenticationScheme, EHTTPHeaders } from '@src/core/headers/headers.types.js';
+import { ETokenSchemes, TExtractorFunction } from '@src/core/headers/BuiltInExtractors.js';
+import { EHTTPHeaders } from '@src/core/headers/headers.types.js';
 
-type THeader = { [EHTTPHeaders.Authorization]: string; };
+type TAuthorizationHeaderObject = { [EHTTPHeaders.Authorization]: string; };
 type THeadersObject = { [key in EHTTPHeaders | string]: string; };
+
+type TAuthorizationTokenValue = string | string[];
+type TTokenValueMakerFunction = (token: TAuthorizationTokenValue) => string;
+
+export enum EMakerTokenSchemes {
+    Basic = ETokenSchemes.Basic,
+    Bearer = ETokenSchemes.Bearer,
+}
+
+/**
+ * The constant included in {@link HTTPHeadersConvenience.make} methods return value for
+ * unknown token schemes.
+ */
+export const TokenSchemeUnknown = 'Error: token scheme unknown.';
 
 export default class HTTPHeadersConvenience {
 
-    // NB: Will see if it is needed.
-    private static headers: typeof EHTTPHeaders = EHTTPHeaders;
+    /**
+     * Generates an HTTP Authorization header object {@link TAuthorizationHeaderObject} 
+     * for authorization based on the specified token scheme {@link EMakerTokenSchemes}.
+     * 
+     * It supports Authorization header only with `Bearer` and `Basic` schemes so far.
+     * 
+     * @param {EHTTPHeaders.Authorization} header - So far limited to `Authorization`.
+     * @param {EMakerTokenSchemes} scheme - The token scheme to be used.
+     * @param {TAuthorizationTokenValue} token - The authorization token.
+     * - `string` for `Bearer` scheme, see {@link unchanged} value maker.
+     * - `[string, string]` for `Basic` scheme, see {@link HTTPHeadersConvenience.makerToBasicToken}
+     * value maker.
+     * 
+     * @param _maker - An optional value maker function, not currently implemented.
+     * 
+     * @returns {TAuthorizationHeaderObject} An object representing the HTTP header with
+     * the formatted authorization token value.
+     *
+     * @example EMakerTokenSchemes.Bearer scheme prepends the token with "Bearer " prefix.
+     * 
+     * ```typescript
+     * HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, EMakerTokenSchemes.Bearer, "myBearerToken"); // { Authorization: "Bearer myBearerToken" }
+     * ```
+     * 
+     * @example EMakerTokenSchemes.Bearer: 
+     * @see {@link HTTPHeadersConvenience.makerToBasicToken} maker function.
+     * 
+     * ```typescript
+     * // 
+     * HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, EMakerTokenSchemes.Basic, "username:password"); // { Authorization: "Basic dXNlcm5hbWU6cGFzc3dvcmQ=" }
+     * ```
+     * @example Unsupported token scheme: returns token value that includes `Error: token scheme unknown.` 
+     * @see {@link TokenSchemeUnknown}
+     * 
+     * ```typescript
+     * HTTPHeadersConvenience.make("Authorization", "InvalidScheme", "someToken"); // { Authorization: "InvalidScheme TokenSchemeUnknown" }
+     * ```
+     */
+    public static make(header: EHTTPHeaders.Authorization, scheme: EMakerTokenSchemes, token: TAuthorizationTokenValue, _maker?: unknown): TAuthorizationHeaderObject {
+        const unchanged = (token: TAuthorizationTokenValue) => { return token as string; };
+        const valueMakers: { [key in EMakerTokenSchemes]: TTokenValueMakerFunction } = {
+            [EMakerTokenSchemes.Bearer]: unchanged,
+            [EMakerTokenSchemes.Basic]: this.makerToBasicToken as TTokenValueMakerFunction
+        };
 
-    // NB: For the initial implementation restrict with Authorization header only
-    // Could make any header object with a custom maker function.
+        const valueMaker = valueMakers[scheme];
+        const value = valueMaker ? valueMaker(token) : TokenSchemeUnknown;
 
-    // For makers functions I could add the makers static property
-    // that would contain Set of maker functions named after EHTTPHeaders elements.
-    // That makers Set could be manually extended with more makers by a consumer.
-    public static make(_header: EHTTPHeaders.Authorization, _value: unknown, _scheme: EHTTPAuthenticationScheme): THeader {
-        // WRITE: Implementation
-
-        // NB: Here should be probably one standard maker function - JSON.stringify() - or similar.
-        // To transform different values to string. Well maybe an optional custom maker function.
-        return {} as any;
+        return { [header]: `${scheme} ${value}` };
     }
 
     /**
@@ -101,6 +149,22 @@ export default class HTTPHeadersConvenience {
      */
     public static normalize(header: EHTTPHeaders | string): string {
         return header.toLowerCase();
+    }
+
+    /**
+     * Converts a username and password pair into a Base64-encoded Basic authentication token.
+     *
+     * @param token - A tuple of type `[login, password]` containing the username
+     * and password to be encoded.
+     * 
+     * @returns A Base64-encoded string representing the Basic authentication token.
+     * 
+     * @example
+     * HTTPHeadersConvenience.makerToBasicToken(['username', 'password']); // 'dXNlcm5hbWU6cGFzc3dvcmQ='
+     */
+
+    private static makerToBasicToken(token: [string, string]): string {
+        return Buffer.from(token.join(':')).toString('base64');
     }
 
 }

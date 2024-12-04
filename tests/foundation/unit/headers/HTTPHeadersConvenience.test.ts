@@ -4,7 +4,7 @@ import fixtures from '@tests/foundation/.ancillary/fixtures/index.js';
 
 import { describe, expect, it } from 'vitest';
 
-import HTTPHeadersConvenience from '@src/core/headers/HTTPHeadersConvenience.js';
+import HTTPHeadersConvenience, { EMakerTokenSchemes, TokenSchemeUnknown } from '@src/core/headers/HTTPHeadersConvenience.js';
 import { EHTTPHeaders } from '@src/index.js';
 import BuiltInExtractors from '@src/core/headers/BuiltInExtractors.js';
 
@@ -50,7 +50,6 @@ describe('HTTPHeadersConvenienceTest', () => {
         });
 
         function dataProvider_extract() {
-
             return [
                 { name: 'Bearer', fixture: { headers: fixtures.general, extract: EHTTPHeaders.Authorization, extractor: BuiltInExtractors.token }, expected: 'the-bearer-token' },
             ];
@@ -58,10 +57,22 @@ describe('HTTPHeadersConvenienceTest', () => {
 
     });
 
+    describe('+static make: Should make an Authorization header object', () => {
 
-    // WRITE: Assert: normalize returns lowercase;
-    // WRITE: Assert: static extract with built-in extractor function;
-    // WRITE: Assert: BuiltInExtractors class with various extractors: assert each extractor returns expected value;
-    // WRITE: Assert: BuiltInExtractors to have set method to add all or the selected built-in extractors at once on HTTPHeadersConvenience.
+        it.each(dataProvider_make())('Case #%# $name', (data) => {
+            const actual = HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, data.fixture.scheme, data.fixture.token);
+
+            expect(actual).toEqual(data.expected);
+        });
+
+        function dataProvider_make() {
+            return [
+                { name: 'Bearer', fixture: { scheme: EMakerTokenSchemes.Bearer, token: 'token' }, expected: { [EHTTPHeaders.Authorization]: 'Bearer token' } },
+                { name: 'Basic', fixture: { scheme: EMakerTokenSchemes.Basic, token: ['login', 'password'] }, expected: { [EHTTPHeaders.Authorization]: 'Basic bG9naW46cGFzc3dvcmQ=' } },
+                { name: 'Unknown', fixture: { scheme: 'unknown' as EMakerTokenSchemes, token: 'any' }, expected: { [EHTTPHeaders.Authorization]: `unknown ${TokenSchemeUnknown}` } },
+            ];
+        }
+
+    });
 
 });

@@ -32,22 +32,6 @@ export enum EHTTPHeaderGroups {
 }
 
 /**
- * @redundant This seems redundant.
- * 
- * The HTTP Authentication Scheme enum.
- * 
- * NB: For the beginning only basic and Bearer authentication schemes support is standardized.
- * The rest can be accustomed for by Custom scheme, that is user defined.
- * 
- * @see {@link HTTPHeadersConvenience.make}
- */
-export enum EHTTPAuthenticationScheme {
-    Basic = 'Basic', // NB: these two could be used as values to prepend a token value.
-    Bearer = 'Bearer',
-    Custom = 'custom',
-}
-
-/**
  * @internal
  * 
  * The HTTP Headers grouped typed constant.
