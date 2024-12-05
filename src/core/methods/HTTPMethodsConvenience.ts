@@ -78,6 +78,16 @@ export default class HTTPMethodsConvenience {
      * @param {THTTPMethodsConstraint} methods - An object representing custom HTTP methods 
      * to be added to the registry.
      * 
+     * @description
+     * 
+     * WARNING: The custom methods enum values must be uppercase.
+     * This is because the RFC defines methods as uppercase and the validation 
+     * functionality (isValid, isAmong) convert validated input to upper case.
+     * 
+     * The TypeScript cannot ensure the uppercase values for enums. Could resort to
+     * type constants but due to the extension use case is rare and simple
+     * prefer to leave it to a developer to not complicate the Pack code.
+     * 
      * @description Once extended, the Registry will include both standard and custom methods
      * available via {@link HTTPMethodsConvenience.methods} getter.
      * 

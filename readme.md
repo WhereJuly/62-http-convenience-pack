@@ -10,7 +10,7 @@ Use TypeScript type inference and IDE autocomplete for comfort and type safety i
 
 **Summary**
 
-The small dependency-free, TypeScript HTTP convenience package. Exposes uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services along with the convenience functionality (validate, normalize, , is among, of group, in group, make, extract, transform etc.).
+The small dependency-free, TypeScript HTTP convenience package. Exposes uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services along with the convenience functionality (validate, normalize, is among, of group, in group, make, extract, transform etc.).
 
 The new use cases / functionality suggestions are welcome either in [Discussions](https://github.com/WhereJuly/62-http-convenience-pack/discussions) or as [pull requests](#contribution).
 
@@ -28,7 +28,7 @@ The new use cases / functionality suggestions are welcome either in [Discussions
 ![Last Commit](https://img.shields.io/github/last-commit/WhereJuly/62-http-convenience-pack.svg)
 ![License](https://img.shields.io/npm/l/http-convenience-pack.svg) -->
 
-The package is in final state, no pending functionality. It is actively maintained. It moves to production-ready `>= v1.0.0` as the initial usage feedback confirms it has no major missing use cases.
+The package is in a usage-ready state, no pending functionality. It is actively maintained. It moves to production-ready `>= v1.0.0` as the initial usage feedback confirms it has no major missing use cases.
 
 # HTTP Convenience Pack
 
@@ -36,7 +36,7 @@ The pack purpose is to provide uniform standardized RFC-compliant HTTP constants
 
 It adds the type safety and convenience of auto-complete. It allows to avoid string constants ambiguity, ensures you always get the same correct and uniform HTTP header name (or a MIME type, or a status code / message) sent from your one end (e.g. front) to the other (e.g. back) and / or across you services.
 
-On top it has convenience manipulation functionality.
+On top it has functionality that allows manipulating the application HTTP variables in a numerous comfortably declarative ways.
 
 ---
 

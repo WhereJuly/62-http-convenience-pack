@@ -250,6 +250,8 @@ Signature: `public static extend(methods: THTTPMethodsConstraint): void`
 
 This use case should be pretty rare, nevertheless the package provides it for simplicity.
 
+> Note the extension enum values must be upper case (RFC-compliant) for validation (`isValid`, `isAmong`) functionality to work as expected.
+
 ```typescript
 import HTTPmethodsConvenience, { EHTTPMethods } from 'http-convenience-pack';
 
