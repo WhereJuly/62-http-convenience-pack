@@ -26,6 +26,8 @@ export { default as BuiltInExtractors, ETokenSchemes } from './core/headers/Buil
 /**
  * NB: MIME Types Module
  * 
+ * @internal
+ * 
  * These are for advanced usage. Despite being exported they are not the 
  * part of the published interface.
  */
@@ -34,7 +36,9 @@ export {
     TMIMEGroups, TMIMEExtensions
 } from './core/mime/types.js';
 
-// These are public API
+/**
+ * These are public API
+ */
 export {
     default as HTTPMIMETypesConvenience, EIsValidAttributes, EMIMETypeRecordAttributes,
     MIMExtensionInapplicable,
@@ -43,8 +47,8 @@ export {
 // These are public API
 export { MIME_TYPES_BUILTIN, MIME_TYPES_GROUPS_BUILTIN, MIME_TYPES_EXTENSIONS_BUILTIN } from './core/mime/builtin.constants.js';
 
+// The convenience class
+export { default as HTTPConveniencePackException } from './exceptions/HTTPConveniencePack.exception.js';
+
 // These are advanced public API
 export { MIMETypesGenericRegistryFactory, MIMEGroupsFactory, MIMEExtensionsFactory } from './core/mime/factories.js';
-
-// Package common member
-export { default as HTTPConveniencePackException } from './exceptions/HTTPConveniencePack.exception.js'; 
