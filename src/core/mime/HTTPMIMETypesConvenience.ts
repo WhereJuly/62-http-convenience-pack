@@ -85,8 +85,8 @@ export default class HTTPMIMETypesConvenience {
         (typeof HTTPMIMETypesConvenience.extended extends TMIMETypesRegistryGeneric<any>
             ? typeof HTTPMIMETypesConvenience.extended
             : {}) {
-        return this.extended
-            ? { ...MIME_TYPES_BUILTIN, ...this.extended }
+        return HTTPMIMETypesConvenience.extended
+            ? { ...MIME_TYPES_BUILTIN, ...HTTPMIMETypesConvenience.extended }
             : MIME_TYPES_BUILTIN;
     }
 
@@ -110,7 +110,7 @@ export default class HTTPMIMETypesConvenience {
      * @see {@link HTTPMIMETypesConvenience.reset}
      */
     public static get isExtended(): boolean {
-        return !!this.extended;
+        return !!HTTPMIMETypesConvenience.extended;
     }
 
     /**
@@ -130,7 +130,7 @@ export default class HTTPMIMETypesConvenience {
      * @see {@link HTTPMIMETypesConvenience.reset}
      */
     public static extend<T extends readonly TSource[]>(types: TMIMETypesRegistryGeneric<T>): void {
-        this.extended = types;
+        HTTPMIMETypesConvenience.extended = types;
     }
 
     /**
@@ -153,7 +153,7 @@ export default class HTTPMIMETypesConvenience {
      * @see {@link HTTPMIMETypesConvenience.isExtended}
      */
     public static reset(): void {
-        this.extended = null;
+        HTTPMIMETypesConvenience.extended = null;
     }
 
     /**
