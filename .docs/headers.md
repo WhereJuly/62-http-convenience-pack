@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./images/banner-6.jpg" width="100%"/>
+  <img src="./images/banner-6-w1200.jpg" width="100%"/>
 </div>
 
 ## HTTP Headers Module
@@ -74,7 +74,7 @@ The static class that provides the HTTP Headers convenience methods for the head
 
 ##### `.make()` Method
 
-Generates an HTTP Authorization header object {@link TAuthorizationHeaderObject} for authorization based on the specified token scheme {@link EMakerTokenSchemes}. So far only `Authorization` header with `Bearer` and `Basic` schemes implemented.
+Generates an HTTP Authorization header object `TAuthorizationHeaderObject` for authorization based on the specified token scheme {@link EMakerTokenSchemes}. So far only `Authorization` header with `Bearer` and `Basic` schemes implemented.
 
 Signature: `public static make(header: EHTTPHeaders.Authorization, scheme: EMakerTokenSchemes, token: TAuthorizationTokenValue, _maker?: unknown): TAuthorizationHeaderObject`
 

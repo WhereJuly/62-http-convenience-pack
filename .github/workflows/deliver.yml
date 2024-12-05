@@ -4,9 +4,9 @@ on:
   push:
     branches:
       # - never # Skip the workflow for debugging purposes;
-      - implement/package/ci
-      - develop # So far build the image from develop branch;
-      # - master
+      # - implement/package/ci
+      - develop # Keep this for a time being
+      - master
     # paths:
     #   - ".github/workflows/food-service.yml"
     #   - "implementation/**"
