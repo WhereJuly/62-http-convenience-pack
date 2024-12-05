@@ -23,10 +23,11 @@ The new use cases / functionality suggestions are welcome either in [Discussions
 <!-- [![Dependencies](https://img.shields.io/librariesio/release/npm/package-name)](https://libraries.io/npm/package-name)
 ![npm version](https://img.shields.io/npm/v/http-convenience-pack.svg)
 ![npm downloads](https://img.shields.io/npm/dm/http-convenience-pack.svg)
+![License](https://img.shields.io/npm/l/http-convenience-pack.svg)
 ![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/your-username/your-repo.svg)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fusername%2Frepo.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fusername%2Frepo?ref=badge_shield)
 ![Last Commit](https://img.shields.io/github/last-commit/WhereJuly/62-http-convenience-pack.svg)
-![License](https://img.shields.io/npm/l/http-convenience-pack.svg) -->
+-->
 
 The package is in a usage-ready state, no pending functionality. It is actively maintained. It moves to production-ready `>= v1.0.0` as the initial usage feedback confirms it has no major missing use cases.
 
