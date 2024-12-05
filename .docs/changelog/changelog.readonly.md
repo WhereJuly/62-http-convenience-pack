@@ -1,4 +1,59 @@
-  2af2078 2024-12-01 WhereJuly [pack] Update (docs): changelog
+Merge 778f8c8 2024-12-05 WhereJuly Merge branch 'implement/module/headers/initial-implementation' into develop
+  dadb394 2024-12-05 WhereJuly [pack] Update (docs): readme
+  140b236 2024-12-05 WhereJuly [pack] Update (docs): license
+  0097d24 2024-12-05 WhereJuly [headers] Update (usage, docs): finalize
+  8f545cd 2024-12-05 WhereJuly [mime] Update (usage): finalize tests
+  e6a7456 2024-12-05 WhereJuly [pack] Update (docs): multiple
+  00ca322 2024-12-05 WhereJuly [mime] Update (module): replace this
+  57f9ffa 2024-12-05 WhereJuly [mime] Update (docs): doc blocks
+  c79feda 2024-12-05 WhereJuly [statuses] Update (usage): finalize tests
+  9fbff9d 2024-12-05 WhereJuly [statuses] Update (module): ofGroup to accept strings too
+  6e7c70f 2024-12-05 WhereJuly [methods] Update (usage): finalize tests
+  1c6ef95 2024-12-05 WhereJuly [methods] Breaking! (module): ofGroups throw for invalid http method
+  ab989b1 2024-12-05 WhereJuly [methods] Update (usage, docs): on uppercae enum
+  df382ce 2024-12-05 WhereJuly [methods] Update (usage, docs): on uppercae enum
+  c43f6d5 2024-12-05 WhereJuly [pack] Update (usage): pacakge beta
+  6f6a3a2 2024-12-04 WhereJuly [headers] Update (docs): doc blocks
+  d7dc98b 2024-12-04 WhereJuly [headers] Update (module): built-in extractors object
+  7e299fe 2024-12-04 WhereJuly [headers] Implement (module): hasValue method
+  5a2a748 2024-12-04 WhereJuly [headers] Implement (module): make method
+  08e47f1 2024-12-04 WhereJuly [headers] Cleanup (module): misc
+  36dd53f 2024-12-04 WhereJuly [headers] Update (docs): doc block
+  05da174 2024-12-04 WhereJuly [headers] Update (docs): dedicated
+  34e1b12 2024-12-04 WhereJuly [headers] Update (module, tests): extract method
+  4bf65ec 2024-12-03 WhereJuly [headers] Implement (module): built-in extractors object
+  413d5bd 2024-12-03 WhereJuly [headers] Refactor (test): move to subfolder
+  06d247a 2024-12-03 WhereJuly [pack] Update (docs): readme
+  0efbc11 2024-12-03 WhereJuly [headers] Implement (module): extract method
+  74e1ccb 2024-12-03 WhereJuly [headers] Implement (module): basic enums
+  fc10048 2024-12-03 WhereJuly [mime] Update (usage): minor
+  000cf23 2024-12-03 WhereJuly [headers] Update (a&cd): misc
+  17b6063 2024-12-03 WhereJuly [pack] Update (icicdr): changelog rename to readonly
+  dea8148 2024-12-03 WhereJuly [pack] Update (docs): combined implementation example
+  e119b37 2024-12-02 WhereJuly [pack] Update (docs): readme
+  92cd2ea 2024-12-02 WhereJuly [pack] Release (icicdr): v0.0.17
+  b6c9edb 2024-12-02 WhereJuly [pack] Update (usage): pack
+  2c5e4d2 2024-12-02 WhereJuly [pack] Update (icicdr): changelog
+Merge 75f7d26 2024-12-02 WhereJuly [methods] Implement (module): inGroup, ofGroups methods
+  8ff78f6 2024-12-02 WhereJuly [methods] Update (tests): minor
+  f17a976 2024-12-02 WhereJuly [methods] Update (docs): dedicated
+  576a3e6 2024-12-02 WhereJuly [methods] Update (docs): dedicated
+  f15646e 2024-12-02 WhereJuly [methods] Implement (module): ofGroups method
+  306ca31 2024-12-02 WhereJuly [methods] Update (tests): minor
+  9a3bbdd 2024-12-02 WhereJuly [methods] Update (docs): doc block & readme
+  bd97d2b 2024-12-02 WhereJuly [methods] Implement (module): inGroup method for wider use cases
+  8b94deb 2024-12-02 WhereJuly [methods] Update (docs): doc block
+  4dff076 2024-12-02 WhereJuly [methods] Refactor (module): to clearer isAmong method implementation
+  04fd5c8 2024-12-02 WhereJuly [methods] Update (docs): dedicated
+  0be5831 2024-12-02 WhereJuly [methods] Implement (module): inGroup method
+  89aecd0 2024-12-02 WhereJuly [methods] Update (module): groups enums
+  6d64a6b 2024-12-02 WhereJuly [methods] Update (docs): comment
+  f18df23 2024-12-02 WhereJuly [mime] Update (tests): minor
+  38591c3 2024-12-02 WhereJuly [methods] Implement (module): groups enums
+  ccaae5b 2024-12-02 WhereJuly [methods] Update (a&cd): implementation approaches analysis
+  8816906 2024-12-01 WhereJuly [pack] Update (docs): minor
+  25d647a 2024-12-01 WhereJuly [pack] Update (docs): resize banner
+  baa3488 2024-12-01 WhereJuly [pack] Update (docs): changelog
 Merge 0f60337 2024-12-01 WhereJuly [statuses] Update (module, docs): numerous changes, package export, dedicated docs
   cd1ce66 2024-12-01 WhereJuly [statuses] Update (docs): dedicated docs
   7619895 2024-12-01 WhereJuly [statuses] Update (module): numerous changes, update package export

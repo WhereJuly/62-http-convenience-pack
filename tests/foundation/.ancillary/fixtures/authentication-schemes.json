@@ -1,0 +1,10 @@
+{
+    "basic": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+    "bearer": "Bearer abc123xyz456",
+    "apikey": "APIKey api-key-here",
+    "digest": "Digest username=\"user\", realm=\"example.com\", nonce=\"dcd98b7102dd2f0e8b11d0f600bfb0c093\", uri=\"/dir/index.html\", qop=auth, nc=00000001, cnonce=\"0a4f113b\", response=\"6629fae49393a05397450978507f0f7a\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\"",
+    "oauth1": "OAuth oauth_consumer_key=\"key\", oauth_token=\"token\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"137131201\", oauth_nonce=\"kllo9940pd9333jh\", oauth_version=\"1.0\", oauth_signature=\"tR3+J2S5i/E7xXv8tfr4Y9FL0p87ATFh6gg+bGdHFhI=\"",
+    "oauth2": "Bearer ya29.a0AfH6SMCzX6S3g0prEb1KfkIuJ4v9t9gFsKfP_Sp4QI2JpEjjGp4P7p-4lRwrG5",
+    "unknown": "Unknown some-unknown-scheme"
+  }
+  

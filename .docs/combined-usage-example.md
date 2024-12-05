@@ -24,11 +24,14 @@ Start on your one end, e.g. front-end. Comfortably autocomplete HTTP constants. 
 
 #### Send a request
 
+<!-- WARNING: Update headers when implemented. -->
+<!-- WARNING: Update MIME Types example from dedicated docs. -->
+
 ```typescript
 import { EHTTPMethods, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
 
 const response = await fetch('https://api.example.com/data', {
-  
+
   /**
    * Conveniently and reliably autocomplete the method, no need to use string literals.
    */
@@ -38,8 +41,9 @@ const response = await fetch('https://api.example.com/data', {
    * Autocomplete the correct headers and mime types from the list provided.
    */
   headers: {
-    EHTTPHeaders.AUTHORIZATION: 'Bearer <required-token-here>',
-    EHTTPHeaders.CONTENT_TYPE: EHTTPMIMETypes.APPLICATION_JSON
+    ...HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, EMakerTokenSchemes.Bearer, 'myBearerToken'),
+    // Set no special treatment header with autocomplete using enums and constants
+    EHTTPHeaders.CONTENT_TYPE: MIME_TYPES_BUILTIN['image/png'].type
   }
 });
 ```
@@ -51,6 +55,9 @@ const response = await fetch('https://api.example.com/data', {
 **On request receive** (e.g. in route or endpoint middleware) check a method is valid or allowed, normalize the method if the request came from unknown source.
 
 ```typescript
+/**
+ * Use aliased imports to make long identifiers shorter.
+ */
 import { EHTTPMethods, HTTPMethodsConvenience as Methods } from 'http-convenience-pack';
 
 /**
@@ -72,45 +79,32 @@ Methods.isValid(Methods.normalize(request.method)); // true
 
 /**
  * Same as preceding one but `normalize` is built-in into `isAmong`
- * as well as the custom `HTTPConveniencePackException` exception throw 
+ * as well as the custom `HTTPConveniencePackException` exception throw
  * for non-strings or invalid methods, see API description
  */
 Methods.isAmong(request.method); // true
 
 /**
  * Normalize and test against `allowed` methods as inline literal or constant,
- * defined in advance for each specific endpoint or route
+ * defined in advance for each specific endpoint or route with either `isAmong`
+ * or `inGroup` method.
  */
 Methods.isAmong(request.method, [EHTTPMethods.GET, EHTTPMethods.POST]); // false
+Methods.inGroup(request.method, EHTTPMethodsGroupsList.CACHEABLE); // true; For cacheable methods;
 ```
-
-> Here I could implement the groups functionality like
-> `Methods.inGroup(request.method, EHTTPMethodsGroups.SAFE)`
-> to avoid manually listing the methods for some standard use cases
 
 #### Headers
 
-> This functionality has to be implemented
-
 Now to **headers**.
 
-Extract the header. 
-
-> Implementation notes: This example iterates over keys in `request.headers` object, normalizes each one, finds the desired header and by default extract the token with `Bearer token` value scheme.
+Extract the headers. It can extract different standard Authentication schemes and your custom ones.
 
 ```typescript
-const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION);
+const token = HTTPHeadersConvenience.extract(headers, EHTTPHeaders.Authorization, BuiltInExtractors.token); // 'myBearerToken'
+const contentType = HTTPHeadersConvenience.extract(headers, EHTTPHeaders.ContentType); // 'image/png'
+// Process the values according to your application needs.
 ```
 
-It can extract different standard Authentication schemes and your custom ones.
-
-If no scheme provided it detects the decode scheme based on the header actual value prefix (extracting it and trying against Bearer, Basic, Digest ones) or throws. If scheme is provided explicitly it tries to decode extract and return the respective value or throws if the scheme does not match. If scheme matches but no value is provided it returns null.
-
-```typescript
-const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION,
-  EHTTPAuthenticationScheme.{Bearer, Basic, Digest, Custom}, () => { // required for EHTTPAuthenticationScheme.Custom })
-// Pass the token further down the middleware chain to use.
-```
 
 #### Respond
 
@@ -169,3 +163,5 @@ HTTPStatusesConvenience.isAmong(status, specific)) && this.processSpecific();
 ### Conclusion
 
 This is just the basic use cases flow but you can see how expressive, simple and readable the code becomes as well as comfortable the autocomplete gets.
+
+---

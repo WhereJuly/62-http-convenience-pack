@@ -10,7 +10,7 @@ Use TypeScript type inference and IDE autocomplete for comfort and type safety i
 
 **Summary**
 
-The small dependency-free TypeScript HTTP convenience package to expose uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services. Manipulation functionality (validate, normalize, transform, is among, of group, in group etc.) is provided as well.
+The small dependency-free, TypeScript HTTP convenience package. Exposes uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services along with the convenience functionality (validate, normalize, is among, of group, in group, make, extract, transform etc.).
 
 The new use cases / functionality suggestions are welcome either in [Discussions](https://github.com/WhereJuly/62-http-convenience-pack/discussions) or as [pull requests](#contribution).
 
@@ -28,7 +28,7 @@ The new use cases / functionality suggestions are welcome either in [Discussions
 ![Last Commit](https://img.shields.io/github/last-commit/WhereJuly/62-http-convenience-pack.svg)
 ![License](https://img.shields.io/npm/l/http-convenience-pack.svg) -->
 
-The package is in final state, no pending functionality. It is actively maintained. It moves to production-ready `>= v1.0.0` as the initial usage feedback confirms it has no major missing use cases.
+The package is in a usage-ready state, no pending functionality. It is actively maintained. It moves to production-ready `>= v1.0.0` as the initial usage feedback confirms it has no major missing use cases.
 
 # HTTP Convenience Pack
 
@@ -36,7 +36,7 @@ The pack purpose is to provide uniform standardized RFC-compliant HTTP constants
 
 It adds the type safety and convenience of auto-complete. It allows to avoid string constants ambiguity, ensures you always get the same correct and uniform HTTP header name (or a MIME type, or a status code / message) sent from your one end (e.g. front) to the other (e.g. back) and / or across you services.
 
-On top it has convenience manipulation functionality.
+On top it has functionality that allows manipulating the application HTTP variables in a numerous comfortably declarative ways.
 
 ---
 
@@ -54,14 +54,15 @@ On top it has convenience manipulation functionality.
 - [HTTP Headers](#http-headers)
 - [Maintenance](#maintenance)
   - [Changelog](#changelog)
-  - [Contribution](#contribution)
+  - [Roadmap](#roadmap)
+  - [Contributions](#contributions)
   - [License](#license)
 
 ## Overview
 
 ### Documentation
 
-The package is carefully documented for comfortable developer experience. 
+The package is carefully documented for comfortable developer experience.
 
 From the good-named identifiers in code, thought-out autocompletion (see animated GIF [demo](#autocomplete-demo)), hover-popup doc blocks with usage examples on enums, constants classes and methods accessible with on-hover or `Ctrl-Left-click` when integrated with your IDE TypeScript setup (e.g. see [VS Code](https://code.visualstudio.com/Docs/languages/typescript)) to the detailed readme with use cases and the dedicated modules' API references.
 
@@ -69,7 +70,7 @@ As well there is a GitHub [Discussion](https://github.com/WhereJuly/62-http-conv
 
 **Code Conventions**
 
-To easy the readability and autocomplete I apply the following conventions: start interface names with `I`, enums with `E`, type aliases with `T`, generics with `G`. Abbreviations are always in caps (satisfactory comfort). The domain-respective public API contain `HTTP` prefix to namespace the package members, constants contain the module name like `Statuses`, `Methods`, `MIME` etc.
+To ease the readability and autocomplete I apply the following conventions: start interface names with `I`, enums with `E`, type aliases with `T`, generics with `G`. Abbreviations are always in caps (satisfactory comfort). The domain-respective public API contains `HTTP` prefix to namespace the package members, the module name like `Statuses`, `Methods`, `MIME` etc.
 
 As the names may feel rather long you can apply the imports aliasing like this:
 
@@ -100,19 +101,24 @@ npm install http-convenience-pack
 
 ## [HTTP MIME Types](.docs/mime-types.md)
 
-## HTTP Headers
-
-> See: [Combined Usage Example](./.docs/combined-usage-example.md)
-> Development: [readme](./src/core/headers/implement.md)
+## [HTTP Headers](.docs/headers.md)
 
 ## Maintenance
 
-### [Changelog](./.docs/changelog/changelog.md)
+### Changelog
 
-### Contribution
+Will come with public updates.
 
-Development: so far will develop myself. If there is contribution, would manually approve and update in `integration` branch.
+### Roadmap
 
-New code (additional enum members, constants, functionality): accompany the new code with the use case code example and description.
+Potentially valuable use cases / functionality suggestions are welcome either in [Discussions](https://github.com/WhereJuly/62-http-convenience-pack/discussions) or as [pull requests](#contribution).
+
+Will appear here when available.
+
+### Contributions
+
+If there is contribution, I would receive it on `integration` branch for discussion and manual approval.
 
 ### License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

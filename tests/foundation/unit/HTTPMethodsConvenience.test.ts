@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 import HTTPMethodsConvenience from '@src/core/methods/HTTPMethodsConvenience.js';
 import HTTPConveniencePackException from '@src/exceptions/HTTPConveniencePack.exception.js';
-import { EHTTPMethods } from '@src/core/methods/methods.types.js';
+import { EHTTPMethods, EHTTPMethodsGroupsList, HTTPMethodInGroups } from '@src/core/methods/methods.types.js';
 
 // WARNING: This is the type fixture to test adding custom HTTP methods.
 enum ECustomHTTPMethods {
@@ -24,6 +24,8 @@ describe('HTTPMethodsConvenienceTest', () => {
         expect(actual.reset).toBeInstanceOf(Function);
         expect(actual.isValid).toBeInstanceOf(Function);
         expect(actual.isAmong).toBeInstanceOf(Function);
+        expect(actual.inGroup).toBeInstanceOf(Function);
+        expect(actual.ofGroups).toBeInstanceOf(Function);
         expect(actual.normalize).toBeInstanceOf(Function);
     });
 
@@ -81,12 +83,55 @@ describe('HTTPMethodsConvenienceTest', () => {
                 { name: '[allowed is undefined] Standard `given` is allowed', fixture: { given: EHTTPMethods.OPTIONS, allowed: undefined }, expected: true },
                 { name: '[allowed is undefined] `given` is not allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: undefined }, expected: false },
                 { name: '[allowed is defined] Custom `given` is allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: ECustomHTTPMethods }, expected: true },
-                { name: '[allowed is defined, string] Custom `given` is allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: ECustomHTTPMethods.LINK  }, expected: true },
+                { name: '[allowed is defined, string] Custom `given` is allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: ECustomHTTPMethods.LINK }, expected: true },
                 { name: '[allowed is defined] Custom `given` is not allowed', fixture: { given: 'not-allowed' as EHTTPMethods, allowed: ECustomHTTPMethods }, expected: false },
                 { name: '[allowed is undefined] Custom `given` is allowed', fixture: { given: 'LINK' as EHTTPMethods, allowed: undefined }, expected: false },
                 { name: '[allowed is undefined] Custom `given` is not allowed', fixture: { given: 'not-allowed' as EHTTPMethods, allowed: undefined }, expected: false },
             ];
         }
+
+    });
+
+    describe('+static inGroup: Should return the respective boolean value', () => {
+
+        it.each(dataProvider_in_group_method())('Case #%# $name', (data) => {
+            const actual = HTTPMethodsConvenience.inGroup(data.fixture.method, data.fixture.group, data.fixture.all);
+
+            expect(actual).toEqual(data.expected);
+        });
+
+        function dataProvider_in_group_method() {
+            return [
+                { name: 'Is in group', fixture: { method: 'POST', group: EHTTPMethodsGroupsList.CACHEABLE }, expected: true },
+                { name: 'Is not in group', fixture: { method: 'POST', group: EHTTPMethodsGroupsList.IDEMPOTENT }, expected: false },
+                { name: 'Is in one of multiple groups (OR)', fixture: { method: 'GET', group: [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE] }, expected: true },
+                { name: 'Is not in multiple groups (OR)', fixture: { method: 'CONNECT', group: [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE] }, expected: false },
+                { name: 'Is in all multiple groups (AND)', fixture: { method: 'GET', group: [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], all: true }, expected: true },
+                { name: 'Is not in multiple groups (AND)', fixture: { method: 'POST', group: [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], all: true }, expected: false },
+            ];
+        }
+
+    });
+
+    describe('+static ofGroups: Should return the groups given method belongs to', () => {
+
+        it.each(dataProvider_of_groups_method())('Case #%# $name', (data) => {
+            const actual = HTTPMethodsConvenience.ofGroups(data.fixture);
+
+            expect(actual).toEqual(data.expected);
+        });
+
+        function dataProvider_of_groups_method() {
+            return [
+                { name: 'Belongs to groups', fixture: 'POST', expected: HTTPMethodInGroups[EHTTPMethods.POST] },
+            ];
+        }
+
+        it('Should throw for invalid method', () => {
+            const actual = () => { HTTPMethodsConvenience.ofGroups('invalid'); };
+
+            expect(actual).toThrow('should be a valid HTTP built-in or extended method');
+        });
 
     });
 
