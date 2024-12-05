@@ -1,6 +1,6 @@
 {
     "name": "@wherejuly/http-convenience-pack",
-    "version": "0.0.17",
+    "version": "0.0.18-beta.0",
     "description": "HTTP Convenience Pack",
     "author": "valentineshi.dev@gmail.com",
     "type": "module",

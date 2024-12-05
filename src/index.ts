@@ -14,7 +14,14 @@ export { default as HTTPStatusesConvenience } from './core/statuses/HTTPStatuses
 
 // NB: HTTP Headers Module
 
-export { EHTTPHeaders, EHTTPHeaderGroups } from './core/headers/headers.types.js';
+export { EHTTPHeaders } from './core/headers/headers.types.js';
+
+export {
+    default as HTTPHeadersConvenience, EMakerTokenSchemes, THeadersObject, TAuthorizationHeaderObject,
+    TAuthorizationTokenValue, TokenSchemeUnknown, TExtractorFunction
+} from './core/headers/HTTPHeadersConvenience.js';
+
+export { default as BuiltInExtractors,ETokenSchemes } from './core/headers/BuiltInExtractors.js';
 
 /**
  * NB: MIME Types Module
