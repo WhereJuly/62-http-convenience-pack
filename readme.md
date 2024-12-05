@@ -94,7 +94,7 @@ npm install http-convenience-pack
 <details>
   <summary>Methods</summary>
   <div align="center">
-    <img src="./.docs/demo/methods.webp" width="100%"/>
+    <img src="./.docs/demo/methods-w800.webp" width="100%"/>
   </div>
 </details>
 
