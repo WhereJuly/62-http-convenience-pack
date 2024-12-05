@@ -26,7 +26,9 @@ describe('HTTPMethodsModuleTest', () => {
         expect(EUsageHTTPMethods as THTTPMethodsConstraint).toEqual({ LINK: 'LINK' });;
         expect(UsageCustomMethods as THTTPMethodsConstraint).toEqual({ UNLINK: 'UNLINK' });;
         expect(UsageCustomMethods.UNLINK).toEqual('UNLINK');;
+        
         expect(HTTPMethodsConvenience.extend(UsageCustomMethods)).toEqual(undefined);;
+        expect(HTTPMethodsConvenience.reset()).toEqual(undefined);;
     });
 
     it('Assess HTTPMethodsConvenience', () => {
