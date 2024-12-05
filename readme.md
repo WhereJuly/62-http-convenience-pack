@@ -112,13 +112,14 @@ Will come with public updates.
 
 ### Roadmap
 
-Potentially valuable use cases / functionality suggestions are welcome either in [Discussions](https://github.com/WhereJuly/62-http-convenience-pack/discussions) or as [pull requests](#contribution).
 
 Will appear here when available.
 
 ### Contributions
 
-If there is contribution, I would receive it on `integration` branch for discussion and manual approval.
+Potentially valuable use cases / functionality suggestions are welcome either in [Discussions](https://github.com/WhereJuly/62-http-convenience-pack/discussions) or as [pull requests](#contribution).
+
+If there is a Pull Request contribution, I would receive it on `integration` branch for discussion and manual merge.
 
 ### License
 
