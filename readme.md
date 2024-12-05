@@ -16,7 +16,9 @@ The small dependency-free, TypeScript HTTP convenience package. Exposes uniform 
 [![codecov](https://codecov.io/gh/WhereJuly/62-http-convenience-pack/graph/badge.svg?token=N7W0Q11DRL)](https://codecov.io/gh/WhereJuly/62-http-convenience-pack)
 ![npm version](https://img.shields.io/npm/v/http-convenience-pack.svg)
 ![npm downloads](https://img.shields.io/npm/dm/http-convenience-pack.svg)
-![License](https://img.shields.io/npm/l/http-convenience-pack.svg)
+![npm bundle size](https://img.shields.io/bundlephobia/min/http-convenience-pack)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/http-convenience-pack)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <!-- WRITE: Will implement the badges at their time. -->
 <!-- [![Dependencies](https://img.shields.io/librariesio/release/npm/package-name)](https://libraries.io/npm/package-name)
