@@ -1,6 +1,6 @@
 {
     "name": "@wherejuly/http-convenience-pack",
-    "version": "0.0.18-beta.5",
+    "version": "0.0.18",
     "description": "HTTP Convenience Pack",
     "author": "valentineshi.dev@gmail.com",
     "type": "module",
@@ -32,7 +32,7 @@
     },
     "homepage": "https://github.com/WhereJuly/62-http-convenience-pack#readme",
     "issues": "https://github.com/WhereJuly/62-http-convenience-pack/issues",
-    "license": "UNLICENSED",
+    "license": "MIT",
     "keywords": [
         "typescript",
         "http",

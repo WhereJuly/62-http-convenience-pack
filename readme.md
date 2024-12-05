@@ -55,7 +55,7 @@ On top it has functionality that allows manipulating the application HTTP variab
 - [Maintenance](#maintenance)
   - [Changelog](#changelog)
   - [Roadmap](#roadmap)
-  - [Contribution](#contribution)
+  - [Contributions](#contributions)
   - [License](#license)
 
 ## Overview
@@ -101,14 +101,16 @@ npm install http-convenience-pack
 
 ## [HTTP MIME Types](.docs/mime-types.md)
 
-## HTTP Headers
+## [HTTP Headers](.docs/headers.md)
 
 > See: [Combined Usage Example](./.docs/combined-usage-example.md/#headers)
 > Development: [readme](./.a&cd/headers/implement.md)
 
 ## Maintenance
 
-### [Changelog](./.docs/changelog/changelog.md)
+### Changelog
+
+Will come with public updates.
 
 ### Roadmap
 
@@ -116,10 +118,10 @@ Potentially valuable use cases / functionality suggestions are welcome either in
 
 Will appear here when available.
 
-### Contribution
+### Contributions
 
-Development: so far will develop myself. If there is contribution, would manually approve and update in `integration` branch.
-
-New code (additional enum members, constants, functionality): accompany the new code with the use case code example and description.
+If there is contribution, I would receive it on `integration` branch for discussion and manual approval.
 
 ### License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
