@@ -20,3 +20,5 @@ What potentially could be implemented:
 - Authorization header tokens (can reconsider implementation): 
   - Digest scheme: was left out for rare usage nowadays;
   - OAuth1 scheme: left out due to being inferior to OAuth2;
+
+---

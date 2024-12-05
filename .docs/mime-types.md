@@ -42,7 +42,7 @@ Each record in the Registry contains a MIME Type Object. Here is the example of 
 }
 ```
 
-Use the built-in Registry via the following public [APIs](#api-reference): `MIME_TYPES_BUILTIN` constant, the Registry Types groups and extensions via `MIME_TYPES_GROUPS_BUILTIN` and `MIME_TYPES_EXTENSIONS_BUILTIN` constants respectively. All the constant provide type safety and  autocompletion (e.g. VS Code [setup](https://code.visualstudio.com/Docs/languages/typescript)).
+Use the built-in Registry via the following public [APIs](#api-reference): `MIME_TYPES_BUILTIN` constant, the Registry Types groups and extensions via `MIME_TYPES_GROUPS_BUILTIN` and `MIME_TYPES_EXTENSIONS_BUILTIN` constants respectively. All the constant provide type safety and autocompletion (e.g. VS Code [setup](https://code.visualstudio.com/Docs/languages/typescript)).
 
 ```typescript
 // The entire built-in registry.
@@ -170,28 +170,30 @@ import HTTPMIMETypesConvenience from 'http-convenience-pack';
 /**
  * Validate the built-in MIME Type name
  */
-HTTPMIMETypesConvenience.isValid('application/json') // true
-HTTPMIMETypesConvenience.isValid('application/json', EIsValidAttributes.TYPE) // true; Equivalent to preceding;
+HTTPMIMETypesConvenience.isValid('application/json'); // true
+HTTPMIMETypesConvenience.isValid('application/json', EIsValidAttributes.TYPE); // true; Equivalent to preceding;
 
 /**
  * Not a built-in neither extend MIME Type.
  */
-HTTPMIMETypesConvenience.isValid('bacnet-xdd+zip') // false
+HTTPMIMETypesConvenience.isValid('bacnet-xdd+zip'); // false
 
 /**
  * Validate the built-in MIME Type extension.
  */
-HTTPMIMETypesConvenience.isValid('.json', EIsValidAttributes.EXTENSION) // true
-HTTPMIMETypesConvenience.isValid('json', EIsValidAttributes.EXTENSION) // true
+HTTPMIMETypesConvenience.isValid('.json', EIsValidAttributes.EXTENSION); // true
+HTTPMIMETypesConvenience.isValid('json', EIsValidAttributes.EXTENSION); // true
 ```
 
 ##### `.isAmong()` Method
 
-Checks if a given MIME Type name is among a list of type names. Check if a type name is among the Registry types (`typeNames` omitted, similar to [`.isValid()`](#isvalid-method)) or .
+Checks if a given MIME Type name is among an optional custom list of type names. By default check if a type name is among the Registry types (`typeNames` omitted, similar to [`.isValid()`](#isvalid-method)).
 
 Signature: `public static isAmong(typeNameToFind: string, typeNames?: string[]): boolean`
 
 **Usage**
+
+May use to check against the specific MIME Types lists. For checking against a MIME Types group use [`.inGroup()`](#ingroup-method).
 
 ```typescript
 import HTTPMIMETypesConvenience from 'http-convenience-pack';
@@ -260,7 +262,7 @@ Here is the full example.
 
 ```typescript
 /**
- * Note the 'triple tuple' structure is used to provide the MIME Types values. 
+ * Note the 'triple tuple' structure is used to provide the MIME Types values.
  * Here is the example `[mime-type-name, 'GROUP', '.extension']`.
  */
 const ExtendedMIMETypesSource = [
@@ -283,12 +285,12 @@ export const MIME_TYPES_EXTENDED = MIMETypesGenericRegistryFactory<typeof Extend
 
 This is it.
 
-After that call `HTTPMIMETypesConvenience` will hold and operate on both the built-in and extended Registries as one. 
+After that call `HTTPMIMETypesConvenience` will hold and operate on both the built-in and extended Registries as one.
 
 Call `HTTPMIMETypesConvenience.reset()` to restore to only built-in Registry.
 
-Note the *extended* files' extensions will be available at the Registry but not auto-completable via `.types` getter. Use your respective `MIME_TYPES_EXTENDED` constant as point of autocomplete.
+Note the _extended_ files' extensions will be available at the Registry but not auto-completable via `.types` getter. Use your respective `MIME_TYPES_EXTENDED` constant as point of autocomplete.
 
-Alternatively if you feel your extension use case looks widespread, feel free to request me to put te entire new MIME Type into built-ins via GitHub Issues or Discussions, or make a pull request. In either case provide the use case description and your reasoning on the changes value.
+> Alternatively if you feel your extension use case looks widespread, feel free to request me to put te entire new MIME Type into built-ins via GitHub Issues or Discussions, or make a pull request. In either case provide the use case description and your reasoning on the changes value.
 
 ---

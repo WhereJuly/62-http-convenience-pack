@@ -157,8 +157,9 @@ export default class HTTPMIMETypesConvenience {
     }
 
     /**
-     * The method validates the provided MIME Type attribute value
-     * against the values from {@link HTTPMIMETypesConvenience.type} getter.
+     * The method validates the provided MIME Type attribute value, either the
+     * type name or its filename extension {@link EIsValidAttributes}
+     * against the MIME Types defined in {@link HTTPMIMETypesConvenience.type}.
      * 
      * The actual attribute to compare against is defined by {@link EIsValidAttributes}.
      * 
@@ -205,7 +206,8 @@ export default class HTTPMIMETypesConvenience {
     }
 
     /**
-     * Checks if a given MIME Type name is among a list of type names.
+     * Checks if a given MIME Type name is among an optional list of type names. By default
+     * checks against {@link HTTPMIMETypesConvenience.types}.
      * 
      * @static
      * 
