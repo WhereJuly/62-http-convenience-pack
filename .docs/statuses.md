@@ -140,7 +140,7 @@ console.log(HTTPStatusesConvenience.inGroup('404', EHTTPStatusCodeGroups.SUCCESS
 
 Retrieves the HTTP status code group for a given status code. Accepts string or number.
 
-Signature: `public static ofGroup(given: number): EHTTPStatusCodeGroups | null`
+Signature: `public static ofGroup(given: number | string): EHTTPStatusCodeGroups | null`
 
 **Usage**
 
