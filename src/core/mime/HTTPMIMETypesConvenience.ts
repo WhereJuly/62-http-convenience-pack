@@ -85,8 +85,8 @@ export default class HTTPMIMETypesConvenience {
         (typeof HTTPMIMETypesConvenience.extended extends TMIMETypesRegistryGeneric<any>
             ? typeof HTTPMIMETypesConvenience.extended
             : {}) {
-        return this.extended
-            ? { ...MIME_TYPES_BUILTIN, ...this.extended }
+        return HTTPMIMETypesConvenience.extended
+            ? { ...MIME_TYPES_BUILTIN, ...HTTPMIMETypesConvenience.extended }
             : MIME_TYPES_BUILTIN;
     }
 
@@ -110,7 +110,7 @@ export default class HTTPMIMETypesConvenience {
      * @see {@link HTTPMIMETypesConvenience.reset}
      */
     public static get isExtended(): boolean {
-        return !!this.extended;
+        return !!HTTPMIMETypesConvenience.extended;
     }
 
     /**
@@ -130,7 +130,7 @@ export default class HTTPMIMETypesConvenience {
      * @see {@link HTTPMIMETypesConvenience.reset}
      */
     public static extend<T extends readonly TSource[]>(types: TMIMETypesRegistryGeneric<T>): void {
-        this.extended = types;
+        HTTPMIMETypesConvenience.extended = types;
     }
 
     /**
@@ -153,12 +153,13 @@ export default class HTTPMIMETypesConvenience {
      * @see {@link HTTPMIMETypesConvenience.isExtended}
      */
     public static reset(): void {
-        this.extended = null;
+        HTTPMIMETypesConvenience.extended = null;
     }
 
     /**
-     * The method validates the provided MIME Type attribute value
-     * against the values from {@link HTTPMIMETypesConvenience.type} getter.
+     * The method validates the provided MIME Type attribute value, either the
+     * type name or its filename extension {@link EIsValidAttributes}
+     * against the MIME Types defined in {@link HTTPMIMETypesConvenience.type}.
      * 
      * The actual attribute to compare against is defined by {@link EIsValidAttributes}.
      * 
@@ -205,7 +206,8 @@ export default class HTTPMIMETypesConvenience {
     }
 
     /**
-     * Checks if a given MIME Type name is among a list of type names.
+     * Checks if a given MIME Type name is among an optional list of type names. By default
+     * checks against {@link HTTPMIMETypesConvenience.types}.
      * 
      * @static
      * 

@@ -59,7 +59,8 @@ describe('HTTPStatusesConvenienceTest', () => {
 
         function dataProvider_of_group() {
             return [
-                { name: 'Group found (INFO)', fixture: 100, expected: EHTTPStatusCodeGroups.INFO },
+                { name: 'Group found (INFO) [number]', fixture: 100, expected: EHTTPStatusCodeGroups.INFO },
+                { name: 'Group found (INFO) [string]', fixture: '100', expected: EHTTPStatusCodeGroups.INFO },
                 { name: 'Group found (CLIENTERR)', fixture: 401, expected: EHTTPStatusCodeGroups.CLIENTERR },
                 { name: 'Group not found', fixture: 999, expected: null },
             ];

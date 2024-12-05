@@ -1,6 +1,6 @@
 {
     "name": "@wherejuly/http-convenience-pack",
-    "version": "0.0.17",
+    "version": "0.0.18",
     "description": "HTTP Convenience Pack",
     "author": "valentineshi.dev@gmail.com",
     "type": "module",
@@ -22,7 +22,7 @@
         "package:build": "npm run test:foundation && npm run lint && rimraf ./.delivery/.builds/package && tsc -p ./.delivery/configuration/tsconfig.json && npm run package:de-alias && npm run package:bundle:copy",
         "package:lint:readme": "npx markdown-link-check --progress --quiet ./readme.md ./.docs",
         "package:de-alias": "npx tsc-alias -p ./.delivery/configuration/tsconfig.json --verbose",
-        "package:changelog:generate": "bash .ci/generate-merge-release-notes.sh > ./.docs/changelog/changelog.md",
+        "package:changelog:generate": "bash .ci/generate-merge-release-notes.sh > ./.docs/changelog/changelog.readonly.md",
         "package:bundle:copy": "cpy ./package.json ./LICENSE ./readme.md ./.docs ./.delivery/.builds/dist",
         "package:publish": "cd ./.delivery/.builds/dist && npm publish"
     },
@@ -32,7 +32,7 @@
     },
     "homepage": "https://github.com/WhereJuly/62-http-convenience-pack#readme",
     "issues": "https://github.com/WhereJuly/62-http-convenience-pack/issues",
-    "license": "UNLICENSED",
+    "license": "MIT",
     "keywords": [
         "typescript",
         "http",

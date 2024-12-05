@@ -78,6 +78,16 @@ export default class HTTPMethodsConvenience {
      * @param {THTTPMethodsConstraint} methods - An object representing custom HTTP methods 
      * to be added to the registry.
      * 
+     * @description
+     * 
+     * WARNING: The custom methods enum values must be uppercase.
+     * This is because the RFC defines methods as uppercase and the validation 
+     * functionality (isValid, isAmong) convert validated input to upper case.
+     * 
+     * The TypeScript cannot ensure the uppercase values for enums. Could resort to
+     * type constants but due to the extension use case is rare and simple
+     * prefer to leave it to a developer to not complicate the Pack code.
+     * 
      * @description Once extended, the Registry will include both standard and custom methods
      * available via {@link HTTPMethodsConvenience.methods} getter.
      * 
@@ -151,6 +161,9 @@ export default class HTTPMethodsConvenience {
      * If not provided, defaults to all methods in the Registry 
      * (same as {@link HTTPMethodsConvenience.isValid}).
      * 
+     * WARNING: The `allowed` values must be uppercase.
+     * @see {@link HTTPMethodsConvenience.extend}
+     * 
      * @returns {boolean} `true` if given method(s) is in `allowed` methods, otherwise `false`.
      * 
      * @uses {@link HTTPMethodsConvenience._givens}
@@ -195,7 +208,8 @@ export default class HTTPMethodsConvenience {
      * If you pass `false` for the optional `all` parameter, the method will check 
      * if it belongs to **every** group (logical AND).
      * 
-     * More specific that {@link HTTPMethodsConvenience.isAmong}.
+     * 
+     * More specific than {@link HTTPMethodsConvenience.isAmong}.
      * 
      * @param {string} given - The HTTP method.
      * @param {EHTTPMethodsGroupsList | EHTTPMethodsGroupsList[]} groups - The group(s) to check against.
@@ -209,7 +223,11 @@ export default class HTTPMethodsConvenience {
      *   when `all` === true the method should belong to **all** given groups;
      * - otherwise `false`.
      * 
+     * @throws {HTTPConveniencePackException} If the `maybeMethod` is not a string or
+     * is not a valid HTTP method.
+     * 
      * @uses {@link HTTPMethodsConvenience.ofGroups}
+     * @uses {@link HTTPMethodsConvenience.normalize}
      * 
      * @example
      * ```typescript
@@ -220,7 +238,6 @@ export default class HTTPMethodsConvenience {
      * HTTPMethodsConvenience.inGroup('GET', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], true); // true
      * HTTPMethodsConvenience.inGroup('POST', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], true); // false
      * ```
-     * 
      */
     public static inGroup(given: string, groups: EHTTPMethodsGroupsList | EHTTPMethodsGroupsList[], all: boolean = false): boolean {
         const maybeMethod = this.normalize(given);
@@ -246,6 +263,9 @@ export default class HTTPMethodsConvenience {
      * @returns An array of groups {@link EHTTPMethodsGroupsList} from {@link HTTPMethodInGroups}
      * or an empty.
      * 
+     * @throws {HTTPConveniencePackException} If the `maybeMethod` is not a string or
+     * is not a valid HTTP method.
+     * 
      * @example
      * 
      * ```typescript
@@ -259,7 +279,9 @@ export default class HTTPMethodsConvenience {
      * ```
      */
     public static ofGroups(maybeMethod: string): readonly EHTTPMethodsGroupsList[] {
-        return HTTPMethodInGroups[maybeMethod as EHTTPMethods] || [];
+        const method = this.normalize(maybeMethod);
+
+        return HTTPMethodInGroups[method as EHTTPMethods] || [];
     }
 
     /**
@@ -267,12 +289,22 @@ export default class HTTPMethodsConvenience {
      * 
      * @static
      * 
+     * @note
+     * 
+     * NB: The method throws. 
+     * 
+     * The design assumption is that external input strings are always expected 
+     * to be the valid HTTP methods. 
+     * 
      * @param {string} maybeMethod - The HTTP method to normalize and validate.
      * 
      * @returns {keyof THTTPMethodsConstraint} The normalized HTTP method in uppercase if valid.
      * 
      * @throws {HTTPConveniencePackException} If the `maybeMethod` is not a string or
      * is not a valid HTTP method.
+     * 
+     * @used by {@link HTTPMethodsConvenience.inGroup}
+     * @used by {@link HTTPMethodsConvenience.ofGroups}
      * 
      * @example
      * ```typescript

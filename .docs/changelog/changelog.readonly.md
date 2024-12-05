@@ -1,3 +1,39 @@
+Merge 778f8c8 2024-12-05 WhereJuly Merge branch 'implement/module/headers/initial-implementation' into develop
+  dadb394 2024-12-05 WhereJuly [pack] Update (docs): readme
+  140b236 2024-12-05 WhereJuly [pack] Update (docs): license
+  0097d24 2024-12-05 WhereJuly [headers] Update (usage, docs): finalize
+  8f545cd 2024-12-05 WhereJuly [mime] Update (usage): finalize tests
+  e6a7456 2024-12-05 WhereJuly [pack] Update (docs): multiple
+  00ca322 2024-12-05 WhereJuly [mime] Update (module): replace this
+  57f9ffa 2024-12-05 WhereJuly [mime] Update (docs): doc blocks
+  c79feda 2024-12-05 WhereJuly [statuses] Update (usage): finalize tests
+  9fbff9d 2024-12-05 WhereJuly [statuses] Update (module): ofGroup to accept strings too
+  6e7c70f 2024-12-05 WhereJuly [methods] Update (usage): finalize tests
+  1c6ef95 2024-12-05 WhereJuly [methods] Breaking! (module): ofGroups throw for invalid http method
+  ab989b1 2024-12-05 WhereJuly [methods] Update (usage, docs): on uppercae enum
+  df382ce 2024-12-05 WhereJuly [methods] Update (usage, docs): on uppercae enum
+  c43f6d5 2024-12-05 WhereJuly [pack] Update (usage): pacakge beta
+  6f6a3a2 2024-12-04 WhereJuly [headers] Update (docs): doc blocks
+  d7dc98b 2024-12-04 WhereJuly [headers] Update (module): built-in extractors object
+  7e299fe 2024-12-04 WhereJuly [headers] Implement (module): hasValue method
+  5a2a748 2024-12-04 WhereJuly [headers] Implement (module): make method
+  08e47f1 2024-12-04 WhereJuly [headers] Cleanup (module): misc
+  36dd53f 2024-12-04 WhereJuly [headers] Update (docs): doc block
+  05da174 2024-12-04 WhereJuly [headers] Update (docs): dedicated
+  34e1b12 2024-12-04 WhereJuly [headers] Update (module, tests): extract method
+  4bf65ec 2024-12-03 WhereJuly [headers] Implement (module): built-in extractors object
+  413d5bd 2024-12-03 WhereJuly [headers] Refactor (test): move to subfolder
+  06d247a 2024-12-03 WhereJuly [pack] Update (docs): readme
+  0efbc11 2024-12-03 WhereJuly [headers] Implement (module): extract method
+  74e1ccb 2024-12-03 WhereJuly [headers] Implement (module): basic enums
+  fc10048 2024-12-03 WhereJuly [mime] Update (usage): minor
+  000cf23 2024-12-03 WhereJuly [headers] Update (a&cd): misc
+  17b6063 2024-12-03 WhereJuly [pack] Update (icicdr): changelog rename to readonly
+  dea8148 2024-12-03 WhereJuly [pack] Update (docs): combined implementation example
+  e119b37 2024-12-02 WhereJuly [pack] Update (docs): readme
+  92cd2ea 2024-12-02 WhereJuly [pack] Release (icicdr): v0.0.17
+  b6c9edb 2024-12-02 WhereJuly [pack] Update (usage): pack
+  2c5e4d2 2024-12-02 WhereJuly [pack] Update (icicdr): changelog
 Merge 75f7d26 2024-12-02 WhereJuly [methods] Implement (module): inGroup, ofGroups methods
   8ff78f6 2024-12-02 WhereJuly [methods] Update (tests): minor
   f17a976 2024-12-02 WhereJuly [methods] Update (docs): dedicated

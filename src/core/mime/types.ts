@@ -3,6 +3,8 @@
 import { BuiltInMIMETypesSource } from '@src/core/mime/source/builtin.mime.js';
 
 /**
+ * @internal
+ * 
  * The basic structure for the MIME Types sources: a triplet of type, group, and extension.
  * 
  * @see {@link BuiltInMIMETypesSource} as the source example.
@@ -10,6 +12,8 @@ import { BuiltInMIMETypesSource } from '@src/core/mime/source/builtin.mime.js';
 export type TSource = readonly [string, string, string];
 
 /**
+ * @internal
+ * 
  * The basic MIME Types object structure: type, group, and extension.
  */
 export type TMIMETypeObject<T extends TSource> = {
@@ -21,6 +25,8 @@ export type TMIMETypeObject<T extends TSource> = {
 // WARNING: --- MIME Types Registry types follow ---
 
 /**
+ * @internal
+ * 
  * The basic MIME Type Registry record type.
  * 
  * @example

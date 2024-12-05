@@ -57,7 +57,7 @@ export default class HTTPStatusesConvenience {
     /**
      * Retrieves the HTTP status code group for a given status code.
      *
-     * @param {number} given - The status code to evaluate.
+     * @param {number | string} given - The status code to evaluate.
      * @return {EHTTPStatusCodeGroups | null} The found group, or null otherwise.
      *
      * @example
@@ -65,7 +65,7 @@ export default class HTTPStatusesConvenience {
      * const statusCodeGroup = HTTPStatusesConvenience.ofGroup(200); // EHTTPStatusCodeGroups.SUCCESS
      * ```
      */
-    public static ofGroup(given: number): EHTTPStatusCodeGroups | null {
+    public static ofGroup(given: number | string): EHTTPStatusCodeGroups | null {
         const code = this.normalize(given);
         const entries = Object.entries(GROUPED_STATUS_CODES) as [EHTTPStatusCodeGroups, readonly number[]][];
         const found = entries.find(([_type, codes]) => { return codes.includes(code); });

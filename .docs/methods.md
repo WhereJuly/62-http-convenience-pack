@@ -99,7 +99,9 @@ console.log(EHTTPMethodsGroupsList.CACHEABLE); // 'cacheable'; As EHTTPMethodsGr
 
 #### `HTTPMethodInGroups` Typed Constant
 
-The list of methods with their respective groups. Type-safe, autocomplete-able.
+The list of HTTP methods with their respective groups. Type-safe, autocomplete-able. 
+
+See the methods belonging to groups in [the code](/src/core/methods/methods.types.ts).
 
 **Usage**
 
@@ -151,6 +153,8 @@ Check if a given HTTP method is among methods in the Registry, or on the optiona
 
 Signature: `public static isAmong(given: string | string[], allowed?: string | THTTPMethodsConstraint | string[]): boolean`
 
+The `given` vales are case-insensitive (always converted to uppercase). The `allowed` argument values must be uppercase. See [`.extend`](#extend-method).
+
 **Usage**
 
 ```typescript
@@ -158,9 +162,14 @@ import HTTPMethodsConvenience from 'http-convenience-pack';
 
 console.log(HTTPMethodsConvenience.isAmong('GET')); // true
 console.log(HTTPMethodsConvenience.isAmong('GET', EHTTPMethods.GET)); // true
-console.log(HTTPMethodsConvenience.isAmong(['GET', 'POST'])); // true
-console.log(HTTPMethodsConvenience.isAmong(['GET', 'POST', 'LINK'])); // true for the Registry extended with 'LINK' method;
-console.log(HTTPMethodsConvenience.isAmong('PATCH', ['GET', 'POST'])); // false
+console.log(HTTPMethodsConvenience.isAmong(['GET', 'pOST'])); // true
+console.log(HTTPMethodsConvenience.isAmong(['get', 'POST', 'LINK'])); // true for the Registry extended with 'LINK' method;
+
+/**
+ * Here check the method against the custom list of allowed methods.
+ * Use `.inGroup()` to check against the standard groups.
+ */
+console.log(HTTPMethodsConvenience.isAmong('patch', ['GET', 'POST'])); // false
 ```
 
 ##### `.inGroup()` Method
@@ -172,12 +181,14 @@ By default, it checks if the method belongs to **at least one** of the groups (l
 
 Signature: `public static inGroup(given: string, groups: EHTTPMethodsGroupsList | EHTTPMethodsGroupsList[], all: boolean = false): boolean`
 
+The method throws for invalid `given` HTTP method (see [.normalize](#normalize-method)).
+
 **Usage**
 
 ```typescript
 import HTTPMethodsConvenience from 'http-convenience-pack';
 
-console.log(HTTPMethodsConvenience.inGroup('GET', EHTTPMethodsGroupsList.CACHEABLE)); // true
+console.log(HTTPMethodsConvenience.inGroup('get', EHTTPMethodsGroupsList.CACHEABLE)); // true
 console.log(HTTPMethodsConvenience.inGroup('GET', [EHTTPMethodsGroupsList.CACHEABLE, EHTTPMethodsGroupsList.SAFE])); // true
 console.log(HTTPMethodsConvenience.inGroup('CONNECT', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE])); // false
 console.log(HTTPMethodsConvenience.inGroup('GET', [EHTTPMethodsGroupsList.IDEMPOTENT, EHTTPMethodsGroupsList.CACHEABLE], true)); // true
@@ -209,20 +220,24 @@ Retrieves the groups associated with a given HTTP method from [`HTTPMethodInGrou
 
 Signature: `public static ofGroups(maybeMethod: string): readonly EHTTPMethodsGroupsList[]`
 
+The method throws for invalid `maybeMethod` HTTP method (see [.normalize](#normalize-method)).
+
 **Usage**
 
 ```typescript
 import HTTPMethodsConvenience from 'http-convenience-pack';
 
-console.log(HTTPMethodsConvenience.ofGroups('GET')); // HTTPMethodInGroups[EHTTPMethods.GET] as array;
-console.log(HTTPMethodsConvenience.ofGroups('unknown')); // []
+console.log(HTTPMethodsConvenience.ofGroups('get')); // HTTPMethodInGroups[EHTTPMethods.GET] as array;
+console.log(HTTPMethodsConvenience.ofGroups('invalid')); // throws HTTPConveniencePackException
 ```
 
 ##### `.normalize()` Method
 
 Normalize a given string to an uppercase standard or custom HTTP method. Throws [`HTTPConveniencePackException`](#httpconveniencepackexception-exception) for `maybeMethod` parameter is either not a string or not a valid HTTP method.
 
-Signature: `public static normalize(maybeMethod: string): keyof THTTPMethodsConstraint`
+Signature: `public static normalize(maybeMethod: string): keyof THTTPMethodsConstraint`.
+
+The method throws for invalid `maybeMethod` HTTP method. The design assumption is that external input strings are always expected to be the valid HTTP methods. 
 
 **Usage**
 
@@ -249,6 +264,8 @@ Signature: `public static extend(methods: THTTPMethodsConstraint): void`
 **Usage**
 
 This use case should be pretty rare, nevertheless the package provides it for simplicity.
+
+> Note the extension enum values must be upper case (RFC-compliant) for validation (`isValid`, `isAmong`) functionality to work as expected.
 
 ```typescript
 import HTTPmethodsConvenience, { EHTTPMethods } from 'http-convenience-pack';
