@@ -4,32 +4,28 @@
   <img src="./.docs/images/banner-6-w1200.jpg" width="100%"/>
 </div>
 
-Type-safe, RFC-compliant, auto-completable HTTP constants and convenience functions to ensure standardized uniform values conveniently manipulated across your applications and services.
-
 Use TypeScript type inference and IDE autocomplete for comfort and type safety in HTTP constants manipulations.
 
 **Summary**
 
 The small dependency-free, TypeScript HTTP convenience package. Exposes uniform standardized RFC-compliant type-safe auto-completable HTTP constants to apply across your applications' ends and services along with the convenience functionality (validate, normalize, is among, of group, in group, make, extract, transform etc.).
 
-The new use cases / functionality suggestions are welcome either in [Discussions](https://github.com/WhereJuly/62-http-convenience-pack/discussions) or as [pull requests](#contribution).
-
 **Package Status**
 
 ![Build Status](https://github.com/WhereJuly/62-http-convenience-pack/actions/workflows/deliver.yml/badge.svg)
 [![codecov](https://codecov.io/gh/WhereJuly/62-http-convenience-pack/graph/badge.svg?token=N7W0Q11DRL)](https://codecov.io/gh/WhereJuly/62-http-convenience-pack)
-
-<!-- WRITE: Will implement the badges at their time. -->
-<!-- [![Dependencies](https://img.shields.io/librariesio/release/npm/package-name)](https://libraries.io/npm/package-name)
 ![npm version](https://img.shields.io/npm/v/http-convenience-pack.svg)
 ![npm downloads](https://img.shields.io/npm/dm/http-convenience-pack.svg)
 ![License](https://img.shields.io/npm/l/http-convenience-pack.svg)
+
+<!-- WRITE: Will implement the badges at their time. -->
+<!-- [![Dependencies](https://img.shields.io/librariesio/release/npm/package-name)](https://libraries.io/npm/package-name)
 ![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/your-username/your-repo.svg)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fusername%2Frepo.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fusername%2Frepo?ref=badge_shield)
 ![Last Commit](https://img.shields.io/github/last-commit/WhereJuly/62-http-convenience-pack.svg)
 -->
 
-The package is in a usage-ready state, no pending functionality. It is actively maintained. It moves to production-ready `>= v1.0.0` as the initial usage feedback confirms it has no major missing use cases.
+<small>The package is in a usage-ready state, no pending functionality. It is actively maintained. It moves to production-ready `>= v1.0.0` as the initial usage feedback confirms it has no major missing use cases.</small>
 
 # HTTP Convenience Pack
 
@@ -49,10 +45,11 @@ On top it has functionality that allows manipulating the application HTTP variab
     - [Installation](#installation)
     - [Autocomplete Demo](#autocomplete-demo)
     - [Combined Usage Example](#combined-usage-example)
-- [HTTP Methods](#http-methods)
-- [HTTP Statuses](#http-statuses)
-- [HTTP MIME Types](#http-mime-types)
-- [HTTP Headers](#http-headers)
+- [Modules](#modules)
+  - [HTTP Methods](#http-methods)
+  - [HTTP Statuses](#http-statuses)
+  - [HTTP MIME Types](#http-mime-types)
+  - [HTTP Headers](#http-headers)
 - [Maintenance](#maintenance)
   - [Changelog](#changelog)
   - [Roadmap](#roadmap)
@@ -67,7 +64,7 @@ The package is carefully documented for comfortable developer experience.
 
 From the good-named identifiers in code, thought-out autocompletion (see animated GIF [demo](#autocomplete-demo)), hover-popup doc blocks with usage examples on enums, constants classes and methods accessible with on-hover or `Ctrl-Left-click` when integrated with your IDE TypeScript setup (e.g. see [VS Code](https://code.visualstudio.com/Docs/languages/typescript)) to the detailed readme with use cases and the dedicated modules' API references.
 
-As well there is a GitHub [Discussion](https://github.com/WhereJuly/62-http-convenience-pack/discussions) available for question, as the usual GitHub [Issues](https://github.com/WhereJuly/62-http-convenience-pack/issues) for bug reporting.
+As well there is a GitHub [Discussion](https://github.com/WhereJuly/62-http-convenience-pack/discussions) available for question and requests, as the usual GitHub [Issues](https://github.com/WhereJuly/62-http-convenience-pack/issues) for bug reporting.
 
 **Code Conventions**
 
@@ -91,22 +88,26 @@ npm install http-convenience-pack
 
 #### Autocomplete Demo
 
+Here is the short demo. The autocomplete works on all published API members. See the respective API References in the modules dedicated documentation.
+
 <details>
-  <summary>Methods</summary>
+  <summary>Watch</summary>
   <div align="center">
-    <img src="./.docs/demo/methods-w800.webp" width="100%"/>
+    <img src="./.docs/images/autocomplete.webp" width="100%"/>
   </div>
 </details>
 
 #### [Combined Usage Example](.docs/combined-usage-example.md)
 
-## [HTTP Methods](.docs/methods.md)
+## Modules
 
-## [HTTP Statuses](.docs/statuses.md)
+### [HTTP Methods](.docs/methods.md)
 
-## [HTTP MIME Types](.docs/mime-types.md)
+### [HTTP Statuses](.docs/statuses.md)
 
-## [HTTP Headers](.docs/headers.md)
+### [HTTP MIME Types](.docs/mime-types.md)
+
+### [HTTP Headers](.docs/headers.md)
 
 ## Maintenance
 
