@@ -72,7 +72,7 @@ export default class BuiltInExtractors {
      * or contains invalid characters.
      *
      * @example
-     * console.log(BuiltInExtractors.b64('dXNlcjpwYXNz')); // 'login:pass' (valid Base64)
+     * console.log(BuiltInExtractors.b64('dXNlcjpwYXNz')); // 'user:pass' (valid Base64)
      * console.log(BuiltInExtractors.b64('invalid'));     // '' (not a valid Base64 string)
      * console.log(BuiltInExtractors.b64(123 as unknown as any));  // '' (not a string)
      */

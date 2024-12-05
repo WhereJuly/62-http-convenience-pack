@@ -12,6 +12,20 @@ import { EHTTPHeaders } from '@src/core/headers/headers.types.js';
 type TTokenValueMakerFunction = (token: TAuthorizationTokenValue) => string;
 
 /**
+ * The constant included in {@link HTTPHeadersConvenience.make} methods return value for
+ * unknown token schemes.
+ * 
+ * @example
+ * ```typescript
+ * 
+ * const authorizationHeader = HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, "InvalidScheme", "someToken");
+ * if authorizationHeader.Authorization.includes(TokenSchemeUnknown)
+ *   throw new Error('Cannot make the Authorization header with an invalid scheme.'); 
+ * ```
+ */
+export const TokenSchemeUnknown = 'Error: token scheme unknown.';
+
+/**
  * Represents the general kind of HTTP request headers object.
  * 
  * Used in multiple methods in {@link HTTPHeadersConvenience} class.
@@ -48,20 +62,6 @@ export enum EMakerTokenSchemes {
     Basic = ETokenSchemes.Basic,
     Bearer = ETokenSchemes.Bearer,
 }
-
-/**
- * The constant included in {@link HTTPHeadersConvenience.make} methods return value for
- * unknown token schemes.
- * 
- * @example
- * ```typescript
- * 
- * const authorizationHeader = HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, "InvalidScheme", "someToken");
- * if authorizationHeader.Authorization.includes(TokenSchemeUnknown)
- *   throw new Error('Cannot make the Authorization header with an invalid scheme.'); 
- * ```
- */
-export const TokenSchemeUnknown = 'Error: token scheme unknown.';
 
 /**
  * The header value extraction / transformer function type.
@@ -102,12 +102,11 @@ export default class HTTPHeadersConvenience {
      * HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, EMakerTokenSchemes.Bearer, "myBearerToken"); // { Authorization: "Bearer myBearerToken" }
      * ```
      * 
-     * @example EMakerTokenSchemes.Bearer: 
+     * @example EMakerTokenSchemes.Basic: transforms `['username', 'password']` tuple to Basic token.
      * @see {@link HTTPHeadersConvenience.makerToBasicToken} maker function.
      * 
      * ```typescript
-     * // 
-     * HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, EMakerTokenSchemes.Basic, "username:password"); // { Authorization: "Basic dXNlcm5hbWU6cGFzc3dvcmQ=" }
+     * HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, EMakerTokenSchemes.Basic, ['username', 'password']); // { Authorization: "Basic dXNlcm5hbWU6cGFzc3dvcmQ=" }
      * ```
      * @example Unsupported token scheme: returns token value that includes `Error: token scheme unknown.` 
      * @see {@link TokenSchemeUnknown}
@@ -133,7 +132,8 @@ export default class HTTPHeadersConvenience {
      * Extracts a header value from the provided headers object. 
      * 
      * By default returns plain string value of the header. Can return the header value
-     * transformed with built-in or custom extractor into number, array, date, object etc.
+     * transformed with built-in or custom extractor into string, token, number, 
+     * array, date (all are built-in), or object etc. (custom).
      * 
      * @param {THeadersObject} headersObject - The object containing HTTP headers with values.
      * The one generally comes in HTTP requests.
@@ -153,7 +153,7 @@ export default class HTTPHeadersConvenience {
      * console.log(HTTPHeadersConvenience.extract(headers, EHTTPHeaders.ContentType)); // 'application/json'
      * ```
      * 
-     * @example Custom extractor with string return value type.
+     * @example  Custom extractor with string return value type, transforms value to upper case.
      * ```typescript
      * const headers = { 'Content-Type': 'application/json' };
      * const extractor = (value) => value.toUpperCase()
@@ -201,7 +201,7 @@ export default class HTTPHeadersConvenience {
      *
      * @example
      * const headers = { 'Content-Type': 'application/json' };
-     * HTTPHeadersConvenience.hasValue(headers, EHTTPHeaders.ContentType, 'json'); // true
+     * HTTPHeadersConvenience.hasValue(headers, EHTTPHeaders.ContentType, MIME_TYPES_BUILTIN['application/json'].type); // true
      * 
      * @example
      * const headers = { 'Authorization': 'Basic dXNlcm5hbWU6cGFzc3dvcmQ=', 'Accept-Language': 'en-US,fr-CA' };
@@ -228,7 +228,8 @@ export default class HTTPHeadersConvenience {
 
     /**
      * Finds the key-value pair in a headers object where the key matches the normalized header name.
-     *
+     * If not found, returns null.
+     * 
      * @param {THeadersObject} headersObject - The object containing headers as key-value pairs.
      * @param {EHTTPHeaders | string} headerName - The header name to search for
      * 

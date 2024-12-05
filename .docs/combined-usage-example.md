@@ -31,7 +31,7 @@ Start on your one end, e.g. front-end. Comfortably autocomplete HTTP constants. 
 import { EHTTPMethods, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
 
 const response = await fetch('https://api.example.com/data', {
-  
+
   /**
    * Conveniently and reliably autocomplete the method, no need to use string literals.
    */
@@ -41,7 +41,8 @@ const response = await fetch('https://api.example.com/data', {
    * Autocomplete the correct headers and mime types from the list provided.
    */
   headers: {
-    EHTTPHeaders.AUTHORIZATION: 'Bearer <required-token-here>',
+    ...HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, EMakerTokenSchemes.Bearer, 'myBearerToken'),
+    // Set no special treatment header with autocomplete using enums and constants
     EHTTPHeaders.CONTENT_TYPE: MIME_TYPES_BUILTIN['image/png'].type
   }
 });
@@ -78,7 +79,7 @@ Methods.isValid(Methods.normalize(request.method)); // true
 
 /**
  * Same as preceding one but `normalize` is built-in into `isAmong`
- * as well as the custom `HTTPConveniencePackException` exception throw 
+ * as well as the custom `HTTPConveniencePackException` exception throw
  * for non-strings or invalid methods, see API description
  */
 Methods.isAmong(request.method); // true
@@ -89,32 +90,21 @@ Methods.isAmong(request.method); // true
  * or `inGroup` method.
  */
 Methods.isAmong(request.method, [EHTTPMethods.GET, EHTTPMethods.POST]); // false
-Methods.inGroup(request.method, EHTTPMethodsGroupsList.CACHEABLE) // true; For cacheable methods;
+Methods.inGroup(request.method, EHTTPMethodsGroupsList.CACHEABLE); // true; For cacheable methods;
 ```
 
 #### Headers
 
-> This functionality has to be implemented
-
 Now to **headers**.
 
-Extract the header. 
-
-> Implementation notes: This example iterates over keys in `request.headers` object, normalizes each one, finds the desired header and by default extract the token with `Bearer token` value scheme.
+Extract the headers. It can extract different standard Authentication schemes and your custom ones.
 
 ```typescript
-const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION);
+const token = HTTPHeadersConvenience.extract(headers, EHTTPHeaders.Authorization, BuiltInExtractors.token); // 'myBearerToken'
+const contentType = HTTPHeadersConvenience.extract(headers, EHTTPHeaders.ContentType); // 'image/png'
+// Process the values according to your application needs.
 ```
 
-It can extract different standard Authentication schemes and your custom ones.
-
-If no scheme provided it detects the decode scheme based on the header actual value prefix (extracting it and trying against Bearer, Basic, Digest ones) or throws. If scheme is provided explicitly it tries to decode extract and return the respective value or throws if the scheme does not match. If scheme matches but no value is provided it returns null.
-
-```typescript
-const token = HTTPHeaders.extract(request.headers, HTTPHeaders.AUTHORIZATION,
-  EHTTPAuthenticationScheme.{Bearer, Basic, Digest, Custom}, () => { // required for EHTTPAuthenticationScheme.Custom })
-// Pass the token further down the middleware chain to use.
-```
 
 #### Respond
 
