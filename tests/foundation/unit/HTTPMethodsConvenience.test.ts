@@ -114,6 +114,7 @@ describe('HTTPMethodsConvenienceTest', () => {
     });
 
     describe('+static ofGroups: Should return the groups given method belongs to', () => {
+
         it.each(dataProvider_of_groups_method())('Case #%# $name', (data) => {
             const actual = HTTPMethodsConvenience.ofGroups(data.fixture);
 
@@ -123,9 +124,15 @@ describe('HTTPMethodsConvenienceTest', () => {
         function dataProvider_of_groups_method() {
             return [
                 { name: 'Belongs to groups', fixture: 'POST', expected: HTTPMethodInGroups[EHTTPMethods.POST] },
-                { name: 'Does not belong to any group (invalid)', fixture: 'invalid', expected: [] },
             ];
         }
+
+        it('Should throw for invalid method', () => {
+            const actual = () => { HTTPMethodsConvenience.ofGroups('invalid'); };
+
+            expect(actual).toThrow('should be a valid HTTP built-in or extended method');
+        });
+
     });
 
     describe('+static normalize: Should return the expected value or throw', () => {
