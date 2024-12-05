@@ -151,6 +151,8 @@ Check if a given HTTP method is among methods in the Registry, or on the optiona
 
 Signature: `public static isAmong(given: string | string[], allowed?: string | THTTPMethodsConstraint | string[]): boolean`
 
+The `given` vales are case-insensitive (always converted to uppercase). The `allowed` argument values must be uppercase. See [`.extend`](#extend-method).
+
 **Usage**
 
 ```typescript
@@ -158,9 +160,14 @@ import HTTPMethodsConvenience from 'http-convenience-pack';
 
 console.log(HTTPMethodsConvenience.isAmong('GET')); // true
 console.log(HTTPMethodsConvenience.isAmong('GET', EHTTPMethods.GET)); // true
-console.log(HTTPMethodsConvenience.isAmong(['GET', 'POST'])); // true
-console.log(HTTPMethodsConvenience.isAmong(['GET', 'POST', 'LINK'])); // true for the Registry extended with 'LINK' method;
-console.log(HTTPMethodsConvenience.isAmong('PATCH', ['GET', 'POST'])); // false
+console.log(HTTPMethodsConvenience.isAmong(['GET', 'pOST'])); // true
+console.log(HTTPMethodsConvenience.isAmong(['get', 'POST', 'LINK'])); // true for the Registry extended with 'LINK' method;
+
+/**
+ * Here check the method against the custom list of allowed methods.
+ * Use `.inGroup()` to check against the standard groups.
+ */
+console.log(HTTPMethodsConvenience.isAmong('patch', ['GET', 'POST'])); // false
 ```
 
 ##### `.inGroup()` Method

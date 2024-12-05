@@ -161,6 +161,9 @@ export default class HTTPMethodsConvenience {
      * If not provided, defaults to all methods in the Registry 
      * (same as {@link HTTPMethodsConvenience.isValid}).
      * 
+     * WARNING: The `allowed` values must be uppercase.
+     * @see {@link HTTPMethodsConvenience.extend}
+     * 
      * @returns {boolean} `true` if given method(s) is in `allowed` methods, otherwise `false`.
      * 
      * @uses {@link HTTPMethodsConvenience._givens}
