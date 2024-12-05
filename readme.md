@@ -91,8 +91,12 @@ npm install http-convenience-pack
 
 #### Autocomplete Demo
 
-> Here make and insert the GIF with all autocomplete demonstrations.
-> Hide the demo under details tag not to annoy
+<details>
+  <summary>Methods</summary>
+  <div align="center">
+    <img src="./.docs/demo/methods.webp" width="100%"/>
+  </div>
+</details>
 
 #### [Combined Usage Example](.docs/combined-usage-example.md)
 
