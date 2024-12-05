@@ -2,7 +2,7 @@
 
 // NB: HTTP Methods Module
 export { default as HTTPMethodsConvenience } from './core/methods/HTTPMethodsConvenience.js';
-export { EHTTPMethods, type THTTPMethodsConstraint } from './core/methods/methods.types.js';
+export { EHTTPMethods, EHTTPMethodsGroupsList, HTTPMethodInGroups, type THTTPMethodsConstraint } from './core/methods/methods.types.js';
 
 // NB: HTTP Statuses Module
 export {
@@ -21,7 +21,7 @@ export {
     TAuthorizationTokenValue, TokenSchemeUnknown, TExtractorFunction
 } from './core/headers/HTTPHeadersConvenience.js';
 
-export { default as BuiltInExtractors,ETokenSchemes } from './core/headers/BuiltInExtractors.js';
+export { default as BuiltInExtractors, ETokenSchemes } from './core/headers/BuiltInExtractors.js';
 
 /**
  * NB: MIME Types Module
