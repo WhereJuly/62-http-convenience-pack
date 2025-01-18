@@ -35,6 +35,8 @@ The pack purpose is to provide uniform standardized RFC-compliant HTTP constants
 
 It adds the type safety and convenience of auto-complete. It allows to avoid string constants ambiguity, ensures you always get the same correct and uniform HTTP header name (or a MIME type, or a status code / message) sent from your one end (e.g. front) to the other (e.g. back) and / or across you services.
 
+It is even more actual for development teams or open-source projects maintainers where multiple developers have to write code. Used as a part of a shared kernel, the package standardizes the entire HTTP constants not only across services but across people, that is equally important.
+
 On top it has functionality that allows manipulating the application HTTP variables in a numerous comfortably declarative ways.
 
 ---
