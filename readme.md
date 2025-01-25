@@ -4,7 +4,7 @@
   <img src="./.docs/images/banner-6-w1200.jpg" width="100%"/>
 </div>
 
-Use TypeScript type inference and IDE autocomplete for comfort and type safety in HTTP constants manipulations.
+Use all the most popular HTTP constants collected in the same package with TypeScript type inference and IDE autocomplete for comfort and type safety.
 
 **Summary**
 
