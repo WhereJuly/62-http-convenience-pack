@@ -1,6 +1,6 @@
 {
     "name": "http-convenience-pack",
-    "version": "0.9.1",
+    "version": "0.10.0",
     "description": "Type=safe, RFC-compliant, auto-completable HTTP constants and convenience functions to comfortably manipulate the standardized uniform values across all your applications and services.",
     "author": "valentineshi.dev@gmail.com",
     "type": "module",
