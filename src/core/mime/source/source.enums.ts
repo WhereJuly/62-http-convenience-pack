@@ -18,6 +18,7 @@ export enum EMIMETypes {
     TEXT_YAML = "text/yaml",
     TEXT_MARKDOWN = "text/markdown",
     TEXT_RICHTEXT = "text/richtext",
+    TEXT_EVENT_STREAM= "text/event-stream",
 
     // IMAGE Group
     IMAGE_PNG = "image/png",

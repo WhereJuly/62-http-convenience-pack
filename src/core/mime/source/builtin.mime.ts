@@ -14,6 +14,7 @@ export const BuiltInMIMETypesSource = [
     ['text/yaml', 'TEXT', '.yaml'],
     ['text/markdown', 'TEXT', '.md'],
     ['text/richtext', 'TEXT', '.rtf'],
+    ['text/event-stream', 'TEXT', ''],
 
     // Image
     ['image/png', 'IMAGE', '.png'],

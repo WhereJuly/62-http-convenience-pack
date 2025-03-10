@@ -24,27 +24,26 @@ Start on your one end, e.g. front-end. Comfortably autocomplete HTTP constants. 
 
 #### Send a request
 
-<!-- WARNING: Update headers when implemented. -->
-<!-- WARNING: Update MIME Types example from dedicated docs. -->
-
 ```typescript
-import { EHTTPMethods, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
+import { ECacheControlServer, HTTPHeadersConvenience, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
 
 const response = await fetch('https://api.example.com/data', {
+ /**
+  * Conveniently and reliably autocomplete the method, no need to use string literals.
+  */
+ method: EHTTPMethods.GET,
 
-  /**
-   * Conveniently and reliably autocomplete the method, no need to use string literals.
-   */
-  method: EHTTPMethods.GET,
+ /**
+  * Autocomplete the correct headers and mime types from the list provided.
+  */
+ headers: {
+  ...HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, EMakerTokenSchemes.Bearer, 'myBearerToken'),
 
-  /**
-   * Autocomplete the correct headers and mime types from the list provided.
-   */
-  headers: {
-    ...HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, EMakerTokenSchemes.Bearer, 'myBearerToken'),
-    // Set no special treatment header with autocomplete using enums and constants
-    EHTTPHeaders.CONTENT_TYPE: MIME_TYPES_BUILTIN['image/png'].type
-  }
+  // Set no special treatment header with autocomplete using enums and constants
+  [EHTTPHeaders.Accept]: MIME_TYPES_BUILTIN['image/png'].type,
+  [EHTTPHeaders.ContentType]: MIME_TYPES_BUILTIN['text/event-stream'].type,
+  [EHTTPHeaders.CacheControl]: ECacheControlServer.NoCache
+ }
 });
 ```
 
@@ -104,7 +103,6 @@ const token = HTTPHeadersConvenience.extract(headers, EHTTPHeaders.Authorization
 const contentType = HTTPHeadersConvenience.extract(headers, EHTTPHeaders.ContentType); // 'image/png'
 // Process the values according to your application needs.
 ```
-
 
 #### Respond
 

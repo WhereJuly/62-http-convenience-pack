@@ -66,6 +66,30 @@ console.log(HTTP_STATUSES[100].code); // 100
 console.log(HTTP_STATUSES[100].message); // 'Continue'
 ```
 
+Or more practical example - the usage in a structured error class. Simplified for brevity.
+
+```typescript
+import { HTTP_STATUSES, IHTTPStatus } from 'http-convenience-pack';
+import { EDomainErrorCodes } from './DomainErrorCodes.enum.js';
+
+export default class StructuredErrorVO {
+
+    public status: IHTTPStatus['code'];
+
+    constructor(code: EDomainErrorCodes) {
+        const mapped = ERROR_MAP[code];
+
+        this.status = mapped.status;
+    }
+
+}
+
+const ERROR_MAP: Record<EDomainErrorCodes, { status: number; }> = {
+    [EDomainErrorCodes.ENTITY_NOT_FOUND]: { status: HTTP_STATUSES[404].code },
+    [EDomainErrorCodes.ACTIVE_TASK_QUEUE_IS_FULL]: { status: HTTP_STATUSES[409].code },
+};
+```
+
 ##### `EHTTPStatusCodeGroups` Enum
 
 Enum contains 5 groups of HTTP status codes according to the mentioned [RFC](https://www.rfc-editor.org/rfc/rfc9110.html#section-15), namely "INFO", "CLIENTERR", "SERVERERR", "SUCCESS", "REDIRECT".
