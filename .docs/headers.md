@@ -9,7 +9,7 @@
   - [A Basic Use Case](#a-basic-use-case)
   - [API Reference](#api-reference)
     - [`EHTTPHeaders` Enum](#ehttpheaders-enum)
-    - [`ECacheControlServer` and `ECacheControlClient` Enum](#ecachecontrolserver-and-ecachecontrolclient-enum)
+    - [`ECacheControlServer` and `ECacheControlClient` Enums](#ecachecontrolserver-and-ecachecontrolclient-enums)
     - [`HTTPHeadersConvenience` Class](#httpheadersconvenience-class)
       - [`.make()` Method](#make-method)
       - [`.extract()` Method](#extract-method)
@@ -71,7 +71,7 @@ The enum of headers frequently used in custom web applications. See the list in 
 
 Consider extending proposals via GitHub Discussion.
 
-#### `ECacheControlServer` and `ECacheControlClient` Enum
+#### `ECacheControlServer` and `ECacheControlClient` Enums
 
 The enum of cache control directives frequently used in custom web applications. See the list in [the code](/src/core/headers/cache-control-directives.types.ts).
 
