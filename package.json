@@ -74,9 +74,6 @@
         "typescript-eslint": "^8.15.0",
         "vitest": "^2.1.5"
     },
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com"
-    },
     "files": [
         "code/*",
         "types/*",
