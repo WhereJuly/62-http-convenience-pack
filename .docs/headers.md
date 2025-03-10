@@ -45,7 +45,9 @@ const response = await fetch('https://api.example.com/data', {
   ...HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, EMakerTokenSchemes.Bearer, 'myBearerToken'),
 
   // Set no special treatment header with autocomplete using enums and constants
-  [EHTTPHeaders.ContentType]: MIME_TYPES_BUILTIN['image/png'].type
+  [EHTTPHeaders.Accept]: MIME_TYPES_BUILTIN['image/png'].type,
+  [EHTTPHeaders.ContentType]: MIME_TYPES_BUILTIN['text/event-stream'].type,
+  [EHTTPHeaders.CacheControl]: ECacheControlServer.NoCache
  }
 });
 ```
