@@ -15,6 +15,7 @@ export { default as HTTPStatusesConvenience } from './core/statuses/HTTPStatuses
 // NB: HTTP Headers Module
 
 export { EHTTPHeaders } from './core/headers/headers.types.js';
+export { ECacheControlServer, ECacheControlClient } from './core/headers/cache-control-directives.types.js';
 
 export {
     default as HTTPHeadersConvenience, EMakerTokenSchemes, THeadersObject, TAuthorizationHeaderObject,
