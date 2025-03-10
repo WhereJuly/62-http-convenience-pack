@@ -37,16 +37,16 @@ Start with setting the headers on front-end's request.
 import { HTTPHeadersConvenience, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
 
 const response = await fetch('https://api.example.com/data', {
-  /**
-   * Make or autocomplete the correct headers and mime types from the list provided.
-   */  
-  headers: {
-    // Make the Authorization header.
-    ...HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, EMakerTokenSchemes.Bearer, 'myBearerToken'),
-    
-    // Set no special treatment header with autocomplete using enums and constants
-    EHTTPHeaders.CONTENT_TYPE: MIME_TYPES_BUILTIN['image/png'].type
-  }
+ /**
+  * Make or autocomplete the correct headers and mime types from the list provided.
+  */
+ headers: {
+  // Make the Authorization header.
+  ...HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, EMakerTokenSchemes.Bearer, 'myBearerToken'),
+
+  // Set no special treatment header with autocomplete using enums and constants
+  [EHTTPHeaders.ContentType]: MIME_TYPES_BUILTIN['image/png'].type
+ }
 });
 ```
 
@@ -66,7 +66,7 @@ const contentType = HTTPHeadersConvenience.extract(headers, EHTTPHeaders.Content
 
 The enum of headers frequently used in custom web applications. See the list in [the code](/src/core/headers/headers.types.ts).
 
- consider extending proposals via GitHub Discussion.
+consider extending proposals via GitHub Discussion.
 
 #### `HTTPHeadersConvenience` Class
 
