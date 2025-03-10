@@ -50,7 +50,7 @@ describe('HTTPMIMETypesConvenienceTest', () => {
     it('MIMEExtensionsFactory(): Should create the built-in MIME Types extensions with autocomplete', () => {
         const actual = MIMEExtensionsFactory(BuiltInMIMETypesSource);
 
-        expect(Object.keys(actual)).toHaveLength(40);
+        expect(Object.keys(actual)).toHaveLength(41);
         expect(MIME_TYPES_EXTENSIONS_BUILTIN['.bmp']).toEqual('.bmp');
         expect(MIME_TYPES_EXTENSIONS_BUILTIN.inapplicable).toEqual(MIMExtensionInapplicable);
     });
