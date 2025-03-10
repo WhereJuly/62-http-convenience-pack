@@ -9,9 +9,6 @@ import _excluded from './excluded.js';
 const root = pathToFileURL(cwd()).toString();
 const excluded = _excluded(configDefaults.exclude);
 
-// console.log(fileURLToPath(new URL('../../../', import.meta.url)));
-// console.log(fileURLToPath(new URL('../../../../', import.meta.url)) + 'src/**/*.{ts,tsx}');
-
 export default defineConfig({
     plugins: [],
     resolve: {
