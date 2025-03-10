@@ -9,6 +9,7 @@
   - [A Basic Use Case](#a-basic-use-case)
   - [API Reference](#api-reference)
     - [`EHTTPHeaders` Enum](#ehttpheaders-enum)
+    - [`ECacheControlServer` and `ECacheControlClient` Enum](#ecachecontrolserver-and-ecachecontrolclient-enum)
     - [`HTTPHeadersConvenience` Class](#httpheadersconvenience-class)
       - [`.make()` Method](#make-method)
       - [`.extract()` Method](#extract-method)
@@ -34,7 +35,7 @@ As other modules in the Pack it allows for uniformity, type-safely and autocompl
 Start with setting the headers on front-end's request.
 
 ```typescript
-import { HTTPHeadersConvenience, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
+import { ECacheControlServer, HTTPHeadersConvenience, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
 
 const response = await fetch('https://api.example.com/data', {
  /**
@@ -68,7 +69,19 @@ const contentType = HTTPHeadersConvenience.extract(headers, EHTTPHeaders.Content
 
 The enum of headers frequently used in custom web applications. See the list in [the code](/src/core/headers/headers.types.ts).
 
-consider extending proposals via GitHub Discussion.
+Consider extending proposals via GitHub Discussion.
+
+#### `ECacheControlServer` and `ECacheControlClient` Enum
+
+The enum of cache control directives frequently used in custom web applications. See the list in [the code](/src/core/headers/cache-control-directives.types.ts).
+
+```typescript
+import { ECacheControlServer, EHTTPHeaders } from 'http-convenience-pack';
+
+const headers = {
+ [EHTTPHeaders.CacheControl]: ECacheControlServer.NoCache
+};
+```
 
 #### `HTTPHeadersConvenience` Class
 
