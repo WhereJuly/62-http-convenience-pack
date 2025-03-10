@@ -32,10 +32,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # NB: Usage package depends on the parent package using `file:` dependency
+      # Provide it in `.delivery` folder.
+      - name: Run Package Build
+        run: npm run package:build
+
       - name: Install dependencies for .usage subfolder
         working-directory: ./.usage
-        run: npm install        
-        
+        run: npm install && npm run test:consumption
+
       - name: Run tests and collect coverage
         # NB: See https://app.codecov.io/gh/WhereJuly/62-http-convenience-pack/tests/new
         # NB: See https://app.codecov.io/gh/WhereJuly/62-http-convenience-pack/new

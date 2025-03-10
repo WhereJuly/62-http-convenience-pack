@@ -9,6 +9,7 @@
   - [A Basic Use Case](#a-basic-use-case)
   - [API Reference](#api-reference)
     - [`EHTTPHeaders` Enum](#ehttpheaders-enum)
+    - [`ECacheControlServer` and `ECacheControlClient` Enums](#ecachecontrolserver-and-ecachecontrolclient-enums)
     - [`HTTPHeadersConvenience` Class](#httpheadersconvenience-class)
       - [`.make()` Method](#make-method)
       - [`.extract()` Method](#extract-method)
@@ -34,19 +35,21 @@ As other modules in the Pack it allows for uniformity, type-safely and autocompl
 Start with setting the headers on front-end's request.
 
 ```typescript
-import { HTTPHeadersConvenience, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
+import { ECacheControlServer, HTTPHeadersConvenience, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
 
 const response = await fetch('https://api.example.com/data', {
-  /**
-   * Make or autocomplete the correct headers and mime types from the list provided.
-   */  
-  headers: {
-    // Make the Authorization header.
-    ...HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, EMakerTokenSchemes.Bearer, 'myBearerToken'),
-    
-    // Set no special treatment header with autocomplete using enums and constants
-    EHTTPHeaders.CONTENT_TYPE: MIME_TYPES_BUILTIN['image/png'].type
-  }
+ /**
+  * Make or autocomplete the correct headers and mime types from the list provided.
+  */
+ headers: {
+  // Make the Authorization header.
+  ...HTTPHeadersConvenience.make(EHTTPHeaders.Authorization, EMakerTokenSchemes.Bearer, 'myBearerToken'),
+
+  // Set no special treatment header with autocomplete using enums and constants
+  [EHTTPHeaders.Accept]: MIME_TYPES_BUILTIN['image/png'].type,
+  [EHTTPHeaders.ContentType]: MIME_TYPES_BUILTIN['text/event-stream'].type,
+  [EHTTPHeaders.CacheControl]: ECacheControlServer.NoCache
+ }
 });
 ```
 
@@ -66,7 +69,19 @@ const contentType = HTTPHeadersConvenience.extract(headers, EHTTPHeaders.Content
 
 The enum of headers frequently used in custom web applications. See the list in [the code](/src/core/headers/headers.types.ts).
 
- consider extending proposals via GitHub Discussion.
+Consider extending proposals via GitHub Discussion.
+
+#### `ECacheControlServer` and `ECacheControlClient` Enums
+
+The enum of cache control directives frequently used in custom web applications. See the list in [the code](/src/core/headers/cache-control-directives.types.ts).
+
+```typescript
+import { ECacheControlServer, EHTTPHeaders } from 'http-convenience-pack';
+
+const headers = {
+ [EHTTPHeaders.CacheControl]: ECacheControlServer.NoCache
+};
+```
 
 #### `HTTPHeadersConvenience` Class
 
