@@ -24,9 +24,6 @@ Start on your one end, e.g. front-end. Comfortably autocomplete HTTP constants. 
 
 #### Send a request
 
-<!-- WARNING: Update headers when implemented. -->
-<!-- WARNING: Update MIME Types example from dedicated docs. -->
-
 ```typescript
 import { ECacheControlServer, HTTPHeadersConvenience, EHTTPHeaders, EHTTPMIMETypes } from 'http-convenience-pack';
 
