@@ -1,6 +1,6 @@
 {
     "name": "http-convenience-pack",
-    "version": "0.10.1",
+    "version": "0.10.2",
     "description": "Type=safe, RFC-compliant, auto-completable HTTP constants and convenience functions to comfortably manipulate the standardized uniform values across all your applications and services.",
     "author": "valentineshi.dev@gmail.com",
     "type": "module",
@@ -20,7 +20,7 @@
         "lint": "npx eslint ./src && npx eslint ./.usage",
         "commitlint": "commitlint --config ./.ci/.config/commitlint/commitlint.config.cjs --edit",
         "pre-push": "npm run test:foundation",
-        "package:build": "npm run test:foundation && npm run lint && rimraf ./.delivery/.builds/dist && tsc -p ./.delivery/configuration/tsconfig.json && npm run package:de-alias && npm run package:bundle:copy",
+        "package:build": "tsx .delivery/scripts/build.ts",
         "package:lint:readme": "npx markdown-link-check --progress --quiet ./readme.md ./.docs",
         "package:de-alias": "npx tsc-alias -p ./.delivery/configuration/tsconfig.json --verbose",
         "package:changelog:generate": "bash .ci/generate-merge-release-notes.sh > ./.docs/changelog/changelog.readonly.md",
@@ -72,6 +72,7 @@
         "husky": "^9.1.7",
         "markdown-link-check": "^3.13.6",
         "rimraf": "^5.0.10",
+        "tsx": "^4.21.0",
         "typescript": "^5.7.2",
         "typescript-eslint": "^8.15.0",
         "vitest": "^2.1.5"
