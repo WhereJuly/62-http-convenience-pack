@@ -4,11 +4,12 @@
     "description": "Type=safe, RFC-compliant, auto-completable HTTP constants and convenience functions to comfortably manipulate the standardized uniform values across all your applications and services.",
     "author": "valentineshi.dev@gmail.com",
     "type": "module",
-    "main": "./code/index.js",
     "module": "./code/index.js",
     "types": "./types/index.d.ts",
     "exports": {
         ".": {
+            "main": "./code/index.cjs",
+            "require": "./code/index.cjs",
             "import": "./code/index.js",
             "types": "./types/index.d.ts"
         }
@@ -66,6 +67,7 @@
         "@vitest/coverage-v8": "^2.1.5",
         "cpy-cli": "^5.0.0",
         "cross-env": "^7.0.3",
+        "esbuild": "^0.27.2",
         "eslint": "^9.15.0",
         "husky": "^9.1.7",
         "markdown-link-check": "^3.13.6",
