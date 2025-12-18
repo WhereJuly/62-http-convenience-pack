@@ -24,6 +24,6 @@
         "skipLibCheck": true
     },
 
-    "include": ["./src", "eslint.config.mjs", "./tests/foundation/**/*.ts", "./tests/foundation/integration/.external/**/*.ts", "./tests/foundation/.ancillary/**/*.*"],
+    "include": ["./src", "eslint.config.mjs", ".delivery/scripts", "./tests/foundation/**/*.ts", "./tests/foundation/integration/.external/**/*.ts", "./tests/foundation/.ancillary/**/*.*"],
     "exclude": ["node_modules"]
 }

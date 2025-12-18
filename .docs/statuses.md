@@ -66,6 +66,30 @@ console.log(HTTP_STATUSES[100].code); // 100
 console.log(HTTP_STATUSES[100].message); // 'Continue'
 ```
 
+Now the practical example. As forRFC 7540 section [8.1.2.4](https://httpwg.org/specs/rfc7540.html#rfc.section.8.1.2.4):
+
+> HTTP/2 does not define a way to carry the version or reason phrase that is included in an HTTP/1.1 status line.
+
+So e.g. your Axios gets the response with `statusText` empty string value from some servers (Traefik is one of them).
+
+You could normalize the `statusText` value into `message` value using HTTP Convenience Pack to not depend on what `statusText` value the server returns. Here is how.
+
+The code snippet is assumed to exist in your application's central API transport object where you transform the API transport response payload to your application normalized response payload [^1]
+
+The example's `response` is of `AxiosResponse<any, any>` type.
+
+[^1]: For the sake of decoupling by modularity and isolation from external dependencies interfaces.
+
+```typescript
+import { EHTTPMethods, EHTTPStatusCodeGroups, HTTP_STATUSES, type TStatusCodeGroups } from 'http-convenience-pack';
+
+const fallbackMessage = HTTP_STATUSES[response.status as TStatusCodeGroups[EHTTPStatusCodeGroups]].message;
+
+const normalized = {
+ status: { code: response.status, message: response.statusText || fallbackMessage }
+};
+```
+
 Or more practical example - the usage in a structured error class. Simplified for brevity.
 
 ```typescript
@@ -73,20 +97,18 @@ import { HTTP_STATUSES, IHTTPStatus } from 'http-convenience-pack';
 import { EDomainErrorCodes } from './DomainErrorCodes.enum.js';
 
 export default class StructuredErrorVO {
+ public status: IHTTPStatus['code'];
 
-    public status: IHTTPStatus['code'];
+ constructor(code: EDomainErrorCodes) {
+  const mapped = ERROR_MAP[code];
 
-    constructor(code: EDomainErrorCodes) {
-        const mapped = ERROR_MAP[code];
-
-        this.status = mapped.status;
-    }
-
+  this.status = mapped.status;
+ }
 }
 
-const ERROR_MAP: Record<EDomainErrorCodes, { status: number; }> = {
-    [EDomainErrorCodes.ENTITY_NOT_FOUND]: { status: HTTP_STATUSES[404].code },
-    [EDomainErrorCodes.ACTIVE_TASK_QUEUE_IS_FULL]: { status: HTTP_STATUSES[409].code },
+const ERROR_MAP: Record<EDomainErrorCodes, { status: number }> = {
+ [EDomainErrorCodes.ENTITY_NOT_FOUND]: { status: HTTP_STATUSES[404].code },
+ [EDomainErrorCodes.ACTIVE_TASK_QUEUE_IS_FULL]: { status: HTTP_STATUSES[409].code }
 };
 ```
 
@@ -206,7 +228,6 @@ console.log(HTTPStatusesConvenience.isAmong(200, GROUPED_STATUS_CODES[EHTTPStatu
  * That would be same as the following.
  */
 console.log(HTTPStatusesConvenience.ofGroup(200, EHTTPStatusCodeGroups.SUCCESS)); // true
-
 ```
 
 ##### `.message()` Method
